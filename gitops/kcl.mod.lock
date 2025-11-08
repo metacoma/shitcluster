@@ -1,4 +1,12 @@
 [dependencies]
+  [dependencies.argoproj]
+    name = "argoproj"
+    full_name = "argoproj_3.0.12"
+    version = "3.0.12"
+    sum = "BbYfZyN0IEOpN8jGdWzSZThNt4GUDrnA7P2GqZ0Ga6s="
+    reg = "ghcr.io"
+    repo = "kcl-lang/argoproj"
+    oci_tag = "3.0.12"
   [dependencies.json_merge_patch]
     name = "json_merge_patch"
     full_name = "json_merge_patch_0.1.1"
@@ -9,9 +17,9 @@
     oci_tag = "0.1.1"
   [dependencies.k8s]
     name = "k8s"
-    full_name = "k8s_1.31.2"
-    version = "1.31.2"
-    sum = "xBZgPsnpVVyWBpahuPQHReeRx28eUHGFoaPeqbct+vs="
+    full_name = "k8s_1.32.4"
+    version = "1.32.4"
+    sum = "WrltC/mTXtdzmhBZxlvM71wJL5C/UZ/vW+bF3nFvNbM="
     reg = "ghcr.io"
     repo = "kcl-lang/k8s"
-    oci_tag = "1.31.2"
+    oci_tag = "1.32.4"
