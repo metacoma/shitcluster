@@ -8,8 +8,8 @@ import manifests
 resources = [
     argoproj.Application {
         metadata = {
-            name = "ingress-public"
-            namespace = "argocd"
+            name = "ingress-nginx"
+            namespace = "ingress-nginx"
         }
         spec = {
             destination = {
@@ -24,42 +24,7 @@ resources = [
                 helm = {
                     values = yaml.encode({
                         global.image.registry: "k8s.m.daocloud.io"
-                        controller.service.loadBalancerIP = "172.25.1.2"
-                    })
-
-                    releaseName = "ingress-public"
-                }
-            }
-            syncPolicy = {
-                automated = {
-                    selfHeal = True
-                }
-                syncOptions = [
-                    "CreateNamespace=true"
-                ]
-            }
-        }
-    }
-
-    argoproj.Application {
-        metadata = {
-            name = "ingress-mgmt"
-            namespace = "argocd"
-        }
-        spec = {
-            destination = {
-                namespace = "ingress-nginx"
-                server = "https://kubernetes.default.svc"
-            }
-            project = "default"
-            source = {
-                chart = "ingress-nginx"
-                repoURL = "https://kubernetes.github.io/ingress-nginx"
-                targetRevision = "4.14.0"
-                helm = {
-                    values = yaml.encode({
-                        global.image.registry: "k8s.m.daocloud.io"
-                        controller.service.loadBalancerIP = "172.24.1.2"
+                        controller.service.loadBalancerIP = "172.24.1.1"
                     })
 
                     releaseName = "ingress-mgmt"
@@ -134,7 +99,6 @@ resources = [
                         longhornUI = {
                             replicas = 1
                             tolerations = [{
-
                               key = "node-role.kubernetes.io/control-plane"
                               operator = "Equal"
                               value = ""
@@ -144,7 +108,7 @@ resources = [
                         defaultSettings.defaultDataPath = "/storage"
                     })
 
-                    releaseName = "ingress-public"
+                    releaseName = "longhorn"
                 }
             }
             syncPolicy = {
