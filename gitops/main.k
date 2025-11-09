@@ -161,7 +161,7 @@ resources = [
 
 
     k8core.Namespace {
-                    metadata.name = "test-namespace"
+                    metadata.name = "longhorn-system"
     }
     k8core.Namespace {
                     metadata.name = "test-namespace2"
