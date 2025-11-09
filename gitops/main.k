@@ -24,6 +24,7 @@ resources = [
                 helm = {
                     values = yaml.encode({
                         global.image.registry: "k8s.m.daocloud.io"
+                        controller.service.loadBalancerIP = "172.25.1.2"
                     })
 
                     releaseName = "ingress-nginx"
