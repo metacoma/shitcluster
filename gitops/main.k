@@ -22,7 +22,10 @@ resources = [
                 repoURL = "https://kubernetes.github.io/ingress-nginx"
                 targetRevision = "4.14.0"
                 helm = {
-                    values = yaml.encode({})
+                    values = yaml.encode({
+                        global.image.registry: "k8s.m.daocloud.io"
+                    })
+
                     releaseName = "ingress-nginx"
                 }
             }
