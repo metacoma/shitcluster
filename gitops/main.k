@@ -42,6 +42,7 @@ resources = [
     }
 
 
+    argoproj.Application {
         metadata = {
             name = "longhorn"
             namespace = "longhorn-system"
