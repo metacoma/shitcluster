@@ -3,8 +3,6 @@ import argoproj.v1alpha1 as argoproj
 import yaml
 import manifests
 
-
-
 resources = [
     argoproj.Application {
         metadata = {
@@ -42,56 +40,63 @@ resources = [
     }
 
 
-    argoproj.Application {
-        metadata = {
-            name = "longhorn"
-            namespace = "longhorn-system"
-        }
-        spec = {
-            destination = {
-                namespace = "longhorn-system"
-                server = "https://kubernetes.default.svc"
-            }
-            project = "default"
-            source = {
-                chart = "longhorn"
-                repoURL = "https://charts.longhorn.io"
-                # targetRevision = "4.14.0"
-                helm = {
-                    values = yaml.encode({
-                        service.ui.type = "LoadBalancer"
-                        service.ui.loadBalancerIP = "172.24.1.3"
-                        longhornUI = {
-                            replicas = 1
-                            tolerations = [{
-                              key = "node-role.kubernetes.io/control-plane"
-                              operator = "Equal"
-                              value = ""
-                              effect = "NoSchedule"
-                            }]
-                        }
-                        defaultSettings.defaultDataPath = "/storage"
-                    })
+    # argoproj.Application {
+    #     metadata = {
+    #         name = "longhorn"
+    #         namespace = "longhorn-system"
+    #     }
+    #     spec = {
+    #         destination = {
+    #             namespace = "longhorn-system"
+    #             server = "https://kubernetes.default.svc"
+    #         }
+    #         project = "default"
+    #         source = {
+    #             chart = "longhorn"
+    #             repoURL = "https://charts.longhorn.io"
+    #             # targetRevision = "4.14.0"
+    #             helm = {
+    #                 values = yaml.encode({
+    #                     service.ui.type = "LoadBalancer"
+    #                     service.ui.loadBalancerIP = "172.24.1.3"
+    #                     longhornUI = {
+    #                         replicas = 1
+    #                         tolerations = [{
+    #                           key = "node-role.kubernetes.io/control-plane"
+    #                           operator = "Equal"
+    #                           value = ""
+    #                           effect = "NoSchedule"
+    #                         }]
+    #                     }
+    #                     defaultSettings.defaultDataPath = "/storage"
+    #                 })
+    #
+    #                 releaseName = "longhorn"
+    #             }
+    #         }
+    #         syncPolicy = {
+    #             automated = {
+    #                 selfHeal = True
+    #             }
+    #             syncOptions = [
+    #                 "CreateNamespace=true"
+    #             ]
+    #         }
+    #     }
+    # }
+    #
 
-                    releaseName = "longhorn"
-                }
-            }
-            syncPolicy = {
-                automated = {
-                    selfHeal = True
-                }
-                syncOptions = [
-                    "CreateNamespace=true"
-                ]
-            }
-        }
-    }
 
-
-
+    # k8core.Namespace {
+    #                 metadata.name = "longhorn-system"
+    # }
     k8core.Namespace {
-                    metadata.name = "longhorn-system"
+                    metadata.name = "test1"
     }
+    k8core.Namespace {
+                    metadata.name = "test2"
+    }
+]
 ]
 
 manifests.yaml_stream([
