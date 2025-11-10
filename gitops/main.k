@@ -127,9 +127,6 @@ resources = [
     k8core.Namespace {
                     metadata.name = "longhorn-system"
     }
-    k8core.Namespace {
-                    metadata.name = "test-namespace2"
-    }
 ]
 
 manifests.yaml_stream([
