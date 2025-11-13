@@ -29,7 +29,7 @@ resources = [
 
                       defaultSettings = {
                         createDefaultDiskLabeledNodes = "true"
-                        systemManagedComponentsNodeSelector = "node.longhorn.io/data-plane:true"
+                        #systemManagedComponentsNodeSelector = "node.longhorn.io/data-plane:true"
                         defaultDataPath = "/storage"
                       }
 
