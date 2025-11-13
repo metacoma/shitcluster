@@ -12,7 +12,8 @@ resources = [
         spec = {
             destination = {
                 namespace = "longhorn-system"
-                server = "https://kubernetes.default.svc"
+                #server = "https://kubernetes.default.svc"
+                name = "in-cluster"
             }
             project = "default"
             source = {
