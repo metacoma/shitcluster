@@ -118,11 +118,11 @@ resources = [
 
                       dns01RecursiveNameservers: "172.24.0.2:53,8.8.8.8:53"
                       podAnnotations = {
-                        "k8s.v1.cni.cncf.io/networks" = yaml.encode([
+                        "k8s.v1.cni.cncf.io/networks" = json.encode([
                           {
-                            "name": "macvlan-management-cert-manager",
-                            "interface": "net1",
-                            "ips": ["172.24.1.2/24"]
+                            "name" = "macvlan-management-cert-manager",
+                            "interface" = "net1",
+                            "ips" = ["172.24.1.2/24"]
                           }])
                       }
 
