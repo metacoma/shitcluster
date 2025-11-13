@@ -7,7 +7,7 @@ resources = [
     argoproj.Application {
         metadata = {
             name = "longhorn"
-            namespace = "longhorn-system"
+            namespace = "argocd"
         }
         spec = {
             destination = {
