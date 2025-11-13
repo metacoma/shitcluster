@@ -4,6 +4,7 @@ import kubevirt.v1.k8s_cni_cncf_io_v1_network_attachment_definition as network_a
 import yaml
 import json
 import manifests
+import .apps.rabbitmq as rabbitmq
 
 resources = [
     argoproj.Application {
@@ -180,6 +181,7 @@ resources = [
         })
       }
     }
+    rabbitmq.application
 
 ]
 
