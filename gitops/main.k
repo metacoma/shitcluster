@@ -42,6 +42,8 @@ resources = [
                           effect = "NoSchedule"
                         }]
                       }
+                      # https://longhorn.io/docs/1.10.1/deploy/install/install-with-argocd/
+                      preUpgradeChecker.jobEnabled = "false"
                     })
 
                     releaseName = "longhorn"
