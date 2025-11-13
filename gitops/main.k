@@ -1,6 +1,8 @@
 import k8s.api.core.v1 as k8core
 import argoproj.v1alpha1 as argoproj
+import kubevirt.v1.k8s_cni_cncf_io_v1_network_attachment_definition as network_attach
 import yaml
+import json
 import manifests
 
 resources = [
@@ -152,6 +154,30 @@ resources = [
                 ]
             }
         }
+    }
+    network_attach.NetworkAttachmentDefinition {
+      metadata = {
+        name = "macvlan-management-cert-manager"
+        namespace = "cert-manager"
+      }
+      spec = {
+        config = json.encode({
+          cniVersion = "0.4.0"
+          type = "macvlan"
+          master = "br-management"
+          mode = "bridge"
+          ipam = {
+            type = "host-local",
+            ranges = [
+              [{
+                subnet = "172.24.0.0/16",
+                rangeStart = "172.24.1.2",
+                rangeEnd = "172.24.1.2"
+              }]
+            ]
+          }
+        })
+      }
     }
 
 ]
