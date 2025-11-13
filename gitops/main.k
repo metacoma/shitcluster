@@ -60,6 +60,41 @@ resources = [
         }
     }
 
+    argoproj.Application {
+        metadata = {
+            name = "reflector"
+            namespace = "argocd"
+        }
+        spec = {
+            destination = {
+                namespace = "reflector"
+                name = "in-cluster"
+            }
+            project = "default"
+            source = {
+                chart = "reflector"
+                repoURL = "oci://ghcr.io/emberstack/helm-charts/reflector"
+                targetRevision = "9.1.39"
+                helm = {
+                    values = yaml.encode({
+                      nodeSelector = {
+                        "node-role.kubernetes.io/worker": ""
+                      }
+                    })
+                    releaseName = "reflector"
+                }
+            }
+            syncPolicy = {
+                automated = {
+                    selfHeal = True
+                }
+                syncOptions = [
+                    "CreateNamespace=true"
+                ]
+            }
+        }
+    }
+
 ]
 
 manifests.yaml_stream([
