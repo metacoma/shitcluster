@@ -129,9 +129,28 @@ resources = [
                                   }
                               ]
                           }
+                          postStart = [
+                              "sh"
+                              "-c"
+                              r"""sleep 60
+                  echo "Try to unseal..."
+                  vault status > /tmp/status.txt
+                  if ! vault status >/dev/null 2>&1; then
+                    echo "Initializing Vault..."
+                    vault operator init -key-shares=1 -key-threshold=1 > /vault/data/init.txt
+                    UNSEAL_KEY=$(grep 'Unseal Key 1:' /vault/data/init.txt | awk '{print $4}')
+                    vault operator unseal $UNSEAL_KEY
+                    echo "Root token:"
+                    grep 'Initial Root Token:' /vault/data//init.txt | awk '{print $4}'
+                    # rm /tmp/init.txt
+                  fi
+                  vault status >> /tmp/status.txt
+                  echo "Done..."
+                  """
+                          ]
                       }
                     })
-                    releaseName = "reflector"
+                    releaseName = "vault"
                 }
             }
             syncPolicy = {
