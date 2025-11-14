@@ -170,6 +170,43 @@ resources = [
         }
     }
 
+    argoproj.Application {
+        metadata = {
+            name = "secrets-store"
+            namespace = "argocd"
+        }
+        spec = {
+            destination = {
+                namespace = "kube-system"
+                name = "in-cluster"
+            }
+            project = "default"
+            source = {
+                chart = "longhorn"
+                repoURL = "https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts"
+                targetRevision = "1.5.4"
+                helm = {
+                    values = yaml.encode({
+                      linux.nodeSelector = {
+                        "node-role.kubernetes.io/worker" = ""
+                      }
+                    })
+
+                    releaseName = "secrets-store"
+                }
+            }
+            syncPolicy = {
+                automated = {
+                    selfHeal = True
+                }
+                syncOptions = [
+                    "CreateNamespace=true"
+                ]
+            }
+        }
+    }
+
+
     yaml.decode_all(file.read("tekton-pipelines.yml"))
 ]
 
