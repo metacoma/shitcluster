@@ -187,8 +187,14 @@ resources = [
                 targetRevision = "1.5.4"
                 helm = {
                     values = yaml.encode({
-                      linux.nodeSelector = {
-                        "node-role.kubernetes.io/worker" = ""
+                      linux = {
+                        image.repository = "k8s.m.daocloud.io"
+                        nodeSelector = {
+                          "node-role.kubernetes.io/worker" = ""
+                        }
+                        crds.repository = "k8s.m.daocloud.io"
+                        registarImage.repository = "k8s.m.daocloud.io"
+                        livenessProbeImage.repository = "k8s.m.daocloud.io"
                       }
                     })
 
