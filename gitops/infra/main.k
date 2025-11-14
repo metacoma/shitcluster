@@ -172,7 +172,7 @@ resources = [
 
     argoproj.Application {
         metadata = {
-            name = "secrets-store"
+            name = "csi-secrets-store"
             namespace = "argocd"
         }
         spec = {
@@ -182,7 +182,7 @@ resources = [
             }
             project = "default"
             source = {
-                chart = "longhorn"
+                chart = "secrets-store-csi-driver"
                 repoURL = "https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts"
                 targetRevision = "1.5.4"
                 helm = {
@@ -192,7 +192,7 @@ resources = [
                       }
                     })
 
-                    releaseName = "secrets-store"
+                    releaseName = "csi-secrets-store"
                 }
             }
             syncPolicy = {
