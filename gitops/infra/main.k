@@ -192,7 +192,7 @@ resources = [
                         nodeSelector = {
                           "node-role.kubernetes.io/worker" = ""
                         }
-                        crds.repository = "k8s.m.daocloud.io"
+                        crds.image.repository = "k8s.m.daocloud.io"
                         registarImage.repository = "k8s.m.daocloud.io"
                         livenessProbeImage.repository = "k8s.m.daocloud.io"
                       }
