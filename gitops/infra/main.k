@@ -188,13 +188,13 @@ resources = [
                 helm = {
                     values = yaml.encode({
                       linux = {
-                        image.repository = "k8s.m.daocloud.io"
+                        image.repository = "k8s.m.daocloud.io/csi-secrets-store/driver"
                         nodeSelector = {
                           "node-role.kubernetes.io/worker" = ""
                         }
-                        crds.image.repository = "k8s.m.daocloud.io"
-                        registarImage.repository = "k8s.m.daocloud.io"
-                        livenessProbeImage.repository = "k8s.m.daocloud.io"
+                        crds.image.repository = "k8s.m.daocloud.io/csi-secrets-store/driver-crds"
+                        registarImage.repository = "k8s.m.daocloud.io/sig-storage/csi-node-driver-registrar"
+                        livenessProbeImage.repository = "k8s.m.daocloud.io/sig-storage/livenessprobe"
                       }
                     })
 
