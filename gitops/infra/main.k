@@ -193,7 +193,7 @@ resources = [
                           "node-role.kubernetes.io/worker" = ""
                         }
                         crds.image.repository = "k8s.m.daocloud.io/csi-secrets-store/driver-crds"
-                        registarImage.repository = "k8s.m.daocloud.io/sig-storage/csi-node-driver-registrar"
+                        registrarImage.repository = "k8s.m.daocloud.io/sig-storage/csi-node-driver-registrar"
                         livenessProbeImage.repository = "k8s.m.daocloud.io/sig-storage/livenessprobe"
                       }
                     })
