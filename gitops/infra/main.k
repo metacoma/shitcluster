@@ -98,6 +98,12 @@ resources = [
                               "node-role.kubernetes.io/worker" = ""
                           }
                       }
+                      csi = {
+                        enabled = True
+                        pod.nodeSelector = {
+                              "node-role.kubernetes.io/worker" = ""
+                        }
+                      }
                       server = {
                           nodeSelector = {
                               "node-role.kubernetes.io/worker" = ""
