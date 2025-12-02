@@ -1,0 +1,4 @@
+secrets/*
+secrets/**/
+!secrets/*.sops.*
+!secrets/**/*.sops.*
