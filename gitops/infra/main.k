@@ -32,4 +32,5 @@ resources = [
 ]
 
 manifests.yaml_stream([
-  resources ])
+  resources
+])
