@@ -14,7 +14,7 @@ resources = [
             if resource.kind in needNodeSelector :
                 if resource.kind in ["Deployment", "ReplicaSet"]:
                     json_patch.merge(resource, {
-                      spec.template.spec.metadata.nodeSelector = {
+                      spec.template.spec.nodeSelector = {
                         "node-role.kubernetes.io/worker" = ""
                       }
                     })
@@ -32,5 +32,4 @@ resources = [
 ]
 
 manifests.yaml_stream([
-  resources
-])
+  resources ])
