@@ -12,11 +12,18 @@ resources = [
     [
         if resource:
             if resource.kind in needNodeSelector :
-                json_patch.merge(resource, {
-                  metadata.nodeSelector = {
-                    "node-role.kubernetes.io/worker" = ""
-                  }
-                })
+                if resource.kind in ["Deployment", "ReplicaSet"]:
+                    json_patch.merge(resource, {
+                      spec.template.spec.metadata.nodeSelector = {
+                        "node-role.kubernetes.io/worker" = ""
+                      }
+                    })
+                else:
+                    json_patch.merge(resource, {
+                      metadata.nodeSelector = {
+                        "node-role.kubernetes.io/worker" = ""
+                      }
+                    })
             else:
                 resource
     ]
