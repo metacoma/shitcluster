@@ -5,7 +5,7 @@ _neo4j_password = "ref+vault://kv/twitch_clipz#neo4j_password+"
 
 config = {
   nodeSelector = {
-    "node-role.kubernetes.io/worker": ""
+    "node-role.kubernetes.io/worker" = ""
   }
   rabbitmq = {
     release_name = "rabbitmq"
