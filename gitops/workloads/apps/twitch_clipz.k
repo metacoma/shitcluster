@@ -27,6 +27,8 @@ makeClipzDeployment = lambda component : any -> v1.Deployment {
             name = component.name
             image = component.image
             imagePullPolicy = "IfNotPresent"
+            if component.resources:
+              resources = component.resources
             env = [{
               name = "RABBITMQ_EXCHANGE_NAME"
               value = component.rabbitmq_exchange
@@ -83,6 +85,10 @@ manifests = [
     name = _twitch_clipz.download.app_name
     image = _twitch_clipz.download.container_image
     rabbitmq_exchange = _twitch_clipz.download.rabbitmq_exchange
+    resources = {
+      requests.cpu = "500m"
+      limits.cpu = "2"
+    }
   })
   makeClipzDeployment({
     name = _twitch_clipz.clipz_twitch.app_name
