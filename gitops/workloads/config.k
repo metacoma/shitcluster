@@ -64,6 +64,7 @@ config = {
   }
   neo4j = {
     release_name = "neo4j"
+    chart_version = "4.4.44"
     namespace = _twitch_clipz_namespace
     password = _neo4j_password
   }
