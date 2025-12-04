@@ -47,10 +47,10 @@ config = {
       rabbitmq_exchange = "twitch-events"
     }
 
-    rabbitmq = {
-      user = "ref+vault://kv/twitch_clipz#rabbitmq_user+"
-      password = "ref+vault://kv/twitch_clipz#rabbitmq_password+"
-    }
+#    rabbitmq = {
+#      user = "${rabbitmq.user}"
+#      password = "${rabbitmq.password}"
+#    }
 
     neo4j = {
       user = "ref+vault://kv/twitch_clipz#neo4j_user"

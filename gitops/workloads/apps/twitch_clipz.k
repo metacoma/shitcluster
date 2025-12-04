@@ -6,8 +6,7 @@ _config = cfg.config
 _twitch_clipz = _config.twitch_clipz
 _rabbitmq = _config.rabbitmq
 
-_rabbitmq_url = "amqp://${_twitch_clipz.rabbitmq.user}:${_twitch_clipz.rabbitmq.password}@${_rabbitmq.release_name}.${_rabbitmq.port}/"
-#_rabbitmq_url = "amqp://{_twitch_clipz.rabbitmq.user}:${_twitch_clipz.rabbitmq.password}"
+_rabbitmq_url = "amqp://${_rabbitmq.user}:${_rabbitmq.password}@${_rabbitmq.release_name}.${_rabbitmq.port}/"
 
 makeClipzDeployment = lambda component : any -> v1.Deployment {
   v1.Deployment {
@@ -27,7 +26,7 @@ makeClipzDeployment = lambda component : any -> v1.Deployment {
           containers = [{
             name = component.name
             image = component.image
-            imagePullPolicy = "ifNotPresent"
+            imagePullPolicy = "IfNotPresent"
             env = [{
               name = "RABBITMQ_EXCHANGE_NAME"
               value = component.rabbitmq_exchange
