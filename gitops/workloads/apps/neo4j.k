@@ -26,7 +26,7 @@ application = argoproj.Application {
                 disableLookups = True # https://github.com/neo4j/helm-charts/issues/290
                 neo4j.password = _neo4j.password
                 volumes = {
-                  mode = "dynamic"
+                  data.mode = "dynamic"
                   dynamic.defaultStorageClass.requests.storage = "8Gi"
                 }
                 nodeSelector = _config.nodeSelector
