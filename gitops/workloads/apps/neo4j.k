@@ -23,14 +23,13 @@ application = argoproj.Application {
           targetRevision = _neo4j.chart_version
           helm = {
               values = yaml.encode({
+                disableLookups = True # https://github.com/neo4j/helm-charts/issues/290
                 neo4j.password = _neo4j.password
                 volume = {
                   mode = "dynamic"
                   dynamic.defaultStorageClass.requests.storage = "8Gi"
                 }
-                nodeSelector = {
-                  "node.longhorn.io/data-plane" = "true"
-                }
+                nodeSelector = _config.nodeSelector
               })
               releaseName = _neo4j.release_name
           }
