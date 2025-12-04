@@ -6,8 +6,8 @@ config = {
     release_name = "rabbitmq"
     namespace = "rabbitmq"
     port = 5672
-    user = "ref+vault://kv/twitch_clipz#rabbitmq_user"
-    password = "ref+vault://kv/twitch_clipz#rabbitmq_password"
+    user = "ref+vault://kv/twitch_clipz#rabbitmq_user+"
+    password = "ref+vault://kv/twitch_clipz#rabbitmq_password+"
   }
   twitch_clipz = {
     namespace = "twitch-clipz"
@@ -18,7 +18,7 @@ config = {
       app_name = "telegram-bot"
       token = "ref+vault://kv/twitch_clipz#telegram_bot_id"
       chats = {
-        admin = "ref+vault://kv/twitch_clipz#telegram_admi_chat_id"
+        admin = "ref+vault://kv/twitch_clipz#telegram_admin_chat"
       }
       container_image = "metacoma/clipz-telegram-bot:latest"
       rabbitmq_exchange = "telegram-events"
@@ -48,8 +48,8 @@ config = {
     }
 
     rabbitmq = {
-      user = "ref+vault://kv/twitch_clipz#rabbitmq_user"
-      password = "ref+vault://kv/twitch_clipz#rabbitmq_password"
+      user = "ref+vault://kv/twitch_clipz#rabbitmq_user+"
+      password = "ref+vault://kv/twitch_clipz#rabbitmq_password+"
     }
 
     neo4j = {

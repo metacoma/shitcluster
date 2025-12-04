@@ -128,7 +128,7 @@ resources = [
 #      }
 #    }
     rabbitmq.application
-    twitch_clipz.manifests
+#    twitch_clipz.manifests
 ]
 
 manifests.yaml_stream([

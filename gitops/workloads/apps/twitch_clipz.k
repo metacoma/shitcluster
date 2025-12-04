@@ -7,6 +7,7 @@ _twitch_clipz = _config.twitch_clipz
 _rabbitmq = _config.rabbitmq
 
 _rabbitmq_url = "amqp://${_twitch_clipz.rabbitmq.user}:${_twitch_clipz.rabbitmq.password}@${_rabbitmq.release_name}.${_rabbitmq.port}/"
+#_rabbitmq_url = "amqp://{_twitch_clipz.rabbitmq.user}:${_twitch_clipz.rabbitmq.password}"
 
 makeClipzDeployment = lambda component : any -> v1.Deployment {
   v1.Deployment {
