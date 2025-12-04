@@ -28,7 +28,9 @@ application = argoproj.Application {
                   mode = "dynamic"
                   dynamic.defaultStorageClass.requests.storage = "8Gi"
                 }
-                nodeSelector = _config.nodeSelector
+                nodeSelector = {
+                  "node.longhorn.io/data-plane": "true"
+                }
               })
               releaseName = _neo4j.release_name
           }
