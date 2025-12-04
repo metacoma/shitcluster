@@ -6,6 +6,7 @@ import json
 import manifests
 import .apps.rabbitmq as rabbitmq
 import .apps.twitch_clipz as twitch_clipz
+import .apps.neo4j as neo4j
 
 resources = [
 
@@ -129,6 +130,7 @@ resources = [
 #    }
     rabbitmq.application
     twitch_clipz.manifests
+    neo4j.application
 ]
 
 manifests.yaml_stream([

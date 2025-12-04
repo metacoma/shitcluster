@@ -1,3 +1,8 @@
+_twitch_clipz_namespace = "twitch_clipz"
+
+_neo4j_user = "ref+vault://kv/twitch_clipz#neo4j_user+"
+_neo4j_password = "ref+vault://kv/twitch_clipz#neo4j_password+"
+
 config = {
   nodeSelector = {
     "node-role.kubernetes.io/worker": ""
@@ -10,7 +15,7 @@ config = {
     password = "ref+vault://kv/twitch_clipz#rabbitmq_password+"
   }
   twitch_clipz = {
-    namespace = "twitch-clipz"
+    namespace = _twitch_clipz_namespace
     configmap = "clipz-config"
     secret_name = "clipz-secret"
 
@@ -53,9 +58,13 @@ config = {
 #    }
 
     neo4j = {
-      user = "ref+vault://kv/twitch_clipz#neo4j_user"
-      password = "ref+vault://kv/twitch_clipz#neo4j_password"
+      user = _neo4j_user
+      password = _neo4j_password
     }
-
+  }
+  neo4j = {
+    release_name = "neo4j"
+    namespace = _twitch_clipz_namespace
+    password = _neo4j_password
   }
 }
