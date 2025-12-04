@@ -25,7 +25,7 @@ application = argoproj.Application {
               values = yaml.encode({
                 disableLookups = True # https://github.com/neo4j/helm-charts/issues/290
                 neo4j.password = _neo4j.password
-                volume = {
+                volumes = {
                   mode = "dynamic"
                   dynamic.defaultStorageClass.requests.storage = "8Gi"
                 }
