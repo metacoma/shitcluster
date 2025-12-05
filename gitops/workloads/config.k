@@ -69,6 +69,7 @@ config = {
     password = _neo4j_password
   }
   ssh_tunnel = {
+    ssh_args = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
     namespace = "network"
     container_image = "nicolaka/netshoot:latest"
     endpoints = [
