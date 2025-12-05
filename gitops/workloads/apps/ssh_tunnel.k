@@ -53,6 +53,7 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
             imagePullPolicy = "IfNotPresent"
             command = ["/bin/bash"]
             args = ["-c", """
+            sysctl -w net.ipv4.conf.all.forwarding=1
             IF=tun0
             ip tuntap add mode tun $IF
             ip addr add ${endpoint.local_addr} dev $IF
@@ -62,6 +63,7 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
               ip tuntap add mode tun ${endpoint.remote_tun}
               ip addr add ${endpoint.remote_addr} dev ${endpoint.remote_tun}
               ip link set ${endpoint.remote_tun} up
+              iptables -t nat -C POSTROUTING -s ${endpoint.local_addr} -j MASQUERADE 2>/dev/null || iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE -s ${endpoint.local_addr}
             '
             VPN_ADDR=$(dig +short $SSH_TUNNEL_HOST)
             ip ro add to $VPN_ADDR/32 via 172.25.0.1
@@ -82,6 +84,10 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
             securityContext = {
               privileged = True
               capabilities.add = [ "NET_ADMIN" ]
+#              sysctls = [
+#                name = "net.ipv4.conf.all.forwarding"
+#                value = "1"
+#              }]
             }
             volumeMounts = [{
               name = "ssh-private-key"
