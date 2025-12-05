@@ -24,7 +24,13 @@ application = argoproj.Application {
           helm = {
               values = yaml.encode({
                 disableLookups = True # https://github.com/neo4j/helm-charts/issues/290
-                neo4j.password = _neo4j.password
+                neo4j = {
+                  resources = {
+                    cpu = "2000m"
+                    memory = "4Gi"
+                  }
+                  password = _neo4j.password
+                }
                 volumes = {
                   data = {
                     mode = "dynamic"
@@ -37,9 +43,9 @@ application = argoproj.Application {
                   "dbms.security.procedures.whitelist" = "streams.*,apoc.*"
                   "apoc.export.file.enabled" = "true"
                   "apoc.import.file.enabled" = "true"
-                  "dbms.memory.heap.initial_size" = "2G"
-                  "dbms.memory.heap.max_size" = "4G"
-                  "dbms.memory.pagecache.size" = "4G"
+                  "dbms.memory.heap.initial_size" = "1G"
+                  "dbms.memory.heap.max_size" = "2G"
+                  "dbms.memory.pagecache.size" = "2G"
                 }
               })
               releaseName = _neo4j.release_name
