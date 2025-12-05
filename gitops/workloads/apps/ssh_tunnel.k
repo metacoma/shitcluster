@@ -43,6 +43,9 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
           }
         }
         spec = {
+          dnsPolicy = "None"
+          dnsConfig.nameservers = ["172.25.0.2", "172.25.0.1"]
+
           nodeSelector = _config.nodeSelector
           containers = [{
             name = ssh_tunnel_resource_name(endpoint)
