@@ -28,7 +28,8 @@ application = argoproj.Application {
                 volumes = {
                   data = {
                     mode = "dynamic"
-                    dynamic.defaultStorageClass.requests.storage = "8Gi"
+                    dynamic.storageClassName = "default"
+                    dynamic.requests.storage = "8Gi"
                   }
                 }
                 nodeSelector = _config.nodeSelector
