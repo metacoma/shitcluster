@@ -60,12 +60,12 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
             ssh ${_ssh_tunnel.ssh_args} -i /root/.ssh/private_key -l $SSH_TUNNEL_USER $SSH_TUNNEL_HOST '
               ip link del ${endpoint.remote_tun}
               ip tuntap add mode tun ${endpoint.remote_tun}
-              ip addr add ${endpoint.remote_addr} dev $IF
-              ip link set ${endpoint.remote_addr} up
+              ip addr add ${endpoint.remote_addr} dev ${endpoint.remote_tun}
+              ip link set ${endpoint.remote_tun} up
             '
             while :; do
               echo .
-              ssh ${_ssh_tunnel.ssh_args} -w 0:${endpoint.remote_tun_n} -i /root/.ssh/private_key -l $SSH_TUNNEL_USER $SSH_TUNNEL_HOST '
+              ssh ${_ssh_tunnel.ssh_args} -w 0:${endpoint.remote_tun_n} -i /root/.ssh/private_key -l $SSH_TUNNEL_USER $SSH_TUNNEL_HOST
               sleep 1
             done
             """
