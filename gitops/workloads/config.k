@@ -81,7 +81,10 @@ config = {
           host = "ref+vault://kv/vpn_nl#ssh_host"
           private_key = "ref+vault://kv/vpn_nl#ssh_private_key_base64"
         }
-        local_addr = "10.50.0.1/24"
+        local_addr = "10.50.0.2/24"
+        remote_addr = "10.50.0.1/24"
+        remote_tun = "tun5"
+        remote_tun_n = "5" # fixme
       }
     ]
   }
