@@ -52,7 +52,14 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
             image = _ssh_tunnel.container_image
             imagePullPolicy = "IfNotPresent"
             command = ["/bin/bash"]
-            args = ["-c", "sleep infinity"]
+            args = ["-c", """
+            IF=tun0
+            ip tuntap add mode tun $IF
+            ip addr add ${endpoint.local_addr} dev $IF
+            ip link set tun0 up
+            sleep infinity
+            """
+            ]
             envFrom = [
               { secretRef.name = ssh_tunnel_secret_name(endpoint) }
             ]
