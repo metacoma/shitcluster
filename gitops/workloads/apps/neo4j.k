@@ -37,6 +37,9 @@ application = argoproj.Application {
                   "dbms.security.procedures.whitelist" = "streams.*,apoc.*"
                   "apoc.export.file.enabled" = "true"
                   "apoc.import.file.enabled" = "true"
+                  "dbms.memory.heap.initial_size" = "2G"
+                  "dbms.memory.heap.max_size" = "4G"
+                  "dbms.memory.pagecache.size" = "4G"
                 }
               })
               releaseName = _neo4j.release_name
