@@ -63,6 +63,12 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
               ip addr add ${endpoint.remote_addr} dev ${endpoint.remote_tun}
               ip link set ${endpoint.remote_tun} up
             '
+            VPN_ADDR=$(dig +short $SSH_TUNNEL_HOST)
+            ip ro add to $VPN_ADDR/32 via 172.25.0.1
+            ip ro del to default via 169.254.1.1
+            ip ro add to default via 172.25.0.1
+            iptables -t nat -I POSTROUTING -o $IF -j MASQUERADE -s 172.25.0.0/24
+            ip ro add to default via 10.50.0.1 dev $IF
             while :; do
               echo .
               ssh ${_ssh_tunnel.ssh_args} -w 0:${endpoint.remote_tun_n} -i /root/.ssh/private_key -l $SSH_TUNNEL_USER $SSH_TUNNEL_HOST
