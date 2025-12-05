@@ -36,6 +36,8 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
             name = ssh_tunnel_resource_name(endpoint)
             image = _ssh_tunnel.container_image
             imagePullPolicy = "IfNotPresent"
+            command = ["/bin/bash"]
+            args = ["-c", "sleep infinity"]
             envFrom = [
               { secretRef.name = ssh_tunnel_secret_name(endpoint) }
             ]
