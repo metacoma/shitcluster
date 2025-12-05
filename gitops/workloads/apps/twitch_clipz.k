@@ -5,6 +5,7 @@ import config as cfg
 _config = cfg.config
 _twitch_clipz = _config.twitch_clipz
 _rabbitmq = _config.rabbitmq
+_neo4j = _config.neo4j
 
 _rabbitmq_url = "amqp://${_rabbitmq.user}:${_rabbitmq.password}@${_rabbitmq.release_name}.${_rabbitmq.namespace }:${_rabbitmq.port}/"
 
@@ -55,7 +56,7 @@ manifests = [
       namespace = _twitch_clipz.namespace
     }
     data = {
-      NEO4J_URL = "seed.public.mansion.shitcluster.io:7687"
+      NEO4J_URL = "${_neo4j.release_name}.${_neo4j.namespace}:7687"
     }
   }
   k8s.Secret {
