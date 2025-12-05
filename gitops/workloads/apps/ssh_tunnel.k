@@ -31,6 +31,7 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
           {
             name = "macvlan-public"
             namespace = _ssh_tunnel.namespace
+            interface = "public"
           }
         ])
       }
