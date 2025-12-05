@@ -33,6 +33,11 @@ application = argoproj.Application {
                   }
                 }
                 nodeSelector = _config.nodeSelector
+                config = {
+                  "dbms.security.procedures.whitelist" = "streams.*,apoc.*"
+                  "apoc.export.file.enabled" = "true"
+                  "apoc.import.file.enabled" = "true"
+                }
               })
               releaseName = _neo4j.release_name
           }
