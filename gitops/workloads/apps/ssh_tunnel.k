@@ -53,6 +53,10 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
             envFrom = [
               { secretRef.name = ssh_tunnel_secret_name(endpoint) }
             ]
+            securityContext = {
+              privileged = True
+              capabilities.add = [ "NET_ADMIN" ]
+            }
             volumeMounts = [{
               name = "ssh-private-key"
               mountPath = "/root/.ssh"
