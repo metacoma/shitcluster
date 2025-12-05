@@ -28,7 +28,7 @@ application = argoproj.Application {
                 volumes = {
                   data = {
                     mode = "dynamic"
-                    dynamic.storageClassName = "default"
+                    dynamic.storageClassName = "longhorn"
                     dynamic.requests.storage = "8Gi"
                   }
                 }
