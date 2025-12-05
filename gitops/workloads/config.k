@@ -68,4 +68,19 @@ config = {
     namespace = _twitch_clipz_namespace
     password = _neo4j_password
   }
+  ssh_tunnel = {
+    namespace = "network"
+    container_image = "nicolaka/netshoot:latest"
+    endpoints = [
+      {
+        name = "nl0"
+        country = "NL"
+        ssh = {
+          user = "ref+vault://kv/vpn_nl#ssh_user"
+          host = "ref+vault://kv/vpn_nl#ssh_host"
+          private_key = "ref+vault://kv/vpn_nl#ssh_private_key"
+        }
+      }
+    ]
+  }
 }

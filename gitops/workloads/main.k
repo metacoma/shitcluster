@@ -7,6 +7,7 @@ import manifests
 import .apps.rabbitmq as rabbitmq
 import .apps.twitch_clipz as twitch_clipz
 import .apps.neo4j as neo4j
+import .apps.ssh_tunnel as ssh_tunnel
 
 resources = [
 
@@ -131,6 +132,7 @@ resources = [
     rabbitmq.application
     twitch_clipz.manifests
     neo4j.application
+    ssh_tunnel.manifests
 ]
 
 manifests.yaml_stream([
