@@ -57,7 +57,7 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
             ip tuntap add mode tun $IF
             ip addr add ${endpoint.local_addr} dev $IF
             ip link set tun0 up
-            ssh ${_ssh_tunnel.ssh_args} -i /root/.ssh/private_key -l $SSH_TUNNEL_USER $SSH_TUNNEL_HOST'
+            ssh ${_ssh_tunnel.ssh_args} -i /root/.ssh/private_key -l $SSH_TUNNEL_USER $SSH_TUNNEL_HOST '
               id
               hostname
             '
