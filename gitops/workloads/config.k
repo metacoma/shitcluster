@@ -78,7 +78,7 @@ config = {
         ssh = {
           user = "ref+vault://kv/vpn_nl#ssh_user"
           host = "ref+vault://kv/vpn_nl#ssh_host"
-          private_key = "ref+vault://kv/vpn_nl#ssh_private_key"
+          private_key = "ref+vault://kv/vpn_nl#ssh_private_key_base64"
         }
       }
     ]
