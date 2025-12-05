@@ -1,6 +1,7 @@
 import k8s.api.core.v1 as k8s
 import k8s.api.apps.v1 as v1
 import config as cfg
+import json
 
 _config = cfg.config
 _ssh_tunnel = _config.ssh_tunnel
@@ -24,6 +25,14 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
       namespace = _ssh_tunnel.namespace
       labels = {
         app = ssh_tunnel_resource_name(endpoint)
+      }
+      annotations = {
+        "k8s.v1.cni.cncf.io/networks" = json.encode([
+          {
+            name = "macvlan-public"
+            namespace = _ssh_tunnel.namespace
+          }
+        ])
       }
     }
     spec = {
