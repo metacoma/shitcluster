@@ -26,20 +26,22 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
       labels = {
         app = ssh_tunnel_resource_name(endpoint)
       }
-      annotations = {
-        "k8s.v1.cni.cncf.io/networks" = json.encode([
-          {
-            name = "macvlan-public"
-            namespace = _ssh_tunnel.namespace
-            interface = "public"
-          }
-        ])
-      }
     }
     spec = {
       selector.matchLabels = {app = ssh_tunnel_resource_name(endpoint) }
       template = {
-        metadata.labels = {app = ssh_tunnel_resource_name(endpoint) }
+        metadata = {
+          labels.app = ssh_tunnel_resource_name(endpoint)
+          annotations = {
+            "k8s.v1.cni.cncf.io/networks" = json.encode([
+              {
+                name = "macvlan-public"
+                namespace = _ssh_tunnel.namespace
+                interface = "public"
+              }
+            ])
+          }
+        }
         spec = {
           nodeSelector = _config.nodeSelector
           containers = [{
