@@ -1,0 +1,18 @@
+service:
+  ui:
+    type: LoadBalancer
+    loadBalancerIP: 172.25.1.3
+
+defaultSettings:
+  createDefaultDiskLabeledNodes: true
+  #systemManagedComponentsNodeSelector: "node.longhorn.io/data-plane:true"
+  #systemManagedComponentsNodeSelector: "storage:True"
+  defaultDataPath: /storage
+
+longhornUI:
+  replicas: 1
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Equal"
+      value: ""
+      effect: "NoSchedule"

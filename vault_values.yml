@@ -1,0 +1,53 @@
+global:
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Equal"
+      value: ""
+      effect: "NoSchedule"
+ui:
+  enabled: true
+  serviceType: "LoadBalancer"
+  loadBalancerIP: 172.25.1.4
+
+injector:
+  nodeSelector:
+    node-role.kubernetes.io/worker: ""
+
+server:
+  nodeSelector:
+    node-role.kubernetes.io/worker: ""
+  dataStorage:
+    size: 4Gi
+  ingress:
+    enabled: true 
+    annotations:
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      cert-manager.io/cluster-issuer: letsencrypt
+      cert-manager.io/secret-template: |
+        {"annotations": {"reflector.v1.k8s.emberstack.com/reflection-allowed": "true", "reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces": ""}}
+    hosts:
+      - host: vault-api.mansion.metacoma.org
+        paths: []
+    tls:
+      - hosts:
+          - vault-api.mansion.metacoma.org
+        secretName: mansion-wildcard
+    
+  postStart:
+    - sh
+    - -c
+    - |
+      sleep 60
+      echo "Try to unseal..."
+      vault status > /tmp/status.txt
+      if ! vault status >/dev/null 2>&1; then
+        echo "Initializing Vault..."
+        vault operator init -key-shares=1 -key-threshold=1 > /tmp/init.txt
+        UNSEAL_KEY=$(grep 'Unseal Key 1:' /tmp/init.txt | awk '{print $4}')
+        vault operator unseal $UNSEAL_KEY
+        echo "Root token:"
+        grep 'Initial Root Token:' /tmp/init.txt | awk '{print $4}'
+        # rm /tmp/init.txt
+      fi
+      vault status >> /tmp/status.txt
+      echo "Done..."
