@@ -1,0 +1,22 @@
+- name: Configure netplan
+  ansible.builtin.import_playbook: network.yml
+
+- name: Install longhorn requirements
+  ansible.builtin.import_playbook: longhorn.yml
+
+- name: Storage mount
+  ansible.builtin.import_playbook: storage_mount.yml
+
+
+# https://github.com/longhorn/longhorn/issues/3177
+- name: Prepare multipathd
+  ansible.builtin.import_playbook: disable_multipath.yml
+
+# - name: Reset Kubernetes
+#   ansible.builtin.import_playbook: kubernetes_sigs.kubespray.reset
+
+- name: Install Kubernetes
+  ansible.builtin.import_playbook: kubernetes_sigs.kubespray.cluster
+
+- name: Run and enable /cni/dhcp server
+  ansible.builtin.import_playbook: macvlan_dhcp.yml

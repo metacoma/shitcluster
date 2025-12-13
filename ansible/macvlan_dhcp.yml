@@ -1,0 +1,38 @@
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  any_errors_fatal: true
+  tasks:
+    - name: Install CNI DHCP systemd unit
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/cni-dhcp.service
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          [Unit]
+          Description=CNI DHCP daemon
+          After=network-online.target
+          Wants=network-online.target
+
+          [Service]
+          ExecStart=/opt/cni/bin/dhcp daemon
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Reload systemd units
+      become: true
+      ansible.builtin.systemd:
+        daemon_reload: yes
+
+    - name: Enable and start CNI DHCP daemon
+      become: true
+      ansible.builtin.systemd:
+        name: cni-dhcp
+        enabled: yes
+        state: started
+

@@ -1,0 +1,80 @@
+all:
+  hosts:
+    mcmp2:
+      ansible_host: mcmp2.mgmt.mansion.shitcluster.io
+      ip: &mcmp2_ip 172.26.0.11
+      access_ip: *mcmp2_ip
+    mcmp3:
+      ansible_host: mcmp3.mgmt.mansion.shitcluster.io
+      ip: &mcmp3_ip 172.26.0.15
+      access_ip: *mcmp3_ip
+    mcmp4:
+      ansible_host: mcmp4.mgmt.mansion.shitcluster.io
+      ip: &mcmp4_ip 172.26.0.13
+      access_ip: *mcmp3_ip
+    mcmp5:
+      ansible_host: mcmp5.mgmt.mansion.shitcluster.io
+      ip: &mcmp5_ip 172.26.0.14
+      access_ip: *mcmp5_ip
+    mcmp6:
+      ansible_host: mcmp6.mgmt.mansion.shitcluster.io
+      ip: &mcmp6_ip 172.26.0.17
+      access_ip: *mcmp6_ip
+    mcmp7:
+      ansible_host: mcmp7.mgmt.mansion.shitcluster.io
+      ip: &mcmp7_ip 172.26.0.16
+      access_ip: *mcmp7_ip
+    mcmp8:
+      ansible_host: mcmp8.mgmt.mansion.shitcluster.io
+      ip: &mcmp8_ip 172.26.0.18
+      access_ip: *mcmp8_ip
+    mcmp9:
+      ansible_host: mcmp9.mgmt.mansion.shitcluster.io
+      ip: &mcmp9_ip 172.26.0.10
+      access_ip: *mcmp9_ip
+  vars:
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: /home/ubuntu/shitcluster/maas/maas_id
+
+kube_control_plane:
+  hosts:
+    mcmp2:
+    mcmp3:
+    mcmp9:
+  vars:
+    node_labels:
+      role: controller
+      storage: true
+      node.longhorn.io/create-default-disk: true
+
+etcd:
+  hosts:
+    mcmp2:
+      etcd_member_name: mcmp2.private.mansion.shitcluster.io
+    mcmp3:
+      etcd_member_name: mcmp3.private.mansion.shitcluster.io
+    mcmp9:
+      etcd_member_name: mcmp9.private.mansion.shitcluster.io
+
+
+kube_node:
+  hosts:
+    mcmp2:
+    mcmp3:
+    mcmp4:
+      node_labels: &worker_labels
+        "node-role.kubernetes.io/worker": ""
+        "node.longhorn.io/data-plane": "true"
+    mcmp5:
+      node_labels:
+        <<: *worker_labels
+    mcmp6:
+      node_labels:
+        <<: *worker_labels
+    mcmp7:
+      node_labels:
+        <<: *worker_labels
+    mcmp8:
+      node_labels:
+        <<: *worker_labels
+    mcmp9:

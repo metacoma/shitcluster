@@ -1,0 +1,41 @@
+netplan_configuration:
+  network:
+    version: 2
+    ethernets:
+      enp2s0f0:
+        match:
+          macaddress: "74:d4:35:0f:e0:40"
+        set-name: "enp2s0f0"
+        mtu: 1500
+    bridges:
+      br0:
+        addresses:
+        - "172.23.0.28/16"
+        interfaces: [ enp2s0f0 ]
+      br-management:
+        interfaces: [ enp2s0f0.400 ]
+        addresses:
+        - "172.24.0.14/16"
+        nameservers:
+          addresses:
+          - 172.24.0.2
+      br-public:
+        interfaces: [ enp2s0f0.401 ]
+        dhcp4: true
+      br-private:
+        interfaces: [ enp2s0f0.402 ]
+        addresses:
+        - "172.26.0.14/16"
+    vlans:
+      enp2s0f0.400:
+        mtu: 1500
+        id: 400
+        link: "enp2s0f0"
+      enp2s0f0.401:
+        mtu: 1500
+        id: 401
+        link: "enp2s0f0"
+      enp2s0f0.402:
+        mtu: 1500
+        id: 402
+        link: "enp2s0f0"

@@ -1,0 +1,15 @@
+---
+- hosts: Mount /storage
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Ensure /storage is defined in fstab by UUID
+      ansible.builtin.mount:
+        src: "/dev/disk/by-uuid/{{ storage_blkid }}"
+        path: /storage
+        fstype: ext4
+        opts: defaults
+        dump: 0
+        passno: 2
+        state: present
+      when: storage_blkid is defined

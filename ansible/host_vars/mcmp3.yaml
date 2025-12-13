@@ -1,0 +1,51 @@
+storage_blkid: 1230688f-8a33-4224-ad70-a275de146360
+
+netplan_configuration:
+  network:
+    version: 2
+    ethernets:
+      enp2s0:
+        match:
+          macaddress: "94:de:80:57:88:1b"
+        set-name: "enp2s0"
+        mtu: 1500
+    bridges:
+      br0:
+        interfaces: [ enp2s0 ]
+        addresses:
+        - "172.23.0.32/16"
+      br-management:
+        interfaces: [ enp2s0.400 ]
+        addresses:
+        - "172.24.0.15/16"
+        nameservers:
+          addresses:
+          - 172.24.0.2
+      br-public:
+        interfaces: [ enp2s0.401 ]
+        dhcp4: true
+      br-private:
+        addresses:
+        - "172.26.0.15/16"
+        interfaces: [ enp2s0.402 ]
+      br-san:
+        addresses:
+        - "172.27.0.15/16"
+        interfaces: [ enp2s0.403 ]
+    vlans:
+      enp2s0.400:
+        mtu: 1500
+        id: 400
+        link: "enp2s0"
+      enp2s0.401:
+        mtu: 1500
+        id: 401
+        link: "enp2s0"
+      enp2s0.402:
+        mtu: 1500
+        id: 402
+        link: "enp2s0"
+      enp2s0.403:
+        mtu: 1500
+        id: 403
+        link: "enp2s0"

@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: true
+  any_errors_fatal: true
+  tasks:
+    - debug:
+        var: netplan_configuration
+    - name: Disable IPv6 system-wide on k8s nodes
+      ansible.posix.sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        sysctl_set: true
+        state: present
+        reload: true
+      loop:
+        - { name: "net.ipv6.conf.all.disable_ipv6",     value: "1" }
+        - { name: "net.ipv6.conf.default.disable_ipv6", value: "1" }
+  roles:
+    - role: mrlesmithjr.netplan
+      netplan_enabled: true
+      netplan_config_file: /etc/netplan/50-cloud-init.yaml
+

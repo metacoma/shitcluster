@@ -1,0 +1,23 @@
+---
+- hosts: kube_control_plane
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Install longhorn dependencies
+      apt:
+      with_items:
+        - grep
+        - curl
+        - bash
+        - util-linux
+        - open-iscsi
+        - nfs-common
+
+    - name: Ensure iSCSI services are enabled and started
+      systemd:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+      loop:
+        - open-iscsi
+        - iscsid

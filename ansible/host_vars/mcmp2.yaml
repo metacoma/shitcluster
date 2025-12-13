@@ -1,0 +1,64 @@
+storage_blkid: 7045ef73-4137-45f7-b0a7-af8cf4b971d8
+
+netplan_configuration:
+  network:
+    version: 2
+    ethernets:
+      enp8s0:
+        dhcp4: false
+        dhcp6: false
+        match:
+          macaddress: "f4:6d:04:6f:f9:fb"
+        set-name: "enp8s0"
+        mtu: 1500
+
+    bridges:
+      br0:
+        interfaces: [ enp8s0 ]
+        addresses:
+        - "172.23.0.31/16"
+      br-management:
+        interfaces: [ enp8s0.400 ]
+        addresses:
+        - "172.24.0.11/16"
+        nameservers:
+          addresses:
+          - 172.24.0.2
+      br-public:
+        interfaces: [ enp8s0.401 ]
+        dhcp4: true
+
+      br-private:
+        interfaces: [ enp8s0.402 ]
+        addresses:
+        - "172.26.0.11/16"
+        dhcp4: false
+
+      br-san:
+        interfaces: [ enp8s0.403 ]
+        addresses:
+        - "172.27.0.11/16"
+        dhcp4: false
+
+    vlans:
+      enp8s0.400:
+        id: 400
+        mtu: 1500
+        link: "enp8s0"
+        dhcp4: false
+        dhcp6: false
+      enp8s0.401:
+        id: 401
+        dhcp4: false
+        mtu: 1500
+        link: "enp8s0"
+      enp8s0.402:
+        id: 402
+        dhcp4: false
+        mtu: 1500
+        link: "enp8s0"
+      enp8s0.403:
+        dhcp4: false
+        mtu: 1500
+        id: 403
+        link: "enp8s0"

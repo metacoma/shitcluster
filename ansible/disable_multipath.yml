@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  any_errors_fatal: true
+  tasks:
+      # https://github.com/longhorn/longhorn/issues/3177 
+      # https://longhorn.io/docs/1.9.0/deploy/install/#installation-requirements
+    - name: Configure multipath blacklist
+      blockinfile:
+        path: /etc/multipath.conf
+        marker: "# {mark} ANSIBLE MANAGED MULTIPATH BLACKLIST"
+        block: |
+          blacklist {
+              devnode "^sd[a-z0-9]+"
+              devnode "^md[a-z0-9]+"
+          }
+        create: yes
+        mode: '0644'
+
+    - name: Restart multipathd 
+      become: true
+      ansible.builtin.systemd:
+        name: multipathd
+        enabled: yes
+        state: restarted
+

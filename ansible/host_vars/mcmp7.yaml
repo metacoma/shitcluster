@@ -1,0 +1,41 @@
+netplan_configuration:
+  network:
+    version: 2
+    ethernets:
+      enp6s0:
+        match:
+          macaddress: "14:da:e9:db:f2:79"
+        set-name: "enp6s0"
+        mtu: 1500
+    bridges:
+      br0:
+        interfaces: [ enp6s0 ]
+        addresses:
+        - "172.23.0.33/16"
+      br-management:
+        interfaces: [ enp6s0.400 ]
+        addresses:
+        - "172.24.0.16/16"
+        nameservers:
+          addresses:
+          - 172.24.0.2
+      br-public:
+        interfaces: [ enp6s0.401 ]
+        dhcp4: true
+      br-private:
+        interfaces: [ enp6s0.402 ]
+        addresses:
+        - "172.26.0.16/16"
+    vlans:
+      enp6s0.400:
+        mtu: 1500
+        id: 400
+        link: "enp6s0"
+      enp6s0.401:
+        mtu: 1500
+        id: 401
+        link: "enp6s0"
+      enp6s0.402:
+        mtu: 1500
+        id: 402
+        link: "enp6s0"
