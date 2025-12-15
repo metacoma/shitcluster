@@ -73,7 +73,7 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
             ip ro add to default via 10.50.0.1 dev $IF
             while :; do
               echo .
-              ssh ${_ssh_tunnel.ssh_args} -w 0:${endpoint.remote_tun_n} -i /root/.ssh/private_key -l $SSH_TUNNEL_USER $SSH_TUNNEL_HOST
+              ssh ${_ssh_tunnel.ssh_args} -w 0:${endpoint.remote_tun[3:]} -i /root/.ssh/private_key -l $SSH_TUNNEL_USER $SSH_TUNNEL_HOST
               sleep 1
             done
             """

@@ -84,7 +84,7 @@ config = {
         local_addr = "10.50.0.2/24"
         remote_addr = "10.50.0.1/24"
         remote_tun = "tun5"
-        remote_tun_n = "5" # fixme
+        remote_tun_n = "${remote_tun[3:]}"
       }
     ]
   }
