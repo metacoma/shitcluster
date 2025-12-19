@@ -99,4 +99,7 @@ config = {
     ]
   }
 
+  monitoring = {
+    namespace = "monitoring"
+  }
 }
