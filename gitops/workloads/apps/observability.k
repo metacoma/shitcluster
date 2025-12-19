@@ -122,7 +122,7 @@ manifests = [
             endpoint = "${observability.tempo.release_name}:4317"
             tls.insecure = "Tghcr.io/open-telemetry/opentelemetry-helm-charts/opentelemetry-collectorrue"
           }
-          "otlhttp/loki" = {
+          "otlphttp/loki" = {
             endpoint = "${observability.loki.release_name}:3100/otlp"
           }
           "prometheus" = {
@@ -151,11 +151,11 @@ manifests = [
               exporters = ["prometheus"]
             }
           }
-          ports.metrics.enabled = True
-          serviceMonitor.enabled = True
-          podMonitor.enabled = True
         }
       }
+      ports.metrics.enabled = True
+      serviceMonitor.enabled = True
+      podMonitor.enabled = True
     }
     sync = {}
   )
