@@ -15,7 +15,7 @@ manifests = [
 
   argoproj.Application {
     metadata = {
-        name = kube_state_metrics.helm.release_anme
+        name = kube_state_metrics.helm.release_name
         namespace = _config.argocd.namespace
     }
     spec = {
