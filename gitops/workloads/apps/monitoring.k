@@ -134,6 +134,7 @@ manifests = [
 
       adminUser = "ref+vault://kv/grafana#adminUser"
       adminPassword = "ref+vault://kv/grafana#adminPassword"
+      image.tag = monitoring.grafana.helm.app_version
       service = {
         type = "LoadBalancer"
         loadBalancerIP = "172.25.1.5"
@@ -152,14 +153,22 @@ manifests = [
             url = "http://${_config.monitoring.vm_single.helm.release_name}-victoria-metrics-single-server.${_config.monitoring.namespace}.svc:8428"
             isDefault = True
             editable = True
-          },{
+          }]
+        }
+        "datasources-loki.yaml" = {
+          apiVersion = 1
+          datasources = [{
             name = "loki"
             type = "loki"
             uid = "loki"
             access = "proxy"
             url = "http://${_config.observability.loki.helm.release_name}.${_config.observability.namespace}:3100"
             editable = False
-          },{
+          }]
+        }
+        "datasources-tempo.yaml" = {
+          apiVersion = 1
+          datasources = [{
             name = "tempo"
             type = "tempo"
             uid = "tempo"
