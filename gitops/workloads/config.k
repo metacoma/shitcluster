@@ -243,6 +243,7 @@ config = {
     }
   }
   knative = {
+    domain = "kn.pub.mansion.shitcluster.io"
     operator = {
       namespace = "knative-operator"
       helm = {
@@ -251,15 +252,16 @@ config = {
         release_name = "knative-operator"
         version = "1.20.0"
         app_version = "v1.20.0"
-
       }
 
     }
     eventing = {
       namespace = "knative-eventing"
+      version = "1.20.0"
     }
     serving = {
       namespace = "knative-serving"
+      version = "1.20.0"
     }
   }
 }
