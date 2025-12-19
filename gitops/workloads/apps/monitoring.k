@@ -129,4 +129,31 @@ manifests = [
   }
   for service_name in ["prometheus-node-exporter", "kube-state-metrics", "prometheus-blackbox-exporter" ]
   ]
+
+  monitoring_app(
+    monitoring.grafana.helm, values = {
+      nodeSelector = _config.nodeSelector
+      adminUser = "ref+vault://kv/grafana#adminUser"
+      adminPassword = "ref+vault://kv/grafana#adminPassword"
+      service.type = "LoadBalancer"
+      persistence = {
+        enabled = True
+      }
+      datasources = {
+        "datasources.yaml" = {
+          apiVersion = 1
+          datasources = [{
+            name = "VictoriaMetrics"
+            type = "prometheus"
+            access = "proxy"
+            url: "http://${_config.monitoring.vm_single.helm.release_name}-victoria-metrics-single-server.${_config.monitoring.namespace}.svc:8428"
+            isDefault = True
+            editable = True
+          }]
+        }
+      }
+    },
+    sync = {}
+  )
+
 ]
