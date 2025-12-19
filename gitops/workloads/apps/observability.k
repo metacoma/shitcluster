@@ -49,7 +49,7 @@ manifests = [
       loki = {
         auth_enabled = False
         commonConfig.replication_factor = 1
-        storage = "filesystem"
+        storage.type = "filesystem"
       }
     }
     sync = {}
