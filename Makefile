@@ -119,6 +119,17 @@ vault: vault_install
 	  --from-literal=root_token="$$ROOT_TOKEN" \
 	  --from-literal=unseal_key="$$UNSEAL_KEY"
 
+
+vault-unseal:
+	@echo "🔐 Unsealing Vault in namespace $(VAULT_NS)..."
+	@UNSEAL_KEY=$$(kubectl -n $(VAULT_NS) get secret vault-bootstrap \
+		-o jsonpath='{.data.unseal_key}' | base64 -d) ; \
+	POD=$$(kubectl -n $(VAULT_NS) get pod \
+		-l app.kubernetes.io/name=vault \
+		-o jsonpath='{.items[0].metadata.name}') ; \
+	echo "→ Using pod: $$POD" ; \
+	kubectl -n $(VAULT_NS) exec -ti $$POD -- vault operator unseal $$UNSEAL_KEY
+
 vault_uninstall:
 	kubectl -n $(VAULT_NS) delete secret $(VAULT_BOOTSTRAP_CONFIGMAP)
 	helm uninstall --namespace $(VAULT_NS) vault --wait
