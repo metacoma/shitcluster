@@ -120,7 +120,7 @@ manifests = [
           #debug.verbosity = "detailed"
           "otlp/tempo" = {
             endpoint = "${observability.tempo.release_name}:4317"
-            tls.insecure = "True"
+            tls.insecure = "Tghcr.io/open-telemetry/opentelemetry-helm-charts/opentelemetry-collectorrue"
           }
           "otlhttp/loki" = {
             endpoint = "${observability.loki.release_name}:3100/otlp"
@@ -138,7 +138,7 @@ manifests = [
             logs = {
               receivers = ["otlp"]
               processors = ["memory_limiter", "batch"]
-              exporters = ["otlphttp/loki"]
+              exporters = ["otlphttp"]
             }
             traces = {
               receivers = ["otlp"]
