@@ -7,8 +7,6 @@ import victoria_metrics_operator.v1beta1.operator_victoriametrics_com_v1beta1_vm
 
 _config = cfg.config
 monitoring = _config.monitoring
-kube_state_metrics = monitoring.kube_state_metrics
-node_exporter = monitoring.node_exporter
 
 monitoring_app = lambda helm : any, values : any, sync : any -> argoproj.Application {
 #monitoring_app = lambda helm : any, values : any, sync : any -> any {

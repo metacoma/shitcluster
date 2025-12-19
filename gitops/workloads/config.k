@@ -174,4 +174,16 @@ config = {
       }
     }
   }
+  observability = {
+    namespace = "observability"
+    loki = {
+      helm = {
+        repo = "https://grafana.github.io/helm-charts"
+        release_name = "loki"
+        chart_version = "6.49.0"
+        app_version = "3.6.3"
+        chart_name = "loki"
+      }
+    }
+  }
 }

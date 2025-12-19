@@ -9,6 +9,7 @@ import .apps.twitch_clipz as twitch_clipz
 import .apps.neo4j as neo4j
 import .apps.ssh_tunnel as ssh_tunnel
 import .apps.monitoring as monitoring
+import .apps.observability as observability
 
 resources = [
 
@@ -135,6 +136,7 @@ resources = [
     neo4j.application
     ssh_tunnel.manifests
     monitoring.manifests
+    observability.manifests
 ]
 
 manifests.yaml_stream([
