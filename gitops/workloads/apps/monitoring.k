@@ -159,41 +159,13 @@ manifests = [
             access = "proxy"
             url = "http://${_config.observability.loki.helm.release_name}.${_config.observability.namespace}:3100"
             editable = False
-          }]
-        }
-        "datasoures-tempo.yaml" = {
-          apiVersion = 1
-          dataSoures = [{
+          },{
             name = "tempo"
             type = "tempo"
             uid = "tempo"
             access = "proxy"
             url = "http://${_config.observability.tempo.helm.release_name}.${_config.observability.namespace}:3200"
             editable = False
-            jsonData = {
-              tracesToLogs = {
-                datasourceUid = "loki"
-                tags = ["cluster", "namespace", "pod", "container"]
-                mappedTags = [{
-                  key = "service.name"
-                  value = "service"
-                }]
-                mapTagNamesEnabled = True
-                spanStartTimeShift = "-15m"
-                spanEndTimeShift = "15m"
-                filterByTraceID = True
-                filterBySpanID = False
-              }
-
-              tracesToMetrics = {
-                datasourceUid = "vm"
-                tags = ["service.name", "http.method", "http.status_code"]
-              }
-
-              serviceMap.datasourceUid = "tempo"
-              nodeGraph.enabled = True
-            }
-
           }]
         }
       }
