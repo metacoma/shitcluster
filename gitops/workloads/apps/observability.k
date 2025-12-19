@@ -68,6 +68,7 @@ manifests = [
 
       }
       singleBinary = {
+        nodeSelector = _config.nodeSelector
         replicas = 1
         persistence = {
           enabled = True
