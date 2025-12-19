@@ -10,6 +10,7 @@ import .apps.neo4j as neo4j
 import .apps.ssh_tunnel as ssh_tunnel
 import .apps.monitoring as monitoring
 import .apps.observability as observability
+import .apps.knative as knative
 
 resources = [
 
@@ -137,6 +138,7 @@ resources = [
     ssh_tunnel.manifests
     monitoring.manifests
     observability.manifests
+    knative.manifests
 ]
 
 manifests.yaml_stream([

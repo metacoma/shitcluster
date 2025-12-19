@@ -205,4 +205,24 @@ config = {
       }
     }
   }
+  knative = {
+    operator = {
+      namespace = "knative-operator"
+      helm = {
+        chart = "knative-operator"
+        repo = "https://knative.github.io/operator"
+        release_name = "knative-operator"
+        version = "1.20.0"
+        app_version = "v1.20.0"
+
+      }
+
+    }
+    eventing = {
+      namespace = "knative-eventing"
+    }
+    serving = {
+      namespace = "knative-serving"
+    }
+  }
 }
