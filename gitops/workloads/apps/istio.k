@@ -32,7 +32,6 @@ istio_app = lambda helm : any, values : any, sync : any -> argoproj.Application 
                 selfHeal = True
             }
         } | sync
-
     }
   }
 }
@@ -59,6 +58,10 @@ manifests = [
   istio_app(
     istio.helm.gateway, values = {
       nodeSelector = _config.nodeSelector
+      service = {
+        type = "LoadBalancer"
+        loadBalancerIP = istio.gateway_lb
+      }
     }
     sync = {}
   )
