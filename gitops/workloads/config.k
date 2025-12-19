@@ -4,6 +4,9 @@ _neo4j_user = "ref+vault://kv/twitch_clipz#neo4j_user+"
 _neo4j_password = "ref+vault://kv/twitch_clipz#neo4j_password+"
 
 config = {
+  argocd = {
+    namespace = "argocd"
+  }
   nodeSelector = {
     "node-role.kubernetes.io/worker": ""
   }
@@ -101,5 +104,15 @@ config = {
 
   monitoring = {
     namespace = "monitoring"
+    kube_state_metrics = {
+      helm = {
+        release_name = "kube-state-metrics"
+        chart_version = "7.0.0"
+        app_version = "2.17.0"
+        repo = "https://prometheus-community.github.io/helm-charts"
+        chart_name = "kube-state-metrics"
+
+      }
+    }
   }
 }
