@@ -125,9 +125,9 @@ manifests = [
           "otlphttp/loki" = {
             endpoint = "${observability.loki.release_name}:3100/otlp"
           }
-          "prometheus" = {
-            endpoint = "0.0.0.0:8888"
-          }
+          #"prometheus" = {
+          #  endpoint = "0.0.0.0:8888"
+          #}
           otlphttp.endpoint = "http://${observability.loki.release_name}:3100/otlp/v1/logs"
 
         }
