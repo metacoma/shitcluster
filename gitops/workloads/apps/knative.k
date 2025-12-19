@@ -94,6 +94,13 @@ manifests = [
           #    "registries-skipping-tag-resolving" = "zot-int.zot.svc.cluster.local:5000,zot-int.zot:5000,127.0.0.1:30001"
           #}
       }
+      spec.workloads = [
+        {
+          name = workload
+          nodeSelector = _config.nodeSelector
+        }
+      for workload in ["activator" "autoscaler" "autoscaler-hpa" "controller" "net-istio-controller" "net-istio-webhook" "webhook"]
+      ]
   }
 
 
@@ -114,6 +121,13 @@ manifests = [
           "metrics.backend-destination" = "prometheus"
           # "metrics.opencensus-address" = config.monitoring.opencensus_endpoint(config.monitoring.tempo.release_name, config.monitoring.namespace)
       }
+      spec.workloads = [
+        {
+          name = workload
+          nodeSelector = _config.nodeSelector
+        }
+      for workload in ["eventing-controller" "eventing-webhook" "imc-controller" "imc-dispatcher" "job-sink" "mt-broker-controller" "mt-broker-filter" "mt-broker-ingress" "pingsource-mt-adapter"]
+      ]
   }
 
 ]
