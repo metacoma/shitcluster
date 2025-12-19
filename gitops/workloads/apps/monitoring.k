@@ -127,6 +127,6 @@ manifests = [
 
     }
   }
-  for service_name in [" prometheus-node-exporter", "kube-state-metrics", "prometheus-blackbox-exporter" ]
+  for service_name in ["prometheus-node-exporter", "kube-state-metrics", "prometheus-blackbox-exporter" ]
   ]
 ]
