@@ -217,6 +217,7 @@ config = {
   }
   istio = {
     namespace = "istio-system"
+    gateway_lb = "172.25.1.6"
     helm = {
       istio_base = {
         chart_name = "base"
@@ -237,7 +238,7 @@ config = {
         repo = "https://istio-release.storage.googleapis.com/charts"
         app_version = "1.28.1"
         chart_version = "1.28.1"
-        release_name = "istio-gateway"
+        release_name = "istio-ingressgateway"
       }
     }
   }
