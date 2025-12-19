@@ -69,7 +69,18 @@ config = {
     password = _neo4j_password
   }
   ssh_tunnel = {
-    ssh_args = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+
+    ssh_args = """-o Compression=no \
+      -o UserKnownHostsFile=/dev/null \
+      -o StrictHostKeyChecking=no \
+      -o Ciphers=chacha20-poly1305@openssh.com  \
+      -o MACs=umac-128-etm@openssh.com \
+      -o KexAlgorithms=curve25519-sha256 \
+      -o TCPKeepAlive=yes \
+      -o ServerAliveInterval=15 \
+      -o ServerAliveCountMax=3 \
+      -o ExitOnForwardFailure=yes \
+    """
     namespace = "network"
     container_image = "nicolaka/netshoot:latest"
     endpoints = [
@@ -84,8 +95,8 @@ config = {
         local_addr = "10.50.0.2/24"
         remote_addr = "10.50.0.1/24"
         remote_tun = "tun5"
-        remote_tun_n = "${remote_tun[3:]}"
       }
     ]
   }
+
 }
