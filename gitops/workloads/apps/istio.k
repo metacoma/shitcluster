@@ -57,11 +57,9 @@ manifests = [
   }
 
   istio_app(
-    istio.helm.istiod, values = {
+    istio.helm.gateway, values = {
       nodeSelector = _config.nodeSelector
-      global.waypoint.nodeSelector = _config.nodeSelector
     }
-
     sync = {}
   )
 

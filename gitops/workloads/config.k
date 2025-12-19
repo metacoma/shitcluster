@@ -232,6 +232,13 @@ config = {
         chart_version = "1.28.1"
         release_name = "istiod"
       }
+      gateway = {
+        chart_name = "gateway"
+        repo = "https://istio-release.storage.googleapis.com/charts"
+        app_version = "1.28.1"
+        chart_version = "1.28.1"
+        release_name = "istio-gateway"
+      }
     }
   }
   knative = {
