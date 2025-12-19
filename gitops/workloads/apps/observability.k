@@ -51,6 +51,18 @@ manifests = [
         commonConfig.replication_factor = 1
         storage.type = "filesystem"
       }
+      singleBinary = {
+        replicas = 1
+        persistence = {
+          enabled = True
+          size = "20Gi"
+          storageClass = "longhorn"
+          accessModes = [ "ReadWriteOnce" ]
+        }
+      }
+      read.replicas = 0
+      write.replicas = 0
+      backend.replicas = 0
     }
     sync = {}
   )
