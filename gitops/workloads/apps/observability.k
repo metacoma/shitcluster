@@ -47,6 +47,7 @@ manifests = [
       nodeSelector = _config.nodeSelector
       gateway.enabled = False
       lokiCanary.enabled = False
+      test.enabled = False
       deploymentMode = "SingleBinary"
       loki = {
         auth_enabled = False
