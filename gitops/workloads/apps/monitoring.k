@@ -56,4 +56,9 @@ manifests = [
     }
   )
 
+  monitoring_app(
+    monitoring.node_exporter.helm, {
+    }
+  )
+
 ]

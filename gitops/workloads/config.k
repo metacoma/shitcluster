@@ -114,5 +114,15 @@ config = {
 
       }
     }
+    node_exporter = {
+      helm = {
+        release_name = "node-exporter"
+        chart_version = "4.49.2"
+        app_version = "1.10.2"
+        repo = "https://prometheus-community.github.io/helm-charts"
+        chart_name = "prometheus-node-exporter"
+
+      }
+    }
   }
 }
