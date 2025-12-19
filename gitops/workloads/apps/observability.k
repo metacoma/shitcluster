@@ -153,9 +153,9 @@ manifests = [
           }
         }
       }
-      ports.metrics.enabled = True
-      serviceMonitor.enabled = True
-      podMonitor.enabled = True
+      #ports.metrics.enabled = True
+      #serviceMonitor.enabled = True
+      #podMonitor.enabled = True
     }
     sync = {}
   )
