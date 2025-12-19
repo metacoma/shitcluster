@@ -9,7 +9,7 @@ monitoring = _config.monitoring
 kube_state_metrics = monitoring.kube_state_metrics
 node_exporter = monitoring.node_exporter
 
-monitoring_app = lambda helm : any, values : any -> argoproj.Application {
+monitoring_app = lambda helm : any, values : any, syncOptions : any -> argoproj.Application {
   argoproj.Application {
     metadata = {
         name = helm.release_name
@@ -32,7 +32,7 @@ monitoring_app = lambda helm : any, values : any -> argoproj.Application {
         syncPolicy = {
             automated = {
                 selfHeal = True
-            }
+            } | syncOptions
         }
     }
   }
@@ -43,7 +43,7 @@ manifests = [
     metadata.name = monitoring.namespace
   }
   monitoring_app(
-    monitoring.kube_state_metrics.helm, {
+    monitoring.kube_state_metrics.helm, values = {
       nodeSelector = _config.nodeSelector
       resources.requests = {
         cpu = "10m"
@@ -54,16 +54,27 @@ manifests = [
         memory = "64Mi"
       }
     }
+    syncOptions = {}
   )
 
   monitoring_app(
-    monitoring.node_exporter.helm, {
-    }
+    monitoring.node_exporter.helm, values = {
+    }, syncOptions = {}
+
   )
   monitoring_app(
-    monitoring.blackbox_exporter.helm, {
+    monitoring.blackbox_exporter.helm, values = {
+      nodeSelector = _config.nodeSelector
+    },
+    syncOptions = {}
+  )
+
+  monitoring_app(
+    monitoring.vm_operator.helm, values = {
       nodeSelector = _config.nodeSelector
     }
+    syncOptions = {
+      RespectIgnoreDifferences = True
+    }
   )
-
 ]
