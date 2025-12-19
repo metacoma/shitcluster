@@ -159,7 +159,11 @@ manifests = [
             access = "proxy"
             url = "http://${_config.observability.loki.helm.release_name}.${_config.observability.namespace}:3100"
             editable = False
-          }, {
+          }]
+        }
+        "datasoures-tempo.yaml" = {
+          apiVersion = 1
+          dataSoures = [{
             name = "tempo"
             type = "tempo"
             uid = "tempo"
