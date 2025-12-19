@@ -154,5 +154,15 @@ config = {
 
       }
     }
+    vm_agent = {
+      helm = {
+        release_name = "vm-agent"
+        chart_version = "0.28.0"
+        app_version = "v1.132.0"
+        repo = "https://victoriametrics.github.io/helm-charts/"
+        chart_name = "victoria-metrics-agent"
+
+      }
+    }
   }
 }

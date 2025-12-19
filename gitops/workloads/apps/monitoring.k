@@ -103,6 +103,9 @@ manifests = [
   monitoring_app(
     monitoring.vm_single.helm, values = {
       nodeSelector = _config.nodeSelector
+      remoteWrite = [{
+        url = "http://vm-single-victoria-metrics-single-server.monitoring:8428/api/v1/write"
+      }]
     }, sync = {}
   )
 ]
