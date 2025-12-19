@@ -7,15 +7,12 @@ import yaml
 _config = cfg.config
 monitoring = _config.monitoring
 kube_state_metrics = monitoring.kube_state_metrics
+node_exporter = monitoring.node_exporter
 
-manifests = [
-  k8s.Namespace {
-    metadata.name = monitoring.namespace
-  }
-
+monitoring_app = lambda helm : any, values : any -> argoproj.Application {
   argoproj.Application {
     metadata = {
-        name = kube_state_metrics.helm.release_name
+        name = helm.release_name
         namespace = _config.argocd.namespace
     }
     spec = {
@@ -25,21 +22,11 @@ manifests = [
         }
         project = "default"
         source = {
-            chart = kube_state_metrics.helm.chart_name
-            repoURL = kube_state_metrics.helm.repo
-            targetRevision = kube_state_metrics.helm.chart_version
+            chart = helm.chart_name
+            repoURL = helm.repo
+            targetRevision = helm.chart_version
             helm = {
-              values = yaml.encode({
-                nodeSelector = _config.nodeSelector
-                resources.requests = {
-                  cpu = "10m"
-                  memory = "32Mi"
-                }
-                resources.limits = {
-                  cpu = "10m"
-                  memory = "64Mi"
-                }
-              })
+              values = yaml.encode(values)
             }
         }
         syncPolicy = {
@@ -49,5 +36,24 @@ manifests = [
         }
     }
   }
+}
+
+manifests = [
+  k8s.Namespace {
+    metadata.name = monitoring.namespace
+  }
+  monitoring_app(
+    monitoring.kube_state_metrics.helm, {
+      nodeSelector = _config.nodeSelector
+      resources.requests = {
+        cpu = "10m"
+        memory = "32Mi"
+      }
+      resources.limits = {
+        cpu = "10m"
+        memory = "64Mi"
+      }
+    }
+  )
 
 ]
