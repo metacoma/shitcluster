@@ -102,7 +102,10 @@ manifests = [
     observability.otlp.helm, values = {
       nodeSelector = _config.nodeSelector
       mode = "deployment"
-      image.repository = "ghcr.io/open-telemetry/opentelemetry-helm-charts/opentelemetry-collector"
+      image = {
+        repository = "otel/opentelemetry-collector-contrib"
+        digest = ""
+      }
       config = {
         receivers = {
           otlp.protocols = {
