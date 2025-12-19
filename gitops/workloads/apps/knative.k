@@ -14,6 +14,10 @@ serving = knative.serving
 
 manifests = [
 
+  k8s.Namespace {
+    metadata.name = operator.namespace
+  }
+
   argoproj.Application {
     metadata = {
         name = knative.operator.helm.release_name
