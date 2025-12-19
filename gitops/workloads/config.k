@@ -185,5 +185,14 @@ config = {
         chart_name = "loki"
       }
     }
+    tempo = {
+      helm = {
+        repo = "https://grafana.github.io/helm-charts"
+        release_name = "tempo"
+        chart_version = "1.24.1"
+        app_version = "2.9.0"
+        chart_name = "tempo"
+      }
+    }
   }
 }
