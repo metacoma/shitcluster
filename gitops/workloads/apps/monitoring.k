@@ -9,7 +9,8 @@ monitoring = _config.monitoring
 kube_state_metrics = monitoring.kube_state_metrics
 node_exporter = monitoring.node_exporter
 
-monitoring_app = lambda helm : any, values : any, syncOptions : any -> argoproj.Application {
+monitoring_app = lambda helm : any, values : any, sync : any -> argoproj.Application {
+#monitoring_app = lambda helm : any, values : any, sync : any -> any {
   argoproj.Application {
     metadata = {
         name = helm.release_name
@@ -32,8 +33,9 @@ monitoring_app = lambda helm : any, values : any, syncOptions : any -> argoproj.
         syncPolicy = {
             automated = {
                 selfHeal = True
-            } | syncOptions
-        }
+            }
+        } | sync
+
     }
   }
 }
@@ -54,27 +56,47 @@ manifests = [
         memory = "64Mi"
       }
     }
-    syncOptions = {}
+    sync = {}
   )
 
   monitoring_app(
     monitoring.node_exporter.helm, values = {
-    }, syncOptions = {}
+    }, sync = {}
 
   )
   monitoring_app(
     monitoring.blackbox_exporter.helm, values = {
       nodeSelector = _config.nodeSelector
     },
-    syncOptions = {}
+    sync = {}
   )
 
   monitoring_app(
     monitoring.vm_operator.helm, values = {
       nodeSelector = _config.nodeSelector
     }
-    syncOptions = {
-      RespectIgnoreDifferences = True
+    sync = {
+      syncOptions = [
+        "RespectIgnoreDifferences=true"
+      ]
     }
-  )
+  ) | {
+    spec.ignoreDifferences = [
+      {
+        group = ""
+        kind = "Secret"
+        name = "${monitoring.vm_operator.release_name}-validation"
+        namespace = monitoring.namespace
+        jsonPointers = ["/data"]
+      }
+      {
+        group = "admissionregistration.k8s.io"
+        kind = "ValidatingWebhookConfiguration"
+        name = "${monitoring.vm_operator.release_name}-validation"
+        namespace = monitoring.namespace
+        jqPathExpressions = ['.webhooks[]?.clientConfig.caBundle']
+      }
+
+    ]
+  }
 ]

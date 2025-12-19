@@ -134,5 +134,15 @@ config = {
 
       }
     }
+    vm_operator = {
+      helm = {
+        release_name = "vm-operator"
+        chart_version = "0.57.1"
+        app_version = "v0.66.1"
+        repo = "https://victoriametrics.github.io/helm-charts/"
+        chart_name = "victoria-metrics-operator"
+
+      }
+    }
   }
 }
