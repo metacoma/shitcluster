@@ -3,6 +3,7 @@ import k8s.api.apps.v1 as v1
 import config as cfg
 import ..argoproj.v1alpha1 as argoproj
 import yaml
+import knative_operator.v1beta1 as kn
 
 
 _config = cfg.config
@@ -12,11 +13,27 @@ operator = knative.operator
 eventing = knative.eventing
 serving = knative.serving
 
+_observability = _config.observability
+
 manifests = [
 
   k8s.Namespace {
     metadata.name = operator.namespace
   }
+
+  k8s.Namespace {
+    metadata = {
+      name = serving.namespace
+      labels = {
+        "istio-injection" = "enabled"
+      }
+    }
+  }
+
+  k8s.Namespace {
+    metadata.name = eventing.namespace
+  }
+
 
   argoproj.Application {
     metadata = {
@@ -50,4 +67,53 @@ manifests = [
         }
     }
   }
+  kn.KnativeServing {
+      metadata.name = "knative-serving"
+      metadata.namespace = _config.knative.serving.namespace
+      metadata.annotations = {
+          "argocd.argoproj.io/sync-options" = "SkipDryRunOnMissingResource=true"
+      }
+      spec.version = _config.knative.serving.version
+      spec.config = {
+          observability = {
+              "metrics.backend-destination" = "prometheus"
+             "metrics.request-metrics-backend-destination" = "prometheus"
+          }
+          domain = {
+            "${knative.domain}" = ""
+          }
+          tracing = {
+              backend = "zipkin"
+              #"zipkin-endpoint" = config.monitoring.zipkin_endpoint(config.monitoring.tempo.release_name, config.monitoring.namespace)
+              #"zipkin-endpoint" = "http://${observability.tempo.helm.release_name}.${observability.namespace}:9411/api/v2/spans"
+              "zipkin-endpoint" = "http://${_observability.tempo.helm.release_name}.${_observability.namespace}:9411/api/v2/spans"
+              "sample-rate" = "1"
+              debug = "true"
+          }
+          #deployment = {
+          #    "registries-skipping-tag-resolving" = "zot-int.zot.svc.cluster.local:5000,zot-int.zot:5000,127.0.0.1:30001"
+          #}
+      }
+  }
+
+
+  kn.KnativeEventing {
+      metadata.name = "knative-eventing"
+      metadata.namespace = _config.knative.eventing.namespace
+      metadata.annotations = {
+          "argocd.argoproj.io/sync-options" = "SkipDryRunOnMissingResource=true"
+      }
+      spec.version = _config.knative.eventing.version
+      spec.config.tracing = {
+          backend = "zipkin"
+          "zipkin-endpoint" = "http://${_observability.tempo.helm.release_name}.${_observability.namespace}:9411/api/v2/spans"
+          "sample-rate" = "1"
+          debug = "true"
+      }
+      spec.config.observability = {
+          "metrics.backend-destination" = "prometheus"
+          # "metrics.opencensus-address" = config.monitoring.opencensus_endpoint(config.monitoring.tempo.release_name, config.monitoring.namespace)
+      }
+  }
+
 ]
