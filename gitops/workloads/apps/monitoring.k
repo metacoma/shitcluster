@@ -99,4 +99,10 @@ manifests = [
 
     ]
   }
+
+  monitoring_app(
+    monitoring.vm_single.helm, values = {
+      nodeSelector = _config.nodeSelector
+    }, sync = {}
+  )
 ]
