@@ -145,11 +145,11 @@ manifests = [
               processors = ["memory_limiter", "batch"]
               exporters = ["otlp/tempo"]
             }
-            metrics = {
-              receivers = ["otlp"]
-              processors = ["memory_limiter", "batch"]
-              exporters = ["prometheus"]
-            }
+            #metrics = {
+            #  receivers = ["otlp"]
+            #  processors = ["memory_limiter", "batch"]
+            #  exporters = ["prometheus"]
+            #}
           }
         }
       }
