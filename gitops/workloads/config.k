@@ -195,5 +195,14 @@ config = {
         chart_name = "tempo"
       }
     }
+    otlp = {
+      helm = {
+        repo = "https://open-telemetry.github.io/opentelemetry-helm-charts"
+        release_name = "otlp"
+        chart_version = "0.142.0"
+        app_version = "0.142.0"
+        chart_name = "opentelemetry-collector"
+      }
+    }
   }
 }

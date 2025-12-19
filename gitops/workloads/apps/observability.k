@@ -97,4 +97,63 @@ manifests = [
     }
     sync = {}
   )
+
+  observability_app(
+    observability.otlp.helm, values = {
+      nodeSelector = _config.nodeSelector
+      mode = "deployment"
+      repository = "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s"
+      config = {
+        receivers = {
+          otlp.protocols = {
+              grpc.endpoint = "0.0.0.0:4317"
+              http = {
+                endpoint = "0.0.0.0:4318"
+                cors.allowed_origins = [ "http://*", "https://*" ]
+              }
+          }
+        }
+        exporters = {
+          #debug.verbosity = "detailed"
+          "otlp/tempo" = {
+            endpoint = "${observability.tempo.release_name}:4317"
+            tls.insecure = "True"
+          }
+          "otlhttp/loki" = {
+            endpoint = "${observability.loki.release_name}:3100/otlp"
+          }
+          "prometheus" = {
+            endpoint = "0.0.0.0:8888"
+          }
+          otlphttp.endpoint = "http://${observability.loki.release_name}:3100/otlp/v1/logs"
+
+        }
+
+        service = {
+          #telemetry.logs.level = "debug"
+          pipelines = {
+            logs = {
+              receivers = ["otlp"]
+              processors = ["memory_limiter", "batch"]
+              exporters = ["otlphttp/loki"]
+            }
+            traces = {
+              receivers = ["otlp"]
+              processors = ["memory_limiter", "batch"]
+              exporters = ["otlp/tempo"]
+            }
+            metrics = {
+              receivers = ["otlp"]
+              processors = ["memory_limiter", "batch"]
+              exporters = ["prometheus"]
+            }
+          }
+          ports.metrics.enabled = True
+          serviceMonitor.enabled = True
+          podMonitor.enabled = True
+        }
+      }
+    }
+    sync = {}
+  )
 ]
