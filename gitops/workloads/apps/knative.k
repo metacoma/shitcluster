@@ -36,8 +36,8 @@ manifests = [
             helm = {
                 values = yaml.encode({
                   knative_operator = {
-                    knative_operator.nodeSelector = _config.nodeSelector
-                    operator_webhook.nodeSelector = _config.nodeSelector
+                    knative_operator.affinity.nodeAffinity = _config.nodeAffinity
+                    operator_webhook.affinity.nodeAffinity = _config.nodeAffinity
                   }
                 })
                 releaseName = knative.operator.helm.release_name

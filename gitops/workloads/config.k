@@ -8,9 +8,19 @@ config = {
   argocd = {
     namespace = "argocd"
   }
+
   nodeSelector = {
     "node-role.kubernetes.io/worker": ""
   }
+  nodeAffinity = {
+    requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms = [{
+      matchExpressions = [{
+        key = "node-role.kubernetes.io/worker"
+        operator = "Exists"
+      }]
+    }]
+  }
+
   rabbitmq = {
     release_name = "rabbitmq"
     namespace = "rabbitmq"
