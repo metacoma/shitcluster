@@ -46,6 +46,7 @@ manifests = [
     observability.loki.helm, values = {
       nodeSelector = _config.nodeSelector
       gateway.enabled = False
+      lokiCanary.enabled = False
       deploymentMode = "SingleBinary"
       loki = {
         auth_enabled = False
