@@ -30,6 +30,7 @@ manifests = [
             targetRevision = kube_state_metrics.helm.chart_version
             helm = {
               values = yaml.encode({
+                nodeSelector = config.nodeSelector
                 resources.requests = {
                   cpu = "10m"
                   memory = "32Mi"
