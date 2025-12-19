@@ -135,7 +135,10 @@ manifests = [
       nodeSelector = _config.nodeSelector
       adminUser = "ref+vault://kv/grafana#adminUser"
       adminPassword = "ref+vault://kv/grafana#adminPassword"
-      service.type = "LoadBalancer"
+      service = {
+        type = "LoadBalancer"
+        loadBalancerIP = "172.25.1.5"
+      }
       persistence = {
         enabled = True
       }
