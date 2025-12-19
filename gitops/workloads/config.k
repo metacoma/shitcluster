@@ -215,6 +215,24 @@ config = {
       }
     }
   }
+  istio = {
+    namespace = "istio-system"
+    helm = {
+      istio_base = {
+        chart_name = "base"
+        repo = "https://istio-release.storage.googleapis.com/charts"
+        chart_version = "1.28.1"
+        app_version = "1.28.1"
+        release_name = "istio-base"
+      }
+      istiod = {
+        chart_name = "istiod"
+        repo = "https://istio-release.storage.googleapis.com/charts"
+        app_version = "1.28.1"
+        chart_version = "1.28.1"
+      }
+    }
+  }
   knative = {
     operator = {
       namespace = "knative-operator"
