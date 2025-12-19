@@ -131,6 +131,7 @@ manifests = [
   monitoring_app(
     monitoring.grafana.helm, values = {
       nodeSelector = _config.nodeSelector
+
       adminUser = "ref+vault://kv/grafana#adminUser"
       adminPassword = "ref+vault://kv/grafana#adminPassword"
       service = {
@@ -146,10 +147,49 @@ manifests = [
           datasources = [{
             name = "VictoriaMetrics"
             type = "prometheus"
+            uid = "vm"
             access = "proxy"
-            url: "http://${_config.monitoring.vm_single.helm.release_name}-victoria-metrics-single-server.${_config.monitoring.namespace}.svc:8428"
+            url = "http://${_config.monitoring.vm_single.helm.release_name}-victoria-metrics-single-server.${_config.monitoring.namespace}.svc:8428"
             isDefault = True
             editable = True
+          },{
+            name = "loki"
+            type = "loki"
+            uid = "loki"
+            access = "proxy"
+            url = "http://${_config.observability.loki.helm.release_name}.${_config.observability.namespace}:3100"
+            editable = False
+          }, {
+            name = "tempo"
+            type = "tempo"
+            uid = "tempo"
+            access = "proxy"
+            url = "http://${_config.observability.tempo.helm.release_name}.${_config.observability.namespace}:3200"
+            editable = False
+            jsonData = {
+              tracesToLogs = {
+                datasourceUid = "loki"
+                tags = ["cluster", "namespace", "pod", "container"]
+                mappedTags = [{
+                  key = "service.name"
+                  value = "service"
+                }]
+                mapTagNamesEnabled = True
+                spanStartTimeShift = "-15m"
+                spanEndTimeShift = "15m"
+                filterByTraceID = True
+                filterBySpanID = False
+              }
+
+              tracesToMetrics = {
+                datasourceUid = "vm"
+                tags = ["service.name", "http.method", "http.status_code"]
+              }
+
+              serviceMap.datasourceUid = "tempo"
+              nodeGraph.enabled = True
+            }
+
           }]
         }
       }
