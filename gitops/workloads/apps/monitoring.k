@@ -3,6 +3,7 @@ import k8s.api.apps.v1 as v1
 import config as cfg
 import ..argoproj.v1alpha1 as argoproj
 import yaml
+import victoria_metrics_operator.v1beta1.operator_victoriametrics_com_v1beta1_vm_service_scrape as vm_service_scrape
 
 _config = cfg.config
 monitoring = _config.monitoring
@@ -108,4 +109,27 @@ manifests = [
       }]
     }, sync = {}
   )
+  vm_service_scrape.VMServiceScrape {
+    metadata = {
+      name = "exporters"
+      namespace = _config.monitoring.namespace
+    }
+    spec = {
+      selector.matchExpressions = [{
+        key = "app.kubernetes.io/name"
+        operator = "in"
+        values = [
+          "prometheus-node-exporter"
+          "kube-state-metrics"
+          "prometheus-blackbox-exporter"
+        ]
+      }]
+      namespaceSelector.matchNames = [_config.monitoring.namespace]
+      endpoints = [{
+        port = "metrics"
+        interval = "30s"
+      }]
+
+    }
+  }
 ]

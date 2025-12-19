@@ -31,3 +31,11 @@
     reg = "ghcr.io"
     repo = "kcl-lang/kubevirt"
     oci_tag = "0.3.0"
+  [dependencies.victoria-metrics-operator]
+    name = "victoria-metrics-operator"
+    full_name = "victoria-metrics-operator_0.45.3"
+    version = "0.45.3"
+    sum = "r+iuedsmMWtt6+qvlCUwXLAG48CBV6IKO/0Cj7ETkq4="
+    reg = "ghcr.io"
+    repo = "kcl-lang/victoria-metrics-operator"
+    oci_tag = "0.45.3"
