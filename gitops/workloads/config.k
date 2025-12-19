@@ -124,5 +124,15 @@ config = {
 
       }
     }
+    blackbox_exporter = {
+      helm = {
+        release_name = "node-exporter"
+        chart_version = "11.6.1"
+        app_version = "v0.28.0"
+        repo = "https://prometheus-community.github.io/helm-charts"
+        chart_name = "prometheus-blackbox-exporter"
+
+      }
+    }
   }
 }

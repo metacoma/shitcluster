@@ -60,5 +60,10 @@ manifests = [
     monitoring.node_exporter.helm, {
     }
   )
+  monitoring_app(
+    monitoring.blackbox_exporter.helm, {
+      nodeSelector = _config.nodeSelector
+    }
+  )
 
 ]
