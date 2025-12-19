@@ -120,7 +120,7 @@ manifests = [
           #debug.verbosity = "detailed"
           "otlp/tempo" = {
             endpoint = "${observability.tempo.release_name}:4317"
-            tls.insecure = "Tghcr.io/open-telemetry/opentelemetry-helm-charts/opentelemetry-collectorrue"
+            tls.insecure = True
           }
           "otlphttp/loki" = {
             endpoint = "${observability.loki.release_name}:3100/otlp"
