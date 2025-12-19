@@ -86,15 +86,13 @@ manifests = [
   observability_app(
     observability.tempo.helm, values = {
       nodeSelector = _config.nodeSelector
-      persistence.enalbed = True
-      extraVolumeMounts = [{
-        name = "storage"
+      persistence = {
+        enalbed = True
+        size = "10Gi"
+        storageClass = _config.storageClass
         mountPath = "/var/tempo"
-      }]
-      extraVolumes = [{
-          name = "storage"
-          persistentVolumeClaim.claimName = ""
-      }]
+      }
+
     }
     sync = {}
   )

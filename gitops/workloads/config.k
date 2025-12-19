@@ -4,6 +4,7 @@ _neo4j_user = "ref+vault://kv/twitch_clipz#neo4j_user+"
 _neo4j_password = "ref+vault://kv/twitch_clipz#neo4j_password+"
 
 config = {
+  storageClass = "longhorn"
   argocd = {
     namespace = "argocd"
   }
