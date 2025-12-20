@@ -2,6 +2,7 @@ import k8s.api.core.v1 as k8s
 import k8s.api.apps.v1 as v1
 import config as cfg
 import knative.v1.eventing_knative_dev_v1_broker as knative_broker
+import knative.v1.eventing_knative_dev_v1_trigger as knative_trigger
 
 _config = cfg.config
 _twitch_clipz = _config.twitch_clipz
@@ -9,6 +10,13 @@ _rabbitmq = _config.rabbitmq
 _neo4j = _config.neo4j
 
 _rabbitmq_url = "amqp://${_rabbitmq.user}:${_rabbitmq.password}@${_rabbitmq.release_name}.${_rabbitmq.namespace }:${_rabbitmq.port}/"
+
+telegram_broker = knative_broker.Broker {
+  metadata = {
+    name = _twitch_clipz.knative.broker.telegram
+    namespace = _twitch_clipz.namespace
+  }
+}
 
 makeClipzDeployment = lambda component : any -> v1.Deployment {
   v1.Deployment {
@@ -102,10 +110,24 @@ manifests = [
     image = _twitch_clipz.timer.container_image
     rabbitmq_exchange = _twitch_clipz.timer.rabbitmq_exchange
   })
-  knative_broker.Broker {
+  # knative
+  telegram_broker
+  knative_trigger.Trigger {
     metadata = {
-      name = _twitch_clipz.knative.broker.telegram
-      namespace = _twitch_clipz.namespace
+      name = "telegram-message"
+      namespace = telegram_broker.metadata.namespace
+    }
+    spec = {
+      broker = telegram_broker.metadata.name
+      "filter" = {
+        attributes.type = "telegram.message"
+      }
+      subscriber.ref = {
+        apiVersion = "serving.knative.dev/v1"
+        kind = "Service"
+        name = "ce-dump"
+      }
     }
   }
+
 ]
