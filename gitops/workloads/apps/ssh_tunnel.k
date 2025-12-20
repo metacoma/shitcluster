@@ -147,7 +147,7 @@ manifests = [
       }
       spec = {
         config = json.encode({
-          cniVersion = "0.4.0"
+          cniVersion = "0.3.1"
           type = "ipvlan"
           master = endpoint.host_network.interface
           mode = "l2"
