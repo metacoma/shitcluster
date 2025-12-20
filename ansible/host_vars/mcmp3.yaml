@@ -16,6 +16,7 @@ netplan_configuration:
         - "172.23.0.32/16"
       br-management:
         interfaces: [ enp2s0.400 ]
+        link-local: []
         mtu: 1230
         addresses:
         - "172.24.0.15/16"
@@ -36,13 +37,14 @@ netplan_configuration:
 
       br-internet:
         interfaces: [ enp2s0.404 ]
+        link-local: []
         mtu: 1230
         addresses:
         - "172.28.0.15/16"
 
     vlans:
       enp2s0.400:
-        mtu: 1500
+        mtu: 1230
         id: 400
         link: "enp2s0"
       enp2s0.401:
