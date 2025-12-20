@@ -69,9 +69,9 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
               iptables -t nat -C POSTROUTING -s ${endpoint.local_addr} -j MASQUERADE 2>/dev/null || iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE -s ${endpoint.local_addr}
             '
             VPN_ADDR=$(dig +short $SSH_TUNNEL_HOST)
-            ip ro add to $VPN_ADDR/32 via 172.25.0.1
+            ip ro add to $VPN_ADDR/32 via ${endpoint.host_network.gw}
             ip ro del to default via 169.254.1.1
-            ip ro del to default via 172.25.0.1
+            ip ro del to default via ${endpoint.host_network.gw}
             iptables -t nat -I POSTROUTING -o $IF -j MASQUERADE -s 0.0.0.0/0
             ip ro add to default via 10.50.0.1 dev $IF
             while :; do
