@@ -101,8 +101,7 @@ config = {
       {
         host_network = {
           interface = "br-public"
-          subnet = "172.25.0.0/16"
-          ip = "172.25.220.1"
+          ip = "172.25.220.2/16"
           gw = "172.25.0.1"
         }
         name = "nl0"

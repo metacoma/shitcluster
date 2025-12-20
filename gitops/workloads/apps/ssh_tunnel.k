@@ -152,15 +152,11 @@ manifests = [
           master = endpoint.host_network.interface
           mode = "l2"
           ipam = {
-            type = "host-local",
-            ranges = [
-              [{
-                subnet = endpoint.host_network.subnet,
-                rangeStart = endpoint.host_network.ip,
-                rangeEnd = endpoint.host_network.ip,
-                gateway = endpoint.host_network.gw
-              }]
-            ]
+            type = "static",
+            addresses = [{
+              address = endpoint.host_network.ip
+              gateway = endpoint.host_network.gw
+            }]
           }
         })
       }
