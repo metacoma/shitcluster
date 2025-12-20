@@ -100,9 +100,8 @@ config = {
     endpoints = [
       {
         host_network = {
-          type = "macvlan"
-          mode = "bridge"
-          interface = "br-public"
+          #type = "bridge"
+          bridge = "br-public"
           ip = "172.25.220.2/16"
           gw = "172.25.0.1"
         }
