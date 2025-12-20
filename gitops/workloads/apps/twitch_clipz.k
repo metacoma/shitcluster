@@ -1,6 +1,7 @@
 import k8s.api.core.v1 as k8s
 import k8s.api.apps.v1 as v1
 import config as cfg
+import knative.v1.eventing_knative_dev_v1_broker as knative_broker
 
 _config = cfg.config
 _twitch_clipz = _config.twitch_clipz
@@ -101,4 +102,10 @@ manifests = [
     image = _twitch_clipz.timer.container_image
     rabbitmq_exchange = _twitch_clipz.timer.rabbitmq_exchange
   })
+  knative_broker.Broker {
+    metadata = {
+      name = _twitch_clipz.knative.broker.telegram
+      namespace = _twitch_clipz.namespace
+    }
+  }
 ]

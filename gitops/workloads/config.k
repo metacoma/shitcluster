@@ -29,6 +29,11 @@ config = {
     password = "ref+vault://kv/twitch_clipz#rabbitmq_password+"
   }
   twitch_clipz = {
+    knative = {
+      broker = {
+        telegram = "telegram"
+      }
+    }
     namespace = _twitch_clipz_namespace
     configmap = "clipz-config"
     secret_name = "clipz-secret"
