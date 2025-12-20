@@ -23,6 +23,14 @@
     reg = "ghcr.io"
     repo = "kcl-lang/k8s"
     oci_tag = "1.31.2"
+  [dependencies.knative]
+    name = "knative"
+    full_name = "knative_0.2.0"
+    version = "0.2.0"
+    sum = "GVwNctjleycGcWU8nEl5vJF5bliKeLeGK2V3pE/PXgg="
+    reg = "ghcr.io"
+    repo = "kcl-lang/knative"
+    oci_tag = "0.2.0"
   [dependencies.knative-operator]
     name = "knative-operator"
     full_name = "knative-operator_0.3.0"
