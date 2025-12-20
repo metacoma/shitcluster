@@ -16,6 +16,8 @@ k = "kubectl -n ${ssh_tunnel.namespace}"
 
 ssh_cmd = "ssh ${ssh_tunnel.ssh_args} -i /root/.ssh/private_key -l $SSH_TUNNEL_USER $SSH_TUNNEL_HOST"
 
+mgmt_domain = "mgmt.mansion.shitcluster.io"
+
 exec = lambda deployment_name : str, cmd : str -> str {
   "${k} exec -ti deployment/${deployment_name} -- ${cmd}"
 }
@@ -74,6 +76,22 @@ sessions = [
           "pkill -9 -f iptraf-ng"
           "rm /var/run/iptraf-ng.pid"
           "iptraf-ng -d tun0"
+        ]
+      ]
+    }
+    schema.Window {
+      name = "pod-node"
+      panes = [
+        [
+          "pod /bin/bash"
+        ]
+        [
+          "WORKER_NODE=$(kubectl get pod -n ${ssh_tunnel.namespace} -l app=ssh-tunnel-${endpoint.name} -o jsonpath='{.items[0].spec.nodeName}')"
+          "ssh -t $WORKER_NODE.${mgmt_domain}"
+        ]
+        [
+          "pod /bin/bash"
+          "${ssh_cmd}"
         ]
       ]
     }
