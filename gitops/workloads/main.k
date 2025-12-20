@@ -109,30 +109,6 @@ resources = [
 #            }
 #        }
 #    }
-#    network_attach.NetworkAttachmentDefinition {
-#      metadata = {
-#        name = "macvlan-management-cert-manager"
-#        namespace = "cert-manager"
-#      }
-#      spec = {
-#        config = json.encode({
-#          cniVersion = "0.4.0"
-#          type = "macvlan"
-#          master = "br-management"
-#          mode = "bridge"
-#          ipam = {
-#            type = "host-local",
-#            ranges = [
-#              [{
-#                subnet = "172.24.0.0/16",
-#                rangeStart = "172.24.1.2",
-#                rangeEnd = "172.24.1.2"
-#              }]
-#            ]
-#          }
-#        })
-#      }
-#    }
 
     rabbitmq.application
     twitch_clipz.manifests
