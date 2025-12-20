@@ -100,7 +100,7 @@ config = {
     endpoints = [
       {
         host_network = {
-          interface = "br-management"
+          interface = "br-public"
           subnet = "172.25.0.0/16"
           ip = "172.25.220.1"
           gw = "172.25.0.1"
