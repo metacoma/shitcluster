@@ -254,7 +254,7 @@ config = {
     }
   }
   knative = {
-    domain = "kn.pub.mansion.shitcluster.io"
+    domain = "kn.public.mansion.shitcluster.io"
     operator = {
       namespace = "knative-operator"
       helm = {
