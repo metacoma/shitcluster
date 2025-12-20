@@ -99,6 +99,12 @@ config = {
     container_image = "nicolaka/netshoot:latest"
     endpoints = [
       {
+        host_network = {
+          interface = "br-management"
+          subnet = "172.25.0.0/16"
+          ip = "172.25.240.1"
+          gw = "172.25.0.1"
+        }
         name = "nl0"
         country = "NL"
         ssh = {

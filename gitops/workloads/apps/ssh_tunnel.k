@@ -2,6 +2,7 @@ import k8s.api.core.v1 as k8s
 import k8s.api.apps.v1 as v1
 import config as cfg
 import json
+import kubevirt.v1.k8s_cni_cncf_io_v1_network_attachment_definition as network_attach
 
 _config = cfg.config
 _ssh_tunnel = _config.ssh_tunnel
@@ -17,6 +18,8 @@ ssh_tunnel_secret_name = lambda endpoint -> str {
 ssh_tunnel_private_key_secret_name = lambda endpoint -> str {
   ssh_tunnel_resource_name(endpoint) + "-private-key"
 }
+
+nad_name = ssh_tunnel_resource_name
 
 makeDeployment = lambda endpoint : any -> v1.Deployment {
   v1.Deployment {
@@ -35,7 +38,7 @@ makeDeployment = lambda endpoint : any -> v1.Deployment {
           annotations = {
             "k8s.v1.cni.cncf.io/networks" = json.encode([
               {
-                name = "macvlan-public"
+                name = nad_name(endpoint)
                 namespace = _ssh_tunnel.namespace
                 interface = "public"
               }
@@ -136,6 +139,33 @@ manifests = [
         }
       }
       makeDeployment(endpoint)
+
+    network_attach.NetworkAttachmentDefinition {
+      metadata = {
+        name = nad_name(endpoint)
+        namespace = _ssh_tunnel.namespace
+      }
+      spec = {
+        config = json.encode({
+          cniVersion = "0.4.0"
+          type = "macvlan"
+          master = endpoint.host_network.interface
+          mode = "ipvlan"
+          ipam = {
+            type = "host-local",
+            ranges = [
+              [{
+                subnet = endpoint.host_network.subnet,
+                rangeStart = endpoint.host_network.ip,
+                rangeEnd = endpoint.host_network.ip,
+                gateway = endpoint.host_network.gw
+              }]
+            ]
+          }
+        })
+      }
+    }
+
     ] for endpoint in _ssh_tunnel.endpoints
   ]
 ]

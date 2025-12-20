@@ -133,6 +133,7 @@ resources = [
 #        })
 #      }
 #    }
+
     rabbitmq.application
     twitch_clipz.manifests
     neo4j.application
