@@ -157,6 +157,7 @@ manifests = [
               address = endpoint.host_network.ip
               gateway = endpoint.host_network.gw
             }]
+            capabilities.macs = True
           }
         })
       }
