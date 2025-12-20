@@ -20,6 +20,7 @@ netplan_configuration:
         - "172.23.0.36/16"
       br-management:
         interfaces: [ enp4s0.400 ]
+        mtu: 1230
         addresses:
         - "172.24.0.18/16"
         nameservers:
