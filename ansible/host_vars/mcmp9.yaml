@@ -45,6 +45,11 @@ netplan_configuration:
           interfaces: [ enp3s0.403 ]
           addresses:
           - "172.27.0.10/16"
+        br-internet:
+          interfaces: [ enp3s0.404 ]
+          mtu: 1230
+          addresses:
+          - "172.28.0.10/16"
       vlans:
         enp3s0.400:
           mtu: 1500
@@ -61,4 +66,9 @@ netplan_configuration:
         enp3s0.403:
           mtu: 1500
           id: 403
+          link: "enp3s0"
+        # internet
+        enp3s0.404:
+          mtu: 1230
+          id: 404
           link: "enp3s0"
