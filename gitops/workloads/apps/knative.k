@@ -12,6 +12,7 @@ knative = _config.knative
 operator = knative.operator
 eventing = knative.eventing
 serving = knative.serving
+istio = _config.istio
 
 _observability = _config.observability
 
@@ -95,12 +96,12 @@ manifests = [
             "external-gateways" = yaml.encode([{
               name = "knative-ingress-gateway"
               namespace = serving.namespace
-              service = "knative-ingress-gateway.${serving.namespace}.svc.${_config.k8s_domain}"
+              service = "istio-ingressgateway.${istio.namespace}.svc.${_config.k8s_domain}"
             }])
             "local-gateways" = yaml.encode([{
               name = "knative-local-gateway"
               namespace = serving.namespace
-              service = "knative-local-gateway.${serving.namespace}.svc.${_config.k8s_domain}"
+              service = "knative-local-gateway.${istio.namespace}.svc.${_config.k8s_domain}"
             }])
           }
 
