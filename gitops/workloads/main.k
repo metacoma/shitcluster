@@ -118,6 +118,7 @@ resources = [
     observability.manifests
     knative.manifests
     istio.manifests
+
 ]
 
 manifests.yaml_stream([
