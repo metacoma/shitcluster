@@ -57,7 +57,12 @@ makeClipzDeployment = lambda component : any -> v1.Deployment {
 
 manifests = [
   k8s.Namespace {
-    metadata.name = _twitch_clipz.namespace
+    metadata = {
+      name = _twitch_clipz.namespace
+      labels = {
+        "istio-injection" = "enabled"
+      }
+    }
   }
   k8s.ConfigMap {
     metadata = {
