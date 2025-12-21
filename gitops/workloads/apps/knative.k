@@ -84,8 +84,6 @@ manifests = [
           }
           tracing = {
               backend = "zipkin"
-              #"zipkin-endpoint" = config.monitoring.zipkin_endpoint(config.monitoring.tempo.release_name, config.monitoring.namespace)
-              #"zipkin-endpoint" = "http://${observability.tempo.helm.release_name}.${observability.namespace}:9411/api/v2/spans"
               "zipkin-endpoint" = "http://${_observability.tempo.helm.release_name}.${_observability.namespace}:9411/api/v2/spans"
               "sample-rate" = "1"
               debug = "true"
@@ -93,6 +91,17 @@ manifests = [
           #deployment = {
           #    "registries-skipping-tag-resolving" = "zot-int.zot.svc.cluster.local:5000,zot-int.zot:5000,127.0.0.1:30001"
           #}
+          "external-gateways" = {
+            name = "knative-ingress-gateway"
+            namespace = serving.namespace
+            service = "istio-ingressgateway.istio-system.svc.${_config.k8s_domain}"
+          }
+          "local-gateways" = {
+            name = "knative-local-gateway"
+            namespace = serving.namespace
+            service = "knative-local-gateway.istio-system.svc.${_config.k8s_domain}"
+          }
+
       }
       spec.workloads = [
         {

@@ -3,7 +3,10 @@ _twitch_clipz_namespace = "twitch-clipz"
 _neo4j_user = "ref+vault://kv/twitch_clipz#neo4j_user+"
 _neo4j_password = "ref+vault://kv/twitch_clipz#neo4j_password+"
 
+
 config = {
+  k8s_domain = "k8s.mansion.shitcluster.io"
+
   storageClass = "longhorn"
   argocd = {
     namespace = "argocd"
