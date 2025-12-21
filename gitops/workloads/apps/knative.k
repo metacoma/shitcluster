@@ -4,7 +4,6 @@ import config as cfg
 import ..argoproj.v1alpha1 as argoproj
 import yaml
 import knative_operator.v1beta1 as kn
-import json
 
 
 _config = cfg.config
@@ -93,12 +92,12 @@ manifests = [
           #    "registries-skipping-tag-resolving" = "zot-int.zot.svc.cluster.local:5000,zot-int.zot:5000,127.0.0.1:30001"
           #}
           istio = {
-            "external-gateways" = json.encode({
+            "external-gateways" = yaml.encode({
               name = "knative-ingress-gateway"
               namespace = serving.namespace
               service = "istio-ingressgateway.istio-system.svc.${_config.k8s_domain}"
             })
-            "local-gateways" = json.encode({
+            "local-gateways" = yaml.encode({
               name = "knative-local-gateway"
               namespace = serving.namespace
               service = "knative-local-gateway.istio-system.svc.${_config.k8s_domain}"
