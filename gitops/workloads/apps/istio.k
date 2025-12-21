@@ -56,6 +56,13 @@ manifests = [
   }
 
   istio_app(
+    istio.helm.istiod, values = {
+      nodeSelector = _config.nodeSelector
+    }
+    sync = {}
+  )
+
+  istio_app(
     istio.helm.gateway, values = {
       nodeSelector = _config.nodeSelector
       service = {
