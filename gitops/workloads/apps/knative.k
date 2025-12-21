@@ -96,12 +96,12 @@ manifests = [
             "external-gateways" = yaml.encode([{
               name = "knative-ingress-gateway"
               namespace = serving.namespace
-              service = "istio-ingressgateway.${istio.namespace}.svc.${_config.k8s_domain}"
+              service = "istio-ingressgateway.${istio.namespace}.svc"
             }])
             "local-gateways" = yaml.encode([{
               name = "knative-local-gateway"
               namespace = serving.namespace
-              service = "knative-local-gateway.${istio.namespace}.svc.${_config.k8s_domain}"
+              service = "knative-local-gateway.${istio.namespace}.svc"
             }])
           }
 
