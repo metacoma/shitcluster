@@ -130,7 +130,7 @@ manifests = [
       subscriber.ref = {
         apiVersion = "serving.knative.dev/v1"
         kind = "Service"
-        name = "ce-dump"
+        name = "telegram-message"
       }
     }
   }
