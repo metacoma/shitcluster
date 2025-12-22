@@ -33,8 +33,25 @@ config = {
   }
   twitch_clipz = {
     knative = {
-      broker = {
-        telegram = "telegram"
+      eventing = {
+        broker = {
+          telegram = {
+            name = "telegram"
+          }
+        }
+      }
+      serving = {
+        functions = {
+          telegram_message = {
+            name = "telegram-message"
+            concurrency = 0
+            timeout = 300
+            image = {
+              repo = "metacoma/telegram-message"
+              tag = "sha256:a5807307bc7af345a1a82fc6a2c80060ec721fdb77e5ea893d1d7da00ebaa540"
+            }
+          }
+        }
       }
     }
     namespace = _twitch_clipz_namespace
@@ -50,7 +67,6 @@ config = {
       container_image = "metacoma/clipz-telegram-bot:cloud-event"
       rabbitmq_exchange = "telegram-events"
     }
-
     clipz = {
       app_name = "clipz"
       container_image = "metacoma/clipz:latest"

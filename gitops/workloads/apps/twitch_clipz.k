@@ -4,6 +4,9 @@ import config as cfg
 import knative.v1.eventing_knative_dev_v1_broker as knative_broker
 import knative.v1.eventing_knative_dev_v1_trigger as knative_trigger
 
+import knative.v1.serving_knative_dev_v1_service as knative_service
+
+
 _config = cfg.config
 _twitch_clipz = _config.twitch_clipz
 _rabbitmq = _config.rabbitmq
@@ -11,10 +14,12 @@ _neo4j = _config.neo4j
 
 _rabbitmq_url = "amqp://${_rabbitmq.user}:${_rabbitmq.password}@${_rabbitmq.release_name}.${_rabbitmq.namespace }:${_rabbitmq.port}/"
 
-telegram_broker = knative_broker.Broker {
-  metadata = {
-    name = _twitch_clipz.knative.broker.telegram
-    namespace = _twitch_clipz.namespace
+telegram_broker = lambda name : str, broker : any -> knative_broker.Broker {
+  knative_broker.Broker {
+    metadata = {
+      name = broker.name
+      namespace = _twitch_clipz.namespace
+    }
   }
 }
 
@@ -116,23 +121,73 @@ manifests = [
     rabbitmq_exchange = _twitch_clipz.timer.rabbitmq_exchange
   })
   # knative
-  telegram_broker
+  [
+    [
+      telegram_broker(broker.name, broker)
+    ]  for broker_name, broker in _config.twitch_clipz.knative.eventing.broker
+  ]
+
   knative_trigger.Trigger {
     metadata = {
       name = "telegram-message"
-      namespace = telegram_broker.metadata.namespace
+      namespace = _twitch_clipz.namespace
     }
     spec = {
-      broker = telegram_broker.metadata.name
+      broker = _twitch_clipz.knative.eventing.broker.telegram.name
       "filter" = {
         attributes.type = "telegram.message"
       }
       subscriber.ref = {
         apiVersion = "serving.knative.dev/v1"
         kind = "Service"
-        name = "telegram-message"
+        name = _twitch_clipz.knative.serving.functions.telegram_message.name
       }
     }
   }
+
+  [
+    [
+      knative_service.Service {
+        metadata = {
+          name = func.name
+          namespace = _twitch_clipz.namespace
+        }
+        spec.template = {
+          spec = {
+            enableServiceLinks = False
+            nodeSelector = _config.nodeSelector
+            timeoutSeconds = func.timeout
+            containerConcurrency = func.concurrency
+            containers = [{
+              env = [
+                { name = "ADDRESS", value = "0.0.0.0" }
+              ]
+              image = "${func.image.repo}@${func.image.tag}"
+              name = "user-container"
+              livenessProbe.httpGet = {
+                path = "/health/liveness"
+                port = 0
+              }
+              readinessProbe = {
+                httpGet = {
+                  path = "/health/readiness"
+                  port = 0
+                }
+                successThreshold = 1
+              }
+              resources = {}
+              securityContext = {
+                allowPrivilegeEscalation = False
+                capabilities.drop = [ "ALL" ]
+                runAsNonRoot = True
+                seccompProfile.type = "RuntimeDefault"
+              }
+            }]
+          }
+        }
+      }
+    ] for func_name, func in _config.twitch_clipz.knative.serving.functions
+  ]
+
 
 ]
