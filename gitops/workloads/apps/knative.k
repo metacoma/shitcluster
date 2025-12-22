@@ -89,6 +89,19 @@ manifests = [
               "sample-rate" = "1"
               debug = "true"
           }
+          features = {
+            "kubernetes.podspec-nodeselector": "enabled"
+            "kubernetes.podspec-volumes-emptydir": "enabled"
+            "kubernetes.podspec-persistent-volume-claim": "enabled"
+            "kubernetes.podspec-affinity": "enabled"
+            "kubernetes.podspec-hostaliases": "enabled"
+            "kubernetes.podspec-tolerations": "enabled"
+            "kubernetes.podspec-runtimeclassname": "enabled"
+            "kubernetes.podspec-securitycontext": "enabled"
+            "kubernetes.containerspec-addcapabilities": "enabled"
+            "kubernetes.podspec-init-containers": "enabled"
+            "kubernetes.podspec-hostnetwork": "enabled"
+          }
           #deployment = {
           #    "registries-skipping-tag-resolving" = "zot-int.zot.svc.cluster.local:5000,zot-int.zot:5000,127.0.0.1:30001"
           #}
