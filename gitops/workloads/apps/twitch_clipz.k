@@ -145,6 +145,24 @@ manifests = [
     }
   }
 
+  knative_trigger.Trigger {
+    metadata = {
+      name = "twitch-clip"
+      namespace = _twitch_clipz.namespace
+    }
+    spec = {
+      broker = _twitch_clipz.knative.eventing.broker.telegram.name
+      "filter" = {
+        attributes.type = "twitch-clip"
+      }
+      subscriber.ref = {
+        apiVersion = "serving.knative.dev/v1"
+        kind = "Service"
+        name = _twitch_clipz.knative.serving.functions.twitch_download.name
+      }
+    }
+  }
+
   [
     [
       knative_service.Service {
@@ -158,6 +176,7 @@ manifests = [
             nodeSelector = _config.nodeSelector
             timeoutSeconds = func.timeout
             containerConcurrency = func.concurrency
+            affinity = func.affinity
             containers = [{
               env = [
                 { name = "ADDRESS", value = "0.0.0.0" }

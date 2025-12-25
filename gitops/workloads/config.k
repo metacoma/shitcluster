@@ -51,6 +51,26 @@ config = {
               tag = "sha256:a5807307bc7af345a1a82fc6a2c80060ec721fdb77e5ea893d1d7da00ebaa540"
             }
           }
+          twitch_download = {
+            name = "twitch-download"
+            concurrency = 3
+            timeout = 30
+            affinity = {
+              podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution = [{
+                labelSelector.matchExpressions = [{
+                  key = "app"
+                  operator = "In"
+                  values = ["ssh-tunnel-nl0"]
+                }]
+                topologyKey = "kubernetes.io/hostname"
+              }]
+            }
+
+            image = {
+              repo = "metacoma/twitch-download-knative:latest"
+              tag = "latest"
+            }
+          }
         }
       }
     }
