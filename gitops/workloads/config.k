@@ -48,7 +48,7 @@ config = {
             timeout = 300
             image = {
               repo = "metacoma/telegram-message"
-              tag = "sha256:a5807307bc7af345a1a82fc6a2c80060ec721fdb77e5ea893d1d7da00ebaa540"
+              tag = "sha256:90961275ecbce7fb979ffcba24ad2173396f888ce96a64f0dee02eabe083e011"
             }
           }
           twitch_download = {
