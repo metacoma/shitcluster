@@ -182,6 +182,10 @@ manifests = [
                 { name = "ADDRESS", value = "0.0.0.0" }
               ]
               image = "${func.image.repo}@${func.image.tag}"
+              envFrom = [
+                { configMapRef.name = _twitch_clipz.configmap }
+                { secretRef.name = _twitch_clipz.secret_name }
+              ]
               name = "user-container"
               livenessProbe.httpGet = {
                 path = "/health/liveness"
