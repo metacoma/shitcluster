@@ -3,6 +3,8 @@ _twitch_clipz_namespace = "twitch-clipz"
 _neo4j_user = "ref+vault://kv/twitch_clipz#neo4j_user+"
 _neo4j_password = "ref+vault://kv/twitch_clipz#neo4j_password+"
 
+_ssh_tunnel_namespace = "network"
+
 
 config = {
   k8s_domain = "k8s.mansion.shitcluster.io"
@@ -62,6 +64,7 @@ config = {
                   operator = "In"
                   values = ["ssh-tunnel-nl0"]
                 }]
+                namespaces = [ _ssh_tunnel_namespace ]
                 topologyKey = "kubernetes.io/hostname"
               }]
             }
@@ -139,7 +142,7 @@ config = {
       -o ServerAliveCountMax=3 \
       -o ExitOnForwardFailure=yes \
     """
-    namespace = "network"
+    namespace = _ssh_tunnel_namespace
     container_image = "nicolaka/netshoot:latest"
     endpoints = [
       {
