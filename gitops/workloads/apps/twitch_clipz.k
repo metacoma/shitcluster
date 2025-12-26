@@ -134,9 +134,9 @@ manifests = [
     }
     spec = {
       broker = _twitch_clipz.knative.eventing.broker.telegram.name
-      "filter" = {
-        attributes.type = "telegram.message"
-      }
+      filters = [{
+        prefix.type = "telegram.message"
+      }]
       subscriber.ref = {
         apiVersion = "serving.knative.dev/v1"
         kind = "Service"
