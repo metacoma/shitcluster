@@ -55,7 +55,7 @@ config = {
           }
           twitch_download = {
             name = "twitch-download"
-            concurrency = 3
+            concurrency = 1
             timeout = 600
             affinity = {
               podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution = [{
