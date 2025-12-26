@@ -87,7 +87,7 @@ config = {
       chats = {
         admin = "ref+vault://kv/twitch_clipz#telegram_admin_chat"
       }
-      container_image = "metacoma/clipz-telegram-bot:cloud-event6"
+      container_image = "metacoma/clipz-telegram-bot:cloud-event7"
       rabbitmq_exchange = "telegram-events"
     }
     clipz = {
