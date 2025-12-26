@@ -153,7 +153,7 @@ manifests = [
     spec = {
       broker = _twitch_clipz.knative.eventing.broker.telegram.name
       "filter" = {
-        attributes.type = "twitch-clip"
+        attributes.type = "twitch.clip"
       }
       subscriber.ref = {
         apiVersion = "serving.knative.dev/v1"
