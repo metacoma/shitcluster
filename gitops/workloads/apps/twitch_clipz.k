@@ -169,11 +169,11 @@ manifests = [
         metadata = {
           name = func.name
           namespace = _twitch_clipz.namespace
-          annotations = {
-            "autoscaling.knative.dev/maxScale" = func.maxScale
-          }
         }
         spec.template = {
+          metadata.annotations = {
+            "autoscaling.knative.dev/max-scale" = func.maxScale
+          }
           spec = {
             enableServiceLinks = False
             nodeSelector = _config.nodeSelector
