@@ -46,7 +46,7 @@ config = {
         functions = {
           telegram_message = {
             name = "telegram-message"
-            concurrency = 0
+            concurrency = 100
             timeout = 300
             image = {
               repo = "metacoma/telegram-message"
@@ -54,6 +54,7 @@ config = {
             }
           }
           twitch_download = {
+            maxScale = "3"
             name = "twitch-download"
             concurrency = 1
             timeout = 600
