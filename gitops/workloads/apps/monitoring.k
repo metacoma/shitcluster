@@ -181,7 +181,7 @@ manifests = [
               tracesToLogsV2.datasourceUid = "loki"
               tracesToMetrics.datasourceUid = "vm"
               nodeGraph.enabled = True
-              streamingEnabled.search = False
+              #streamingEnabled.search = False
             }
           }]
         }
