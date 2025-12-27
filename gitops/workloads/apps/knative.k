@@ -76,10 +76,6 @@ manifests = [
       }
       spec.version = _config.knative.serving.version
       spec.config = {
-          observability = {
-              "metrics.backend-destination" = "prometheus"
-             "metrics.request-metrics-backend-destination" = "prometheus"
-          }
           domain = {
             "${knative.domain}" = ""
           }
@@ -88,6 +84,13 @@ manifests = [
               "zipkin-endpoint" = "http://${_observability.tempo.helm.release_name}.${_observability.namespace}:9411/api/v2/spans"
               "sample-rate" = "1"
               debug = "true"
+          }
+          observability = {
+              "metrics-protocol" = "http/protobuf"
+              "metrics-endpoint" = "http://${_observability.otlp.helm.release_name}-opentelemtry-collector.${_config.observability.namespace}:4318"
+              "tracing-protocol" = "http/protobuf"
+              "tracing-endpoint" = "http://${_observability.tempo.helm.release_name}.${_observability.namespace}:4318/v1/traces"
+              "tracing-sampling-rate" = "1"
           }
           features = {
             "kubernetes.podspec-nodeselector": "enabled"
