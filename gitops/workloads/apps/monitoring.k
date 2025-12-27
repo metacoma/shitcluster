@@ -178,6 +178,10 @@ manifests = [
             jsonData = {
               httpMethod = "GET"
               serviceMap.datasourceUid = "vm"
+              tracesToLogsV2.datasourceUid = "loki"
+              tracesToMetrics.datasourceUid = "vm"
+              nodeGraph.enabled = True
+              streamingEnabled.search = True
             }
           }]
         }
