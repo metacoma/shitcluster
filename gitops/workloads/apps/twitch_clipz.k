@@ -183,6 +183,14 @@ manifests = [
             containers = [{
               env = [
                 { name = "ADDRESS", value = "0.0.0.0" }
+                {
+                  name = "OTEL_EXPORTER_OTLP_ENDPOINT"
+                  value = "http://${_config.observability.otlp.helm.release_name}-opentelemtry-collector.${_config.observability.namespace}:4317"
+                }
+                {
+                  name = "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"
+                  value = "http://${_config.observability.tempo.helm.release_name}.${_config.observability.namespace}:4317/v1/traces"
+                }
               ]
               image = "${func.image.repo}@${func.image.tag}"
               envFrom = [
