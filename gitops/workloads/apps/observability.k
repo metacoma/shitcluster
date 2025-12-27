@@ -87,8 +87,10 @@ manifests = [
   observability_app(
     observability.tempo.helm, values = {
       nodeSelector = _config.nodeSelector
-      structuredConfig = {
-        stream_over_http_enabled = True
+      tempo = {
+        structuredConfig = {
+          stream_over_http_enabled = True
+        }
       }
       persistence = {
         enalbed = True
