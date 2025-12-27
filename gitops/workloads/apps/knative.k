@@ -143,8 +143,11 @@ manifests = [
           debug = "true"
       }
       spec.config.observability = {
-          "metrics.backend-destination" = "prometheus"
-          # "metrics.opencensus-address" = config.monitoring.opencensus_endpoint(config.monitoring.tempo.release_name, config.monitoring.namespace)
+          "metrics-protocol" = "http/protobuf"
+          "metrics-endpoint" = "http://${_observability.otlp.helm.release_name}-opentelemtry-collector.${_config.observability.namespace}:4318"
+          "tracing-protocol" = "http/protobuf"
+          "tracing-endpoint" = "http://${_observability.tempo.helm.release_name}.${_observability.namespace}:4318/v1/traces"
+          "tracing-sampling-rate" = "1"
       }
       spec.workloads = [
         {
