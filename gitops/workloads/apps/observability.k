@@ -87,9 +87,6 @@ manifests = [
   observability_app(
     observability.tempo.helm, values = {
       nodeSelector = _config.nodeSelector
-      config = yaml.encode({
-        stream_over_http_enabled = True
-      })
       persistence = {
         enalbed = True
         size = "10Gi"
