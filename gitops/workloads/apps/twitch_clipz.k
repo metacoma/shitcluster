@@ -201,7 +201,7 @@ manifests = [
                 }
                 successThreshold = 1
               }
-              resources = {}
+              resources = func.resources
               securityContext = {
                 allowPrivilegeEscalation = False
                 capabilities.drop = [ "ALL" ]
