@@ -72,7 +72,7 @@ config = {
 
             image = {
               repo = "metacoma/twitch-download-knative:latest"
-              tag = "sha256:5e4ba631c847ba5ead215b30c8503d80efbd6599c46e68fe4dc805c55e9e7667"
+              tag = "sha256:fc6096980721037e5b94c68e9398591614781b86a14f1547486ad5190e976705"
             }
           }
         }
