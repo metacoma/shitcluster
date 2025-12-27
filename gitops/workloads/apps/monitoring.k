@@ -175,6 +175,10 @@ manifests = [
             access = "proxy"
             url = "http://${_config.observability.tempo.helm.release_name}.${_config.observability.namespace}:3200"
             editable = False
+            jsonData = {
+              httpMethod = "GET"
+              serviceMap.datasourceUid = "vm"
+            }
           }]
         }
       }
