@@ -12,6 +12,7 @@ import .apps.monitoring as monitoring
 import .apps.observability as observability
 import .apps.istio as istio
 import .apps.knative as knative
+import .apps.vector as vector
 
 resources = [
 
@@ -118,6 +119,7 @@ resources = [
     observability.manifests
     knative.manifests
     istio.manifests
+    vector.manifests
 
 ]
 
