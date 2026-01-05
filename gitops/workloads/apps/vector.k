@@ -57,6 +57,61 @@ manifests = [
   vector_app(
     vector.vector.helm, {
       role = "Agent"
+      customConfig = {
+        data_dir = "/vector-data-dir"
+        api = {
+            enabled = True
+            address = "127.0.0.1:8686"
+            playground = False
+        }
+        sources = {
+            kubernetes_logs = {
+                $type = "kubernetes_logs"
+            }
+            host_metrics = {
+                filesystem = {
+                    devices = {
+                        excludes = [
+                            "binfmt_misc"
+                        ]
+                    }
+                    filesystems = {
+                        excludes = [
+                            "binfmt_misc"
+                        ]
+                    }
+                    mountpoints = {
+                        excludes = [
+                            "*/proc/sys/fs/binfmt_misc"
+                        ]
+                    }
+                }
+                $type = "host_metrics"
+            }
+            internal_metrics = {
+                $type = "internal_metrics"
+            }
+        }
+        sinks = {
+            prom_exporter = {
+                $type = "prometheus_exporter"
+                inputs = [
+                    "host_metrics"
+                    "internal_metrics"
+                ]
+                address = "0.0.0.0:9090"
+            }
+            stdout = {
+                $type = "console"
+                inputs = [
+                    "kubernetes_logs"
+                ]
+                encoding = {
+                    codec = "json"
+                }
+            }
+        }
+      }
     }
     sync = {}
   )
