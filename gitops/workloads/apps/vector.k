@@ -99,10 +99,10 @@ manifests = [
               endpoint = "http://loki.observability:3100"
               encoding.codec = "json"
               labels = {
-                source = "vector"
-                namespace = '{{ "{{" }} kubernetes.namespace {{ "}}" }}'
-                pod       = '{{ "{{" }} kubernetes.pod_name {{ "}}" }}'
-                container = '{{ "{{" }} kubernetes.container_name {{ "}}" }}'
+                source = '{{ "{{" }} source_type {{ "}}" }}'
+                namespace = '{{ "{{" }} pod_namespace {{ "}}" }}'
+                pod       = '{{ "{{" }} pod_name {{ "}}" }}'
+                container = '{{ "{{" }} container_name {{ "}}" }}'
               }
             }
             prom_exporter = {
