@@ -45,7 +45,9 @@ manifests = [
   }
 
   vector_app(
-    vector.aggregator.helm, {}
+    vector.aggregator.helm, {
+      nodeSelector = _config.nodeSelector
+    }
     sync = {}
   )
 
