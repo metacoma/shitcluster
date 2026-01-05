@@ -324,15 +324,6 @@ config = {
   }
   vector = {
     namespace = "vector"
-    aggregator = {
-      helm = {
-        chart_name = "vector-aggregator"
-        repo = "https://helm.vector.dev"
-        release_name = "vector-aggregator"
-        chart_version = "0.21.3"
-        app_version = "0.19.3"
-      }
-    }
     vector = {
       helm = {
         chart_name = "vector"

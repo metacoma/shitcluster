@@ -44,12 +44,6 @@ manifests = [
     metadata.name = vector.namespace
   }
 
-  vector_app(
-    vector.aggregator.helm, {
-      nodeSelector = _config.nodeSelector
-    }
-    sync = {}
-  )
 
   vector_app(
     vector.vector.helm, {
