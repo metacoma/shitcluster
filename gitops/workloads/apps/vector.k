@@ -99,9 +99,9 @@ manifests = [
               endpoint = "loki.observability:3100"
               labels = {
                 source = "vector"
-                namespace = "{{ kubernetes.namespace }}"
-                pod = "{{ kubernetes.pod_name }}"
-                container = "{{ kubernetes.container_name }}"
+                namespace = '{{ "{{" }} kubernetes.namespace {{ "}}" }}'
+                pod       = '{{ "{{" }} kubernetes.pod_name {{ "}}" }}'
+                container = '{{ "{{" }} kubernetes.container_name {{ "}}" }}'
               }
             }
             prom_exporter = {
