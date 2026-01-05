@@ -97,6 +97,7 @@ manifests = [
               $type = "loki"
               inputs = [ "vector" ]
               endpoint = "loki.observability:3100"
+              encoding.codec = "json"
               labels = {
                 source = "vector"
                 namespace = '{{ "{{" }} kubernetes.namespace {{ "}}" }}'
