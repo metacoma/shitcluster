@@ -93,6 +93,17 @@ manifests = [
             }
         }
         sinks = {
+            to_loki = {
+              $type = "loki"
+              inputs = [ "vector" ]
+              endpoint = "loki.observability:3100"
+              labels = {
+                source = "vector"
+                namespace = "{{ kubernetes.namespace }}"
+                pod = "{{ kubernetes.pod_name }}"
+                container = "{{ kubernetes.container_name }}"
+              }
+            }
             prom_exporter = {
                 $type = "prometheus_exporter"
                 inputs = [
@@ -109,7 +120,6 @@ manifests = [
                     "splunk_hec"
                     "statsd"
                     "syslog"
-                    "vector"
                 ]
                 encoding = {
                     codec = "json"
