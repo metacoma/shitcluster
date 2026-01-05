@@ -92,18 +92,36 @@ manifests = [
                 version = "2"
             }
         }
+        transforms = {
+            container_logs = {
+                $type = "remap"
+                inputs = [
+                    "vector"
+                ]
+                source = r""".namespace = .kubernetes.pod_namespace
+.pod_name = .kubernetes.pod_name
+.container_name = .kubernetes.container_name
+.hostname = .kubernetes.node_labels."kubernetes.io/hostname"
+del(.file)
+del(.kubernetes)
+del(.source_type)
+del(.stream)
+    """
+            }
+        }
         sinks = {
             to_loki = {
               $type = "loki"
-              inputs = [ "vector" ]
+              inputs = [ "container_logs" ]
               endpoint = "http://loki.observability:3100"
-              encoding.codec = "json"
+              encoding.codec = "text"
               labels = {
-                source = '{{ "{{" }} source_type {{ "}}" }}'
-                namespace = '{{ "{{" }} kubernetes.pod_namespace {{ "}}" }}'
-                pod       = '{{ "{{" }} kubernetes.pod_name {{ "}}" }}'
-                container = '{{ "{{" }} kubernetes.container_name {{ "}}" }}'
+                namespace = '{{ "{{" }} namespace {{ "}}" }}'
+                pod       = '{{ "{{" }} pod_name {{ "}}" }}'
+                container = '{{ "{{" }} container_name {{ "}}" }}'
+                node = '{{ "{{" }} hostname {{ "}}" }}'
               }
+              remove_label_fields = True
             }
             prom_exporter = {
                 $type = "prometheus_exporter"
