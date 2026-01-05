@@ -169,6 +169,11 @@ manifests = [
                 ]
                 address = "0.0.0.0:9090"
             }
+            logs_to_aggregator = {
+                $type = "vector"
+                inputs = [ "kubernetes_logs" ]
+                address = "aggregator-vector:6000"
+            }
             stdout = {
                 $type = "console"
                 inputs = [
