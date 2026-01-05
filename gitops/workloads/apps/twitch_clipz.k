@@ -198,10 +198,10 @@ manifests = [
                 { secretRef.name = _twitch_clipz.secret_name }
               ]
               name = "user-container"
-              livenessProbe.httpGet = {
-                path = "/health/liveness"
-                port = 0
-              }
+#              livenessProbe.httpGet = {
+#                path = "/health/liveness"
+#                port = 0
+#              }
               readinessProbe = {
                 httpGet = {
                   path = "/health/readiness"
