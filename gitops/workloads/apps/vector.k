@@ -47,7 +47,7 @@ manifests = [
   vector_app(
     vector.vector.helm | { release_name = "aggregator" }
     {
-      role = "aggregator"
+      role = "Aggregator"
       nodeSelector = _config.nodeSelector
     }
     sync = {}
@@ -56,7 +56,7 @@ manifests = [
 
   vector_app(
     vector.vector.helm, {
-      role = "agent"
+      role = "Agent"
     }
     sync = {}
   )
