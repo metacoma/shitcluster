@@ -333,5 +333,14 @@ config = {
         app_version = "0.19.3"
       }
     }
+    vector = {
+      helm = {
+        chart_name = "vector"
+        repo = "https://helm.vector.dev"
+        release_name = "vector"
+        chart_version = "0.49.0"
+        app_version = "0.52.0-distroless-libc"
+      }
+    }
   }
 }

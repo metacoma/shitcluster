@@ -51,5 +51,11 @@ manifests = [
     sync = {}
   )
 
+  vector_app(
+    vector.vector.helm, {
+    }
+    sync = {}
+  )
+
 
 ]
