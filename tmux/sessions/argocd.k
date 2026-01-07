@@ -1,8 +1,10 @@
 import manifests
 import tmux.schema as schema
-import tmux.shell
+import tmux.shell as shell
 
 argocd_ns = "argocd"
+
+k = shell.kubernetes_ns(argocd_ns)
 
 sessions = [
   schema.Tmux {
@@ -18,15 +20,15 @@ sessions = [
      schema.Window {
         name: "*argocd"
         panes = [
-          ["*kubectl -n ${argocd_ns} get pods"]
+          ["*${k.get} pods"]
           ["make argocd_password"]
         ]
       }
      schema.Window {
         name: "kcl-plugin"
         panes = [
-          ["kubectl -n ${argocd_ns} logs --tail=10 -f deployment/argocd-repo-server -c my-plugin"]
-          ["kubectl -n ${argocd_ns} exec -ti deployment/argocd-repo-server -c my-plugin -- /bin/bash"]
+          ["${k.log} --tail=10 -f deployment/argocd-repo-server -c my-plugin"]
+          ["${k.exec} -ti deployment/argocd-repo-server -c my-plugin -- /bin/bash"]
         ]
       }
     ]
