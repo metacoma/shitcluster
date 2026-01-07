@@ -195,7 +195,8 @@ strict || prefixed
                   "alertmanager_payload"
                 ]
                 encoding = {
-                    codec = "json"
+                    codec = "text"
+                    text.field = "body"
                 }
             }
         }
