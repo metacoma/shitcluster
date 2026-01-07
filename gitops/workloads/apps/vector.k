@@ -172,7 +172,7 @@ strict || prefixed
                     "Content-Type" = "application/json"
                 }
                 encoding = {
-                    codec = "text"
+                    codec = "json"
                     text = {
                         field = "body"
                     }
