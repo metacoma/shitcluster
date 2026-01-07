@@ -173,6 +173,16 @@ config = {
 
   monitoring = {
     namespace = "monitoring"
+    alertmanager = {
+      helm = {
+        release_name = "alertmanager"
+        chart_version = "1.30.0"
+        app_version = "v0.30.0"
+        repo = "https://prometheus-community.github.io/helm-charts"
+        chart_name = "alertmanager"
+
+      }
+    }
     kube_state_metrics = {
       helm = {
         release_name = "kube-state-metrics"

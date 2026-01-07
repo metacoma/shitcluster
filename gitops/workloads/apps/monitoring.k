@@ -71,6 +71,13 @@ manifests = [
   )
 
   monitoring_app(
+    monitoring.alertmanager.helm, values = {
+      nodeSelector = _config.nodeSelector
+    },
+    sync = {}
+  )
+
+  monitoring_app(
     monitoring.vm_operator.helm, values = {
       nodeSelector = _config.nodeSelector
     }
