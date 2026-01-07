@@ -175,9 +175,7 @@ config = {
   monitoring = {
     namespace = "monitoring"
     alertmanager = {
-      twitch_clipz_monitoring = {
-        secret_name = "twitch-clipz-monitoring"
-      }
+      secret_name = "alert-manager"
       helm = {
         release_name = "alertmanager"
         chart_version = "1.30.0"

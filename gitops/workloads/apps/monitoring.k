@@ -73,6 +73,13 @@ manifests = [
   monitoring_app(
     monitoring.alertmanager.helm, values = {
       nodeSelector = _config.nodeSelector
+      extraSecretMounts = [{
+        name = "secret-files"
+        mountPath = "/etc/secrets"
+        subPath = ""
+        secretName = monitoring.alertmanager.secret_name
+        readOnly = True
+      }]
     },
     sync = {}
   )
@@ -199,12 +206,12 @@ manifests = [
 
   k8s.Secret {
     metadata = {
-      name = monitoring.alertmanager.twitch_clipz_monitoring.secret_name
+      name = monitoring.alertmanager.secret_name
       namespace = monitoring.namespace
     }
     stringData = {
-      TWITCH_TELEGRAM_BOT_TOKEN = _config.twitch_clipz.telegram_bot.token
-      TWITCH_TELEGRAM_MONITORING_CHAT_ID = _config.twitch_clipz.telegram_bot.chats.monitoring
+      twitch_telegram_bot_token = _config.twitch_clipz.telegram_bot.token
+      twitch_telegram_monitoring_chat = _config.twitch_clipz.telegram_bot.chats.monitoring
     }
   }
 
