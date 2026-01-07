@@ -109,20 +109,10 @@ del(.stream)
     """
           }
 
-        python_traceback_multiline = {
-            $type = "multiline"
-            inputs = [
-                "vector"
-            ]
-            start_pattern = r"""^Traceback \(most recent call last\):"""
-            condition_pattern = r"""^(Traceback \(most recent call last\):|[[:space:]]+File |[[:space:]]+|[A-Za-z_][A-Za-z0-9_]*Error: |Exception: )"""
-            mode = "continue_through"
-            timeout_ms = 2000
-        }
         only_tracebacks = {
             $type = "filter"
             inputs = [
-                "python_traceback_multiline"
+                "vector"
             ]
             condition = r"""contains(string!(.message), "Traceback (most recent call last):")
 """
