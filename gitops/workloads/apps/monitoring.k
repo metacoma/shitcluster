@@ -102,6 +102,7 @@ manifests = [
 {{- if .CommonLabels.namespace }}\nns: `{{ .CommonLabels.namespace }}`{{- end }}
 {{- range .Alerts }}
 \n- {{ .Annotations.summary }}
+\n- {{ .Annotations.description }}
 {{- end }}
 """
           }]

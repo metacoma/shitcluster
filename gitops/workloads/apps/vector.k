@@ -133,14 +133,14 @@ strict || prefixed
             source = r"""alert = {
   "labels": {
     "alertname": "PythonTracebackDetected",
-    "severity": "critical"
-  },
-  "annotations": {
-    "summary": "Python traceback detected",
     "pod_name": .kubernetes.pod_name,
     "namespace": .kubernetes.pod_namespace,
     "container_name": .kubernetes.container_name,
     "hostname": .kubernetes.node_labels."kubernetes.io/hostname",
+    "severity": "critical"
+  },
+  "annotations": {
+    "summary": "Python traceback detected",
     "description": to_string(.message) ?? ""
   },
   "startsAt": format_timestamp!(now(), format: "%+")
