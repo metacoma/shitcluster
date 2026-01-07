@@ -80,6 +80,24 @@ manifests = [
         secretName = monitoring.alertmanager.secret_name
         readOnly = True
       }]
+      config = {
+        route.receiver = "telegram-twitch-monitoring"
+        receivers = [{
+          name = "telegram-twitch-monitoring"
+          telegram_configs = [{
+            bot_token_file = "/etc/secrets/twitch_telegram_bot_token"
+            chat_id_file = "/etc/secrets/twitch_telegram_monitoring_chat"
+            send_resolved = False
+            message = """
+🚨 *{{ .CommonLabels.alertname }}*
+{{- if .CommonLabels.namespace }}\nns: `{{ .CommonLabels.namespace }}`{{- end }}
+{{- range .Alerts }}
+\n- {{ .Annotations.summary }}
+{{- end }}
+"""
+          }]
+        }]
+      }
     },
     sync = {}
   )
