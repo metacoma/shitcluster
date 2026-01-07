@@ -146,7 +146,7 @@ alert = {
   "startsAt": format_timestamp!(now(), format: "%+")
 }
 
-.am_payload = encode_json!([alert])
+.am_payload = encode_json([alert])
 """
           }
         }
@@ -195,12 +195,7 @@ alert = {
             stdout = {
                 $type = "console"
                 inputs = [
-                    "datadog_agent"
-                    "fluent"
-                    "logstash"
-                    "splunk_hec"
-                    "statsd"
-                    "syslog"
+                  "build_alertmanager_payload"
                 ]
                 encoding = {
                     codec = "json"
