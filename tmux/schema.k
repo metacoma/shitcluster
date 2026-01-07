@@ -22,7 +22,7 @@ schema Window:
   name: str
   layout?: str
   env?: Env
-  workdir?: str = "~"
+  workdir?: str
   options?: {str:str}
   options_after?: {str:str}
   suppress_history?: bool
