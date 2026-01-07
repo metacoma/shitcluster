@@ -114,7 +114,14 @@ del(.stream)
             inputs = [
                 "vector"
             ]
-            condition = r"""contains(to_string(.message) ?? "", "Traceback (most recent call last):")
+            condition = r"""msg = to_string(.message)
+strict = starts_with(msg, "Traceback (most recent call last):")
+
+has_tb = contains(msg, "Traceback (most recent call last):")
+has_file_line = match(msg, r'File ".*", line \d+')
+prefixed = has_tb && has_file_line
+
+strict || prefixed
 """
         }
         alertmanager_payload = {
