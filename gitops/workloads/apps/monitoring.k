@@ -86,7 +86,7 @@ manifests = [
           name = "telegram-twitch-monitoring"
           telegram_configs = [{
             bot_token_file = "/etc/secrets/twitch_telegram_bot_token"
-            chat_id_file = "/etc/secrets/twitch_telegram_monitoring_chat"
+            chat_id = _config.twitch_clipz.telegram_bot.chats.monitoring
             send_resolved = False
             message = """
 🚨 *{{ .CommonLabels.alertname }}*
