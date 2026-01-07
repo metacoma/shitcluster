@@ -96,14 +96,26 @@ manifests = [
           telegram_configs = [{
             bot_token_file = "/etc/secrets/twitch_telegram_bot_token"
             chat_id = _config.twitch_clipz.telegram_bot.chats.monitoring
+            parse_mode = "Markdown"
             send_resolved = False
             message = """
-🚨 *{{ .CommonLabels.alertname }}*
-{{- if .CommonLabels.namespace }}\nns: `{{ .CommonLabels.namespace }}`{{- end }}
-{{- range .Alerts }}
-\n- {{ .Annotations.summary }}
-\n- {{ .Annotations.description }}
-{{- end }}
+🚨 *{{ .CommonLabels.alertname }}*  ({{ .CommonLabels.severity }})
+
+*Where*
+• ns: `{{ .CommonLabels.namespace }}`
+• pod: `{{ .CommonLabels.pod_name }}`
+• container: `{{ .CommonLabels.container_name }}`
+• node: `{{ .CommonLabels.hostname }}`
+
+*When*
+• startsAt: `{{ (index .Alerts 0).StartsAt }}`
+
+*What*
+• {{ (index .Alerts 0).Annotations.summary }}
+
+*Traceback*
+```{{ (index .Alerts 0).Annotations.description }}
+
 """
           }]
         }]
