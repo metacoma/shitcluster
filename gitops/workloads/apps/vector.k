@@ -137,6 +137,7 @@ del(.stream)
 
 .body = encode_json([alert])
 """
+          }
 
         }
         sinks = {
