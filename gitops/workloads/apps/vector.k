@@ -123,14 +123,11 @@ del(.stream)
                 "only_tracebacks"
             ]
             source = r"""
-ns = .kubernetes.namespace_name ?? "unknown"
-pod = .kubernetes.pod_name ?? "unknown"
-container = .kubernetes.container_name ?? "unknown"
+ns = .kubernetes.namespace_name
+pod = .kubernetes.pod_name
+container = .kubernetes.container_name
 
 msg = string!(.message)
-lines = split(msg, "\n")
-last = ""
-if length(lines) > 0 { last = lines[length(lines) - 1] }
 
 summary = "python traceback detected"
 
