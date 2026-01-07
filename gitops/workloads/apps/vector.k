@@ -131,8 +131,7 @@ del(.stream)
     "summary": "Python traceback detected",
     "description": to_string(.message) ?? ""
   },
-  "startsAt": format_timestamp!(now(), format: "%+"),
-  "endsAt": format_timestamp!(now() + duration("5m"), format: "%+")
+  "startsAt": format_timestamp!(now(), format: "%+")
 }
 
 .body = encode_json([alert])
