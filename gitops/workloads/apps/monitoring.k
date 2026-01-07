@@ -73,9 +73,9 @@ manifests = [
   monitoring_app(
     monitoring.alertmanager.helm, values = {
       nodeSelector = _config.nodeSelector
-      extraArgs = [
-        "--log.level=debug"
-      ]
+      extraArgs = {
+        "log.level" = "debug"
+      }
       extraSecretMounts = [{
         name = "secret-files"
         mountPath = "/etc/secrets"
