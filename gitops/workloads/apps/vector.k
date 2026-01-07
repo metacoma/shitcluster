@@ -132,7 +132,7 @@ lines = split(msg, "\n")
 last = ""
 if length(lines) > 0 { last = lines[length(lines) - 1] }
 
-summary = "python traceback: " + (last != "" ? last : "Traceback detected")
+summary = "python traceback detected"
 
 alert = {
   "labels": {
