@@ -171,8 +171,7 @@ strict || prefixed
                 headers = {
                     "Content-Type" = "application/json"
                 }
-                encoding = {
-                    codec = json
+                encoding.codec = "json"
                 }
                 batch = {
                     max_events = 1
