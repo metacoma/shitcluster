@@ -84,7 +84,13 @@ manifests = [
         readOnly = True
       }]
       config = {
-        route.receiver = "telegram-twitch-monitoring"
+        route = {
+          receiver = "telegram-twitch-monitoring"
+          group_by = ["alertname", "severity", "namespace"]
+          group_wait = "10s"
+          group_interval = "5m"
+          repeat_interval = "3h"
+        }
         receivers = [{
           name = "telegram-twitch-monitoring"
           telegram_configs = [{
