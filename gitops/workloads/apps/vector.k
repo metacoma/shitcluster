@@ -142,7 +142,7 @@ strict || prefixed
   "startsAt": format_timestamp!(now(), format: "%+")
 }
 
-.body = encode_json(alert)
+. = [alert]
 """
           }
 
@@ -172,8 +172,7 @@ strict || prefixed
                     "Content-Type" = "application/json"
                 }
                 encoding = {
-                    codec = "text"
-                    text.field = "body"
+                    codec = json
                 }
                 batch = {
                     max_events = 1
