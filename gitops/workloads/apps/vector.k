@@ -107,6 +107,62 @@ del(.kubernetes)
 del(.source_type)
 del(.stream)
     """
+
+        python_traceback_multiline = {
+            $type = "multiline"
+            inputs = [
+                "vector"
+            ]
+            start_pattern = r"""^Traceback \(most recent call last\):"""
+            condition_pattern = r"""^(Traceback \(most recent call last\):|[[:space:]]+File |[[:space:]]+|[A-Za-z_][A-Za-z0-9_]*Error: |Exception: )"""
+            mode = "continue_through"
+            timeout_ms = 2000
+        }
+        only_tracebacks = {
+            $type = "filter"
+            inputs = [
+                "python_traceback_multiline"
+            ]
+            condition = r"""contains(string!(.message), "Traceback (most recent call last):")
+"""
+        }
+        build_alertmanager_payload = {
+            $type = "remap"
+            inputs = [
+                "only_tracebacks"
+            ]
+            source = r"""
+ns = .kubernetes.namespace_name ?? "unknown"
+pod = .kubernetes.pod_name ?? "unknown"
+container = .kubernetes.container_name ?? "unknown"
+
+msg = string!(.message)
+lines = split(msg, "\n")
+last = ""
+if length(lines) > 0 { last = lines[length(lines) - 1] }
+
+summary = "python traceback: " + (last != "" ? last : "Traceback detected")
+
+alert = {
+  "labels": {
+    "alertname": "PythonTracebackDetected",
+    "severity": "warning",
+    "namespace": ns,
+    "pod": pod,
+    "container": container
+  },
+  "annotations": {
+    "summary": summary,
+    "description": msg
+  },
+  "startsAt": format_timestamp!(now(), format: "%+")
+}
+
+.am_payload = encode_json!([alert])
+"""
+        }
+
+
             }
         }
         sinks = {
@@ -122,6 +178,27 @@ del(.stream)
                 node = '{{ "{{" }} hostname {{ "}}" }}'
               }
               remove_label_fields = True
+            }
+            to_alertmanager = {
+                $type = "http"
+                inputs = [
+                    "build_alertmanager_payload"
+                ]
+                method = "post"
+                uri = "http://alertmanager.monitoring.svc:9093/api/v2/alerts"
+                headers = {
+                    "Content-Type" = "application/json"
+                }
+                encoding = {
+                    codec = "text"
+                    text = {
+                        field = "am_payload"
+                    }
+                }
+                batch = {
+                    max_events = 1
+                    timeout_secs = 1
+                }
             }
             prom_exporter = {
                 $type = "prometheus_exporter"
