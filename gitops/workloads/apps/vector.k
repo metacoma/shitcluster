@@ -142,7 +142,7 @@ strict || prefixed
   "startsAt": format_timestamp!(now(), format: "%+")
 }
 
-.body = encode_json([alert])
+.body = encode_json(alert)
 """
           }
 
@@ -194,7 +194,7 @@ strict || prefixed
                 ]
                 encoding = {
                     codec = "text"
-                    text.field = "body"
+                    #text.field = "body"
                 }
             }
         }
