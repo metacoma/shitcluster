@@ -91,6 +91,7 @@ config = {
       token = "ref+vault://kv/twitch_clipz#telegram_bot_id"
       chats = {
         admin = "ref+vault://kv/twitch_clipz#telegram_admin_chat"
+        monitoring = "ref+vault://kv/twitch_clipz#telegram_monitoring_chat"
       }
       container_image = "metacoma/clipz-telegram-bot:cloud-event8"
       rabbitmq_exchange = "telegram-events"
@@ -174,6 +175,9 @@ config = {
   monitoring = {
     namespace = "monitoring"
     alertmanager = {
+      twitch_clipz_monitoring = {
+        secret_name = "twitch-clipz-monitoring"
+      }
       helm = {
         release_name = "alertmanager"
         chart_version = "1.30.0"

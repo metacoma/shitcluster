@@ -197,4 +197,15 @@ manifests = [
     sync = {}
   )
 
+  k8s.Secret {
+    metadata = {
+      name = monitoring.alertmanager.twitch_clipz_monitoring.secret_name
+      namespace = monitoring.namespace
+    }
+    stringData = {
+      TWITCH_TELEGRAM_BOT_TOKEN = _config.twitch_clipz.telegram_bot.token
+      TWITCH_TELEGRAM_MONITORING_CHAT_ID = _config.twitch_clipz.telegram_bot.chats.monitoring
+    }
+  }
+
 ]
