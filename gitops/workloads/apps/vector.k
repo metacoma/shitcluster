@@ -172,7 +172,6 @@ strict || prefixed
                     "Content-Type" = "application/json"
                 }
                 encoding.codec = "json"
-                }
                 batch = {
                     max_events = 1
                     timeout_secs = 1
