@@ -114,7 +114,8 @@ del(.stream)
             inputs = [
                 "vector"
             ]
-            condition = r"""msg = to_string(.message)
+            condition = r"""
+msg = string!(.message)
 strict = starts_with(msg, "Traceback (most recent call last):")
 
 has_tb = contains(msg, "Traceback (most recent call last):")
