@@ -107,6 +107,7 @@ del(.kubernetes)
 del(.source_type)
 del(.stream)
     """
+          }
 
         python_traceback_multiline = {
             $type = "multiline"
@@ -160,10 +161,7 @@ alert = {
 
 .am_payload = encode_json!([alert])
 """
-        }
-
-
-            }
+          }
         }
         sinks = {
             to_loki = {
