@@ -109,46 +109,35 @@ del(.stream)
     """
           }
 
-        only_tracebacks = {
+        traceback_lines = {
             $type = "filter"
             inputs = [
                 "vector"
             ]
-            condition = r"""contains(string!(.message), "Traceback (most recent call last):")
+            condition = r"""contains(to_string(.message) ?? "", "Traceback (most recent call last):")
 """
         }
-        build_alertmanager_payload = {
+        alertmanager_payload = {
             $type = "remap"
             inputs = [
-                "only_tracebacks"
+                "traceback_lines"
             ]
-            source = r"""
-ns = .kubernetes.namespace_name
-pod = .kubernetes.pod_name
-container = .kubernetes.container_name
-
-msg = string!(.message)
-
-summary = "python traceback detected"
-
-alert = {
+            source = r"""alert = {
   "labels": {
     "alertname": "PythonTracebackDetected",
-    "severity": "warning",
-    "namespace": ns,
-    "pod": pod,
-    "container": container
+    "severity": "warning"
   },
   "annotations": {
-    "summary": summary,
-    "description": msg
+    "summary": "Python traceback detected",
+    "description": to_string(.message) ?? ""
   },
-  "startsAt": format_timestamp!(now(), format: "%+")
+  "startsAt": format_timestamp!(now(), format: "%+"),
+  "endsAt": format_timestamp!(now() + duration("5m"), format: "%+")
 }
 
-.am_payload = encode_json([alert])
+.body = encode_json([alert])
 """
-          }
+
         }
         sinks = {
             to_loki = {
@@ -167,7 +156,7 @@ alert = {
             to_alertmanager = {
                 $type = "http"
                 inputs = [
-                    "build_alertmanager_payload"
+                    "alertmanager_payload"
                 ]
                 method = "post"
                 uri = "http://alertmanager.monitoring.svc:9093/api/v2/alerts"
@@ -177,7 +166,7 @@ alert = {
                 encoding = {
                     codec = "text"
                     text = {
-                        field = "am_payload"
+                        field = "body"
                     }
                 }
                 batch = {
@@ -195,7 +184,7 @@ alert = {
             stdout = {
                 $type = "console"
                 inputs = [
-                  "build_alertmanager_payload"
+                  "alertmanager_payload"
                 ]
                 encoding = {
                     codec = "json"
