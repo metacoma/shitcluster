@@ -172,10 +172,8 @@ strict || prefixed
                     "Content-Type" = "application/json"
                 }
                 encoding = {
-                    codec = "json"
-                    text = {
-                        field = "body"
-                    }
+                    codec = "text"
+                    text.field = "body"
                 }
                 batch = {
                     max_events = 1
