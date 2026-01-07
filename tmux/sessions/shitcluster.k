@@ -47,7 +47,7 @@ export ETCD_CA="/etc/ssl/etcd/ssl/ca.pem"
 export ETCD_CERT="/etc/ssl/etcd/ssl/node-${host_name}.pem"
 export ETCD_KEY="/etc/ssl/etcd/ssl/node-${host_name}-key.pem"
 """
-            """sudo etcdctl \
+            """watch sudo etcdctl \
   --endpoints="$ETCD_ENDPOINTS" \
   --cacert="$ETCD_CA" \
   --cert="$ETCD_CERT" \
