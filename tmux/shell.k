@@ -1,4 +1,5 @@
 import base64
+import yaml
 
 kubernetes_ns = lambda ns : str -> any {
   {
@@ -24,9 +25,35 @@ alias = lambda name : str, cmd : str -> str {
 }
 
 yaml_file = lambda file : str, yaml_data : any -> str {
-  "echo ${base64.encode(yaml_data)} | base64 -d | yq | tee ${file}"
+  "echo ${base64.encode(yaml.encode(yaml_data))} | base64 -d | yq | tee ${file}"
+  #"echo ${base64.encode(str(yaml_data))} | base64 -d | tee ${file}"
+  #base64.encode(yaml.encode(yaml_data))
+}
+
+_text_file = lambda file : str, text : str, args : str -> str {
+  "echo ${base64.encode(text)} | base64 -d | tee ${args} ${file}"
 }
 
 text_file = lambda file : str, text : str -> str {
-  "echo ${base64.encode(text)} | base64 -d | tee ${file}"
+  _text_file(file, text, "")
+}
+
+text_file_append = lambda file : str, text : str -> str {
+  _text_file(file, text, "-a")
+}
+
+
+
+wait_for_file = lambda file : str -> str {
+  wait_for_cmd("test -f ${file}")
+}
+
+
+wait_for_cmd = lambda cmd : str -> str {
+  """
+while :; do
+  ${cmd} && break
+  sleep 1;
+done
+"""
 }
