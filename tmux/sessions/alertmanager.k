@@ -18,6 +18,7 @@ sessions = [
         name: "*alertmanager"
         panes = [
           ["*${k.exec} -ti statefulset/alertmanager -- /bin/sh"]
+          ["*${k.log} statefulset/alertmanager"]
         ]
       }
     ]
