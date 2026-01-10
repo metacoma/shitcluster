@@ -111,7 +111,7 @@ manifests = [
           traceback_aggregate = {
               $type = "lua"
               inputs = [
-                  "kubernetes_logs"
+                  "vector"
               ]
               version = "2"
               search_dirs = [
