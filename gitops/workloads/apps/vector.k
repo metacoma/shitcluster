@@ -113,24 +113,64 @@ manifests = [
               inputs = [
                   "traceback_lines"
               ]
-              source = r"""alert = {
-    "labels": {
-      "alertname": "PythonTracebackDetected",
-      "pod_name": .kubernetes.pod_name,
-      "namespace": .kubernetes.pod_namespace,
-      "container_name": .kubernetes.container_name,
-      "hostname": .kubernetes.node_labels."kubernetes.io/hostname",
-      "severity": "critical"
-    },
-    "annotations": {
-      "summary": "Python traceback detected",
-      "description": to_string(.message) ?? ""
-    },
-    "startsAt": format_timestamp!(now(), format: "%+")
-  }
+              source = r"""# pick kubernetes object (namespaced .log.kubernetes preferred)
+k8s = {}
+if exists(.log.kubernetes) { k8s = .log.kubernetes }
+if !exists(.log.kubernetes) && exists(.kubernetes) { k8s = .kubernetes }
 
-  . = [alert]
-  """
+# pick message (namespaced preferred)
+msg = ""
+if exists(.log.message) { msg = .log.message }
+if !exists(.log.message) && exists(.message) { msg = .message }
+
+# optional language
+lang = null
+if exists(.log.language) { lang = .log.language }
+if !exists(.log.language) && exists(.language) { lang = .language }
+
+# namespace fallback chain
+ns = ""
+if exists(k8s.namespace) { ns = k8s.namespace }
+if !exists(k8s.namespace) && exists(k8s.pod_namespace) { ns = k8s.pod_namespace }
+
+pod = ""
+if exists(k8s.pod_name) { pod = k8s.pod_name }
+
+ctr = ""
+if exists(k8s.container_name) { ctr = k8s.container_name }
+
+host = ""
+if exists(k8s.node_labels) && is_object(k8s.node_labels) && exists(k8s.node_labels."kubernetes.io/hostname") {
+  host = k8s.node_labels."kubernetes.io/hostname"
+} else {
+  if exists(k8s.node_name) { host = k8s.node_name }
+}
+
+# alertname (dynamic if language is present)
+alertname = "TracebackDetected"
+if lang != null && is_string(lang) && lang != "" {
+  alertname = string!(lang) + "TracebackDetected"
+}
+
+alert = {
+  "labels": {
+    "type": "traceback",
+    "alertname": alertname,
+    "pod_name":  to_string(pod) ?? "",
+    "namespace": to_string(ns) ?? "",
+    "container_name": to_string(ctr) ?? "",
+    "hostname": to_string(host) ?? "",
+    "severity": "critical"
+  },
+  "annotations": {
+    "summary": "Traceback detected",
+    "description": to_string(msg) ?? ""
+  },
+  "startsAt": format_timestamp!(now(), format: "%+"),
+}
+
+. = [alert]
+"""
             }
 
         }
