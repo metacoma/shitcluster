@@ -108,6 +108,22 @@ manifests = [
             }
         }
         transforms = {
+            container_logs = {
+                $type = "remap"
+                inputs = [
+                    "vector"
+                ]
+                source = r""".namespace = .kubernetes.pod_namespace
+.pod_name = .kubernetes.pod_name
+.container_name = .kubernetes.container_name
+.hostname = .kubernetes.node_labels."kubernetes.io/hostname"
+del(.file)
+del(.kubernetes)
+del(.source_type)
+del(.stream)
+    """
+          }
+
           traceback_aggregate = {
               $type = "lua"
               inputs = [
