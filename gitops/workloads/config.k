@@ -338,8 +338,8 @@ config = {
     namespace = "vector"
     configMapFiles = {
       "vector-exceptions" = {
-        "parser.lua" = "apps/vector_data/parser.lua"
-        "python.lua" = "apps/vector_data/python.lua"
+        "parser.lua" = "apps/vector_data/parsers/parser.lua"
+        "python.lua" = "apps/vector_data/parsers/python.lua"
       }
     }
     vector = {
