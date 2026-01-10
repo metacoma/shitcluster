@@ -99,7 +99,7 @@ manifests = [
                     receiver = "telegram-twitch-monitoring-traceback"
                     matchers = [
                         'namespace="twitch-clipz"'
-                        '"type="traceback"'
+                        'type="traceback"'
                     ]
                 }
                 {
@@ -170,6 +170,9 @@ manifests = [
                   }
               ]
           }
+        ]
+        templates = [
+            "/etc/alertmanager/*.tmpl"
         ]
       }
     },
