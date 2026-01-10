@@ -127,19 +127,19 @@ manifests = [
                       bot_token_file = "/etc/secrets/twitch_telegram_bot_token"
                       chat_id = _config.twitch_clipz.telegram_bot.chats.monitoring
                       message = r"""
-                      🚨 *{{ .CommonLabels.alertname }}*  ({{ .CommonLabels.severity }})
+🚨 *{{ .CommonLabels.alertname }}*  ({{ .CommonLabels.severity }})
 
-                      *Where*
-                      • ns: `{{ .CommonLabels.namespace }}`
-                      • pod: `{{ .CommonLabels.pod_name }}/{{ .CommonLabels.container_name }}`
-                      • node: `{{ .CommonLabels.hostname }}`
+*Where*
+• ns: `{{ .CommonLabels.namespace }}`
+• pod: `{{ .CommonLabels.pod_name }}/{{ .CommonLabels.container_name }}`
+• node: `{{ .CommonLabels.hostname }}`
 
-                      *What*
-                      • {{ (index .Alerts 0).Annotations.summary }}
+*What*
+• {{ (index .Alerts 0).Annotations.summary }}
 
-                      *Traceback*
-                      ```{{ (index .Alerts 0).Annotations.description }}```
-                      """
+*Traceback*
+```{{ (index .Alerts 0).Annotations.description }}```
+"""
                       parse_mode = "Markdown"
                       send_resolved = False
                   }
@@ -152,19 +152,19 @@ manifests = [
                       bot_token_file = "/etc/secrets/telegram_bot_token"
                       chat_id = monitoring.notifications.telegram.chat_id
                       message = r"""
-                      🚨 *{{ .CommonLabels.alertname }}*  ({{ .CommonLabels.severity }})
+🚨 *{{ .CommonLabels.alertname }}*  ({{ .CommonLabels.severity }})
 
-                      *Where*
-                      • ns: `{{ .CommonLabels.namespace }}`
-                      • pod: `{{ .CommonLabels.pod_name }}/{{ .CommonLabels.container_name }}`
-                      • node: `{{ .CommonLabels.hostname }}`
+*Where*
+• ns: `{{ .CommonLabels.namespace }}`
+• pod: `{{ .CommonLabels.pod_name }}/{{ .CommonLabels.container_name }}`
+• node: `{{ .CommonLabels.hostname }}`
 
-                      *What*
-                      • {{ (index .Alerts 0).Annotations.summary }}
+*What*
+• {{ (index .Alerts 0).Annotations.summary }}
 
-                      *Traceback*
-                      ```{{ (index .Alerts 0).Annotations.description }}```
-                      """
+*Traceback*
+```{{ (index .Alerts 0).Annotations.description }}```
+"""
                       parse_mode = "Markdown"
                       send_resolved = False
                   }
