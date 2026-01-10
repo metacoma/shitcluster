@@ -252,6 +252,8 @@ manifests = [
     stringData = {
       twitch_telegram_bot_token = _config.twitch_clipz.telegram_bot.token
       twitch_telegram_monitoring_chat = _config.twitch_clipz.telegram_bot.chats.monitoring
+      telegram_bot_token = "ref+vault://kv/monitoring#telegram_bot_token"
+      telegram_chat_id = "ref+vault://kv/monitoring#telegram_chat_id"
     }
   }
 
