@@ -173,6 +173,13 @@ config = {
   }
 
   monitoring = {
+    notifications = {
+      telegram = {
+        bot_token = "ref+vault://kv/monitoring#telegram_bot_token"
+        chat_id = "ref+vault://kv/monitoring#telegram_chat_id"
+      }
+    }
+
     namespace = "monitoring"
     alertmanager = {
       secret_name = "alert-manager"

@@ -91,34 +91,67 @@ manifests = [
           group_interval = "5m"
           repeat_interval = "3h"
         }
-        receivers = [{
-          name = "telegram-twitch-monitoring"
-          telegram_configs = [{
-            bot_token_file = "/etc/secrets/twitch_telegram_bot_token"
-            chat_id = _config.twitch_clipz.telegram_bot.chats.monitoring
-            parse_mode = "Markdown"
-            send_resolved = False
-            message = """
-🚨 *{{ .CommonLabels.alertname }}*  ({{ .CommonLabels.severity }})
+        receivers = [
+          {
+              name = "default"
+              webhook_configs = [
+                  {
+                      url = "http://127.0.0.1:9094/print"
+                      send_resolved = False
+                  }
+              ]
+          }
+          {
+              name = "telegram-twitch-monitoring-traceback"
+              telegram_configs = [
+                  {
+                      bot_token_file = "/etc/secrets/twitch_telegram_bot_token"
+                      chat_id = _config.twitch_clipz.telegram_bot.chats.monitoring
+                      message = r"""
+                      🚨 *{{ .CommonLabels.alertname }}*  ({{ .CommonLabels.severity }})
 
-*Where*
-• ns: `{{ .CommonLabels.namespace }}`
-• pod: `{{ .CommonLabels.pod_name }}`
-• container: `{{ .CommonLabels.container_name }}`
-• node: `{{ .CommonLabels.hostname }}`
+                      *Where*
+                      • ns: `{{ .CommonLabels.namespace }}`
+                      • pod: `{{ .CommonLabels.pod_name }}/{{ .CommonLabels.container_name }}`
+                      • node: `{{ .CommonLabels.hostname }}`
 
-*When*
-• startsAt: `{{ (index .Alerts 0).StartsAt }}`
+                      *What*
+                      • {{ (index .Alerts 0).Annotations.summary }}
 
-*What*
-• {{ (index .Alerts 0).Annotations.summary }}
+                      *Traceback*
+                      ```{{ (index .Alerts 0).Annotations.description }}```
+                      """
+                      parse_mode = "Markdown"
+                      send_resolved = False
+                  }
+              ]
+          }
+          {
+              name = "default-traceback"
+              telegram_configs = [
+                  {
+                      bot_token_file = "/etc/secrets/telegram_bot_token"
+                      chat_id = monitoring.notifications.telegram.chat_id
+                      message = r"""
+                      🚨 *{{ .CommonLabels.alertname }}*  ({{ .CommonLabels.severity }})
 
-*Traceback*
-```{{ (index .Alerts 0).Annotations.description }}
+                      *Where*
+                      • ns: `{{ .CommonLabels.namespace }}`
+                      • pod: `{{ .CommonLabels.pod_name }}/{{ .CommonLabels.container_name }}`
+                      • node: `{{ .CommonLabels.hostname }}`
 
-"""
-          }]
-        }]
+                      *What*
+                      • {{ (index .Alerts 0).Annotations.summary }}
+
+                      *Traceback*
+                      ```{{ (index .Alerts 0).Annotations.description }}```
+                      """
+                      parse_mode = "Markdown"
+                      send_resolved = False
+                  }
+              ]
+          }
+        ]
       }
     },
     sync = {}
@@ -252,8 +285,8 @@ manifests = [
     stringData = {
       twitch_telegram_bot_token = _config.twitch_clipz.telegram_bot.token
       twitch_telegram_monitoring_chat = _config.twitch_clipz.telegram_bot.chats.monitoring
-      telegram_bot_token = "ref+vault://kv/monitoring#telegram_bot_token"
-      telegram_chat_id = "ref+vault://kv/monitoring#telegram_chat_id"
+      telegram_bot_token = monitoring.notifications.telegram.bot_token
+      telegram_chat_id = monitoring.notifications.telegram.chat_id
     }
   }
 
