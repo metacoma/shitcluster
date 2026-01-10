@@ -56,7 +56,6 @@ manifests = [
          file_name = file.read(file_path)
          for file_name, file_path in configmap
       }
-
   }
   for configmap_name, configmap in vector.configMapFiles]
 
@@ -109,62 +108,30 @@ manifests = [
             }
         }
         transforms = {
-            container_logs = {
-                $type = "remap"
-                inputs = [
-                    "vector"
-                ]
-                source = r""".namespace = .kubernetes.pod_namespace
-.pod_name = .kubernetes.pod_name
-.container_name = .kubernetes.container_name
-.hostname = .kubernetes.node_labels."kubernetes.io/hostname"
-del(.file)
-del(.kubernetes)
-del(.source_type)
-del(.stream)
-    """
-          }
+          alertmanager_payload = {
+              $type = "remap"
+              inputs = [
+                  "traceback_lines"
+              ]
+              source = r"""alert = {
+    "labels": {
+      "alertname": "PythonTracebackDetected",
+      "pod_name": .kubernetes.pod_name,
+      "namespace": .kubernetes.pod_namespace,
+      "container_name": .kubernetes.container_name,
+      "hostname": .kubernetes.node_labels."kubernetes.io/hostname",
+      "severity": "critical"
+    },
+    "annotations": {
+      "summary": "Python traceback detected",
+      "description": to_string(.message) ?? ""
+    },
+    "startsAt": format_timestamp!(now(), format: "%+")
+  }
 
-        traceback_lines = {
-            $type = "filter"
-            inputs = [
-                "vector"
-            ]
-            condition = r"""
-msg = string!(.message)
-strict = starts_with(msg, "Traceback (most recent call last):")
-
-has_tb = contains(msg, "Traceback (most recent call last):")
-has_file_line = match(msg, r'File ".*", line \d+')
-prefixed = has_tb && has_file_line
-
-strict || prefixed
-"""
-        }
-        alertmanager_payload = {
-            $type = "remap"
-            inputs = [
-                "traceback_lines"
-            ]
-            source = r"""alert = {
-  "labels": {
-    "alertname": "PythonTracebackDetected",
-    "pod_name": .kubernetes.pod_name,
-    "namespace": .kubernetes.pod_namespace,
-    "container_name": .kubernetes.container_name,
-    "hostname": .kubernetes.node_labels."kubernetes.io/hostname",
-    "severity": "critical"
-  },
-  "annotations": {
-    "summary": "Python traceback detected",
-    "description": to_string(.message) ?? ""
-  },
-  "startsAt": format_timestamp!(now(), format: "%+")
-}
-
-. = [alert]
-"""
-          }
+  . = [alert]
+  """
+            }
 
         }
         sinks = {
