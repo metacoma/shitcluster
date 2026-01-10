@@ -237,16 +237,16 @@ alert = {
                 }
             }
         }
-        extraVolumes = [{
-          name = "vector-exceptions"
-          configMap.name = "vector-exceptions"
-        }]
-        extraVolumeMounts = [{
-          name = "vector-exceptions"
-          mountPath = "/etc/vector/parsers"
-          readOnly = True
-        }]
       }
+      extraVolumes = [{
+        name = "vector-exceptions"
+        configMap.name = "vector-exceptions"
+      }]
+      extraVolumeMounts = [{
+        name = "vector-exceptions"
+        mountPath = "/etc/vector/parsers"
+        readOnly = True
+      }]
     }
     sync = {}
   )
