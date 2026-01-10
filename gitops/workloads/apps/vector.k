@@ -108,10 +108,25 @@ manifests = [
             }
         }
         transforms = {
+          traceback_aggregate = {
+              $type = "lua"
+              inputs = [
+                  "kubernetes_logs"
+              ]
+              version = "2"
+              search_dirs = [
+                  "."
+                  "/etc/vector"
+                  "/etc/verctor/parsers"
+              ]
+              hooks = {
+                  process = "return require('parsers/parser')"
+              }
+          }
           alertmanager_payload = {
               $type = "remap"
               inputs = [
-                  "traceback_lines"
+                  "traceback_aggregate"
               ]
               source = r"""# pick kubernetes object (namespaced .log.kubernetes preferred)
 k8s = {}
