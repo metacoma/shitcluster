@@ -3,6 +3,7 @@ import k8s.api.apps.v1 as v1
 import config as cfg
 import ..argoproj.v1alpha1 as argoproj
 import yaml
+import file
 
 _config = cfg.config
 vector = _config.vector
@@ -43,6 +44,21 @@ manifests = [
   k8s.Namespace {
     metadata.name = vector.namespace
   }
+
+  [
+    k8s.ConfigMap {
+      metadata = {
+        name = configmap_name
+        namespace = vector.namespace
+      }
+
+      data = {
+         file_name = file.read(file_path)
+         for file_name, file_path in configmap
+      }
+
+  }
+  for configmap_name, configmap in vector.configMapFiles]
 
   vector_app(
     vector.vector.helm | { release_name = "aggregator" }

@@ -336,6 +336,12 @@ config = {
   }
   vector = {
     namespace = "vector"
+    configMapFiles = {
+      "vector_exceptions" = {
+        "parser.lua" = "apps/vector_data/parser.lua"
+        "python.lua" = "apps/vector_data/python.lua"
+      }
+    }
     vector = {
       helm = {
         chart_name = "vector"
