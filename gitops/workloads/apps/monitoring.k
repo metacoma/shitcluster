@@ -45,7 +45,7 @@ manifests = [
   }
   monitoring_app(
     monitoring.kube_state_metrics.helm, values = {
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
       resources.requests = {
         cpu = "10m"
         memory = "32Mi"
@@ -65,14 +65,14 @@ manifests = [
   )
   monitoring_app(
     monitoring.blackbox_exporter.helm, values = {
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
     },
     sync = {}
   )
 
   monitoring_app(
     monitoring.alertmanager.helm, values = {
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
       extraArgs = {
         "log.level" = "debug"
       }
@@ -181,7 +181,7 @@ manifests = [
 
   monitoring_app(
     monitoring.vm_operator.helm, values = {
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
     }
     sync = {
       syncOptions = [
@@ -210,7 +210,7 @@ manifests = [
 
   monitoring_app(
     monitoring.vm_agent.helm, values = {
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
       remoteWrite = [{
         url = "http://vm-single-victoria-metrics-single-server.monitoring:8428/api/v1/write"
       }]
@@ -239,7 +239,7 @@ manifests = [
 
   monitoring_app(
     monitoring.grafana.helm, values = {
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
 
       adminUser = "ref+vault://kv/grafana#adminUser"
       adminPassword = "ref+vault://kv/grafana#adminPassword"

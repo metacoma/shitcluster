@@ -44,12 +44,12 @@ manifests = [
   }
   observability_app(
     observability.loki.helm, values = {
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
       gateway.enabled = False
       lokiCanary.enabled = False
       test.enabled = False
-      resultsCache.nodeSelector = _config.nodeSelector
-      chunksCache.nodeSelector = _config.nodeSelector
+      resultsCache.nodeSelector = _config.nodeSelector.worker
+      chunksCache.nodeSelector = _config.nodeSelector.worker
       deploymentMode = "SingleBinary"
       loki = {
         auth_enabled = False
@@ -68,7 +68,7 @@ manifests = [
 
       }
       singleBinary = {
-        nodeSelector = _config.nodeSelector
+        nodeSelector = _config.nodeSelector.worker
         replicas = 1
         persistence = {
           enabled = True
@@ -86,7 +86,7 @@ manifests = [
 
   observability_app(
     observability.tempo.helm, values = {
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
       tempo = {
         structuredConfig = {
           stream_over_http_enabled = True
@@ -105,7 +105,7 @@ manifests = [
 
   observability_app(
     observability.otlp.helm, values = {
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
       mode = "deployment"
       image = {
         repository = "otel/opentelemetry-collector-contrib"

@@ -57,7 +57,7 @@ manifests = [
 
   istio_app(
     istio.helm.istiod, values = {
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
       global.proxy.clusterDomain = _config.k8s_domain
     }
     sync = {}
@@ -65,7 +65,7 @@ manifests = [
 
   istio_app(
     istio.helm.gateway, values = {
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
       global.proxy.clusterDomain = _config.k8s_domain
       service = {
         type = "LoadBalancer"

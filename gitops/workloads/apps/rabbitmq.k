@@ -29,7 +29,7 @@ application = argoproj.Application {
                     }
                 }
                 clusterDomain = "k8s.mansion.shitcluster.io"
-                nodeSelector = _config.nodeSelector
+                nodeSelector = _config.nodeSelector.worker
                 image = {
                     repository = "bitnamilegacy/rabbitmq"
                     debug = False

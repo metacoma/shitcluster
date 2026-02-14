@@ -38,7 +38,7 @@ application = argoproj.Application {
                     dynamic.requests.storage = "8Gi"
                   }
                 }
-                nodeSelector = _config.nodeSelector
+                nodeSelector = _config.nodeSelector.worker
                 config = {
                   "dbms.security.procedures.whitelist" = "streams.*,apoc.*"
                   "apoc.export.file.enabled" = "true"

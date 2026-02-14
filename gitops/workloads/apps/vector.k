@@ -63,7 +63,7 @@ manifests = [
     vector.vector.helm | { release_name = "aggregator" }
     {
       role = "Aggregator"
-      nodeSelector = _config.nodeSelector
+      nodeSelector = _config.nodeSelector.worker
       customConfig = {
         data_dir = "/vector-data-dir"
         api = {

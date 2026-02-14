@@ -37,7 +37,7 @@ makeClipzDeployment = lambda component : any -> v1.Deployment {
       template = {
         metadata.labels = {app = component.name }
         spec = {
-          nodeSelector = _config.nodeSelector
+          nodeSelector = _config.nodeSelector.worker
           containers = [{
             name = component.name
             image = component.image
@@ -176,7 +176,7 @@ manifests = [
           }
           spec = {
             enableServiceLinks = False
-            nodeSelector = _config.nodeSelector
+            nodeSelector = _config.nodeSelector.worker
             timeoutSeconds = func.timeout
             containerConcurrency = func.concurrency
             affinity = func.affinity

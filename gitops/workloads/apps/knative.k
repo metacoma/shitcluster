@@ -125,7 +125,7 @@ manifests = [
       spec.workloads = [
         {
           name = workload
-          nodeSelector = _config.nodeSelector
+          nodeSelector = _config.nodeSelector.worker
         }
       for workload in ["activator" "autoscaler" "autoscaler-hpa" "controller" "net-istio-controller" "net-istio-webhook" "webhook"]
       ]
@@ -155,7 +155,7 @@ manifests = [
       spec.workloads = [
         {
           name = workload
-          nodeSelector = _config.nodeSelector
+          nodeSelector = _config.nodeSelector.worker
         }
       for workload in ["eventing-controller" "eventing-webhook" "imc-controller" "imc-dispatcher" "job-sink" "mt-broker-controller" "mt-broker-filter" "mt-broker-ingress" "pingsource-mt-adapter"]
       ]
