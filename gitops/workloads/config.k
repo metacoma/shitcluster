@@ -76,8 +76,8 @@ config = {
             }
 
             image = {
-              repo = "metacoma/twitch-download-knative:streaming-ffmpeg-2"
-              tag = "sha256:dff150597f8453f8b9322f6c6cdcf164295422c5ed966483528b59a4f98b03c2"
+              repo = "metacoma/twitch-download-knative:no-preview"
+              tag = "sha256:fb5b64beffa381671c3ce4319a27b6d18c469f267ae2b69c4516e608621904dc"
             }
             resources = {
               requests.cpu = "500m"
