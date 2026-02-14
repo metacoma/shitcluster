@@ -15,7 +15,12 @@ config = {
   }
 
   nodeSelector = {
-    "node-role.kubernetes.io/worker": ""
+    worker = {
+      "node-role.kubernetes.io/worker": ""
+    }
+    controller = {
+      "node-role.kubernetes.io/control-plane": ""
+    }
   }
   nodeAffinity = {
     requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms = [{
