@@ -14,6 +14,7 @@ import .apps.istio as istio
 import .apps.knative as knative
 import .apps.vector as vector
 import .apps.nats as nats
+import .apps.eventing_jsm as eventing_jsm
 
 resources = [
 
@@ -122,6 +123,7 @@ resources = [
     istio.manifests
     vector.manifests
     nats.manifests
+    eventing_jsm.manifests
 
 ]
 
