@@ -161,4 +161,23 @@ manifests = [
       ]
   }
 
+  k8s.ConfigMap {
+    metadata = {
+      name = "config-nats"
+      namespace = _config.knative.eventing.namespace
+    }
+    data = {
+      "eventing-nats" = yaml.encode({
+          url = "nats://${_config.nats.users.root.username}:${_config.nats.users.root.password}@${_config.nats.helm.release_name}.${_config.nats.namespace}:4222"
+          connOpts = {
+              retryOnFailedConnect = True
+              maxReconnects = 50
+              reconnectWait = 2000
+              reconnectJitterMilliseconds = 100
+              reconnectJitterTLSMilliseconds = 1000
+          }
+      })
+    }
+  }
+
 ]
