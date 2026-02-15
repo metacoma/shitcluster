@@ -200,6 +200,7 @@ manifests = [
           consumerConfigTemplate = {
               deliverPolicy = "New"
               maxDeliver = 1
+              ackWait = "10m"
           }
         }
       })
