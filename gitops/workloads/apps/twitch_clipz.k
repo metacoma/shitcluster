@@ -142,6 +142,7 @@ manifests = [
         kind = "Service"
         name = _twitch_clipz.knative.serving.functions.telegram_message.name
       }
+      delivery.retry = 1
     }
   }
 
@@ -160,6 +161,7 @@ manifests = [
         kind = "Service"
         name = _twitch_clipz.knative.serving.functions.twitch_download.name
       }
+      delivery.retry = 1
     }
   }
 
