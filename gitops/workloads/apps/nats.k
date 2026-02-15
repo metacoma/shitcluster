@@ -28,9 +28,7 @@ manifests = [
             targetRevision = nats.helm.version
             helm = {
                 values = yaml.encode({
-                  # TODO(@metacoma): nodeSelector
-                  # unfortunately, nats doesn't support nodeSelector and nodeAffinity
-                  # PR in WIP state https://github.com/nats-io/k8s/pull/1125
+                  podTemplate.merge.spec.nodeSelector = _config.nodeSelector.worker
                   config = {
                     cluster = {
                         merge = {
