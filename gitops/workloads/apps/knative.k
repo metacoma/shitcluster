@@ -180,4 +180,31 @@ manifests = [
     }
   }
 
+  k8s.ConfigMap {
+    metadata = {
+      name = "config-br-default-channel"
+      namespace = _config.knative.eventing.namespace
+    }
+    data = {
+      "channelTemplateSpec" = yaml.encode({
+        apiVersion = "messaging.knative.dev/v1alpha1"
+        kind = "NatsJetStreamChannel"
+        spec = {
+          stream = {
+              config = {
+                  retention = "Limits"
+                  maxBytes = 1000000000
+                  replicas = 1
+              }
+          }
+          consumerConfigTemplate = {
+              deliverPolicy = "New"
+              maxDeliver = 1
+          }
+        }
+      })
+    }
+  }
+
+
 ]
