@@ -346,6 +346,23 @@ config = {
       version = "1.20.0"
     }
   }
+  nats = {
+    namespace = "nats"
+    release_name = "nats"
+    users = {
+      root = {
+        username = "ref+vault://kv/nats#root_user+"
+        password = "ref+vault://kv/nats#root_password+"
+      }
+    }
+    helm = {
+      chart = "nats"
+      repo = "https://nats-io.github.io/k8s/helm/charts/"
+      release_name = "knative-operator"
+      version = "2.12.4"
+      app_version = "2.12.4"
+    }
+  }
   vector = {
     namespace = "vector"
     configMapFiles = {
