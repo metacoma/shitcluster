@@ -28,6 +28,42 @@ manifests = [
             targetRevision = nats.helm.version
             helm = {
                 values = yaml.encode({
+                  # TODO(@metacoma): nodeSelector
+                  # unfortunately, nats doesn't support nodeSelector and nodeAffinity
+                  # PR in WIP state https://github.com/nats-io/k8s/pull/1125
+                  config = {
+                    cluster = {
+                        merge = {
+                            name = "nats-cluster"
+                            replicas = 2 # msut be 2 or highr when jetstream is enabled
+                        }
+                    }
+                    jetstream = {
+                        enabled = True
+                        fileStore.pvc.size = "2Gi"
+                    }
+                    merge = {
+                        accounts = {
+                            "$SYS" = {
+                                users = [
+                                    {
+                                        user = nats.users.sys.username
+                                        password = nats.users.sys.password
+                                    }
+                                ]
+                            }
+                            root = {
+                                jetstream = "enable"
+                                users = [
+                                    {
+                                        user = nats.users.root.username
+                                        password = nats.users.root.password
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                  }
                 })
                 releaseName = nats.helm.release_name
             }
