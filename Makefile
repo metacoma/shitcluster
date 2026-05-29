@@ -96,6 +96,10 @@ argocd_password:
 update_kubeconfig:
 	ssh mcmp2.mgmt.mansion.shitcluster.io 'sudo cat /root/.kube/config' > ~/.kube/config
 
+.PHONY: hello_world
+hello_world:
+	@echo "Hello World"
+
 .PHONY: vault vault_install
 vault_install:
 	helm repo add hashicorp https://helm.releases.hashicorp.com
