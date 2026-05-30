@@ -26,7 +26,7 @@ The repository is a GitOps project (named "shitcluster") for managing a Kubernet
 | ---- | ---- | ----- |
 | `gitops/infra/` | Module | Infrastructure definitions; contains `kcl.mod`, `main.k`, `config.k`. |
 | `gitops/workloads/` | Module | Application definitions; contains `kcl.mod`, `main.k`, `config.k`. |
-| `gitops/workloads/apps/` | App Config | Individual `*.k` files for apps (e.g., `rabbitmq.k`, `istio.k`). |
+| `gitops/workloads/apps/` | App Config | Individual `*.k` files for apps (e.g., `ssh_tunnel.k`, `istio.k`). |
 | `tmux/` | Module | Tmux configuration; contains `kcl.mod`, `schema.k`, and `sessions/` directory. |
 | `main.k` | Entrypoint | Root KCL file importing tmux sessions. |
 
@@ -34,7 +34,7 @@ The repository is a GitOps project (named "shitcluster") for managing a Kubernet
 
 - **Application directories**: `gitops/workloads/apps/` contains the source KCL for various applications.
 - **Environment/Cluster structure**: Focuses on a single cluster (`mansion.shitcluster.io`).
-- **Namespace structure**: Defined in `gitops/workloads/config.k`. Examples: `twitch-clipz`, `monitoring`, `observability`, `istio-system`, `knative-serving`.
+- **Namespace structure**: Defined in `gitops/workloads/config.k`. Examples: `monitoring`, `observability`, `istio-system`, `knative-serving`.
 - **Generated manifests**: KCL is used to stream YAML. manifests are likely piped to `kubectl apply` or consumed by ArgoCD.
 - **Deployment files**: `Makefile` handles the high-level deployment flow (Kubespray $\rightarrow$ Vault $\rightarrow$ ArgoCD $\rightarrow$ Apps).
 

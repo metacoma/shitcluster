@@ -58,8 +58,8 @@ contains(string!(.message), "XXX")
 alert = {
   "labels": {
     "alertname": "PythonTracebackDetected",
-    "pod_name":  "twitch-clipz-deployment-00001",
-    "namespace": "twitch-clipz",
+    "pod_name":  "test-app-00001",
+    "namespace": "test-namespace",
     "container_name": "user-container",
     "hostname": "mcmp6",
     "severity": "critical"
@@ -111,11 +111,11 @@ alert_manager_config = {
     }
     receivers = [
         {
-            name = "telegram-twitch-monitoring"
+            name = "telegram-alerts-sandbox"
             telegram_configs = [
                 {
-                    bot_token = secrets.twitch_clipz.telegram_bot_id
-                    chat_id = int(secrets.twitch_clipz.telegram_monitoring_chat)
+                    bot_token = secrets.monitoring.telegram_bot_token
+                    chat_id = int(secrets.monitoring.telegram_chat_id)
                     message = r"""
 🚨 *{{ .CommonLabels.alertname }}*  ({{ .CommonLabels.severity }})
 
@@ -144,7 +144,7 @@ alert_manager_config = {
         ]
         group_interval = "5m"
         group_wait = "10s"
-        receiver = "telegram-twitch-monitoring"
+        receiver = "telegram-alerts-sandbox"
         repeat_interval = "3h"
     }
     templates = [
