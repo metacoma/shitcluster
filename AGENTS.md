@@ -63,7 +63,9 @@ LLM_REPO_MAP.md        - Detailed map and guide for LLM agents.
 - `make -C ansible ansible_ping`: Pings Kubernetes nodes.
 
 ### KCL Tooling (if installed)
-- `kcl fmt .`: Formats KCL files.
+- **Validate Infrastructure**: Navigate to `gitops/infra` and run `kcl run .`
+- **Validate Workloads**: Navigate to `gitops/workloads` and run `kcl run .`
+- `kcl fmt .`: Formats KCL files in the current directory.
 - `kcl run .`: Executes KCL to validate and generate output.
 
 ## Safety rules
