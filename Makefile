@@ -135,5 +135,5 @@ vault_uninstall:
 	helm uninstall --namespace $(VAULT_NS) vault --wait
 	kubectl -n $(VAULT_NS) delete pvc --all
 
-flow: kubernetes update_kubeconfig argocd argocd_workloads_app twitch_clipz
+flow: kubernetes update_kubeconfig argocd argocd_workloads_app 
 	echo DONE

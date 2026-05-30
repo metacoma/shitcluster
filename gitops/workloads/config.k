@@ -1,5 +1,3 @@
-_twitch_clipz_namespace = "twitch-clipz"
-
 _neo4j_user = "ref+vault://kv/twitch_clipz#neo4j_user+"
 _neo4j_password = "ref+vault://kv/twitch_clipz#neo4j_password+"
 
@@ -38,13 +36,6 @@ config = {
     user = "ref+vault://kv/twitch_clipz#rabbitmq_user+"
     password = "ref+vault://kv/twitch_clipz#rabbitmq_password+"
   }
-  twitch_clipz = {
-    knative = {
-      eventing = {
-        broker = {
-          telegram = {
-            name = "telegram"
-          }
         }
       }
       serving = {
@@ -137,7 +128,7 @@ config = {
   neo4j = {
     release_name = "neo4j"
     chart_version = "4.4.44"
-    namespace = _twitch_clipz_namespace
+    namespace = "twitch-clipz"
     password = _neo4j_password
   }
   ssh_tunnel = {
