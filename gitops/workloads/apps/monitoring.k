@@ -96,13 +96,6 @@ manifests = [
             repeat_interval = "1m"
             routes = [
                 {
-                    receiver = "telegram-twitch-monitoring-traceback"
-                    matchers = [
-                        'namespace="twitch-clipz"'
-                        'type="traceback"'
-                    ]
-                }
-                {
                     receiver = "default-traceback"
                     matchers = [
                         'type="traceback"'
@@ -116,31 +109,6 @@ manifests = [
               webhook_configs = [
                   {
                       url = "http://127.0.0.1:9094/print"
-                      send_resolved = False
-                  }
-              ]
-          }
-          {
-              name = "telegram-twitch-monitoring-traceback"
-              telegram_configs = [
-                  {
-                      bot_token_file = "/etc/secrets/twitch_telegram_bot_token"
-                      chat_id = _config.twitch_clipz.telegram_bot.chats.monitoring
-                      message = r"""
-🚨 *{{ .CommonLabels.alertname }}*  ({{ .CommonLabels.severity }})
-
-*Where*
-• ns: `{{ .CommonLabels.namespace }}`
-• pod: `{{ .CommonLabels.pod_name }}/{{ .CommonLabels.container_name }}`
-• node: `{{ .CommonLabels.hostname }}`
-
-*What*
-• {{ (index .Alerts 0).Annotations.summary }}
-
-*Traceback*
-```{{ (index .Alerts 0).Annotations.description }}```
-"""
-                      parse_mode = "Markdown"
                       send_resolved = False
                   }
               ]
@@ -305,8 +273,6 @@ manifests = [
       namespace = monitoring.namespace
     }
     stringData = {
-      twitch_telegram_bot_token = _config.twitch_clipz.telegram_bot.token
-      twitch_telegram_monitoring_chat = _config.twitch_clipz.telegram_bot.chats.monitoring
       telegram_bot_token = monitoring.notifications.telegram.bot_token
       telegram_chat_id = monitoring.notifications.telegram.chat_id
     }
