@@ -384,4 +384,14 @@ config = {
       }
     }
   }
+  gitea = {
+    namespace = "gitea"
+    helm = {
+      chart = "gitea"
+      repo = "https://dl.gitea.com/charts/"
+      release_name = "gitea"
+      version = "13.1.0"
+      app_version = "11.0.3"
+    }
+  }
 }
