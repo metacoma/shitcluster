@@ -7,40 +7,40 @@ _config = cfg.config
 searxng = _config.searxng
 
 manifests = [
-  k8s.Namespace {
-    metadata.name = searxng.namespace
-  }
-  argoproj.Application {
-    metadata = {
-        name = searxng.helm.release_name
-        namespace = "argocd"
+    k8s.Namespace {
+        metadata.name = searxng.namespace
     }
-    spec = {
-        destination = {
-            namespace = searxng.namespace
-            name = "in-cluster"
+    argoproj.Application {
+        metadata = {
+            name = searxng.helm.release_name
+            namespace = "argocd"
         }
-        project = "default"
-        source = {
-            chart = searxng.helm.chart_name
-            repoURL = searxng.helm.repo
-            targetRevision = searxng.helm.chart_version
-            helm = {
-                values = yaml.encode({
-                  secretKey = searxng.secret_key
-                  podTemplate.merge.spec.nodeSelector = _config.nodeSelector.worker
-                })
-                releaseName = searxng.helm.release_name
+        spec = {
+            destination = {
+                namespace = searxng.namespace
+                name = "in-cluster"
+            }
+            project = "default"
+            source = {
+                chart = searxng.helm.chart
+                repoURL = searxng.helm.repo
+                targetRevision = searxng.helm.version
+                helm = {
+                    values = yaml.encode({
+                        secretKey = searxng.secret_key
+                        podTemplate.merge.spec.nodeSelector = _config.nodeSelector.worker
+                    })
+                    releaseName = searxng.helm.release_name
+                }
+            }
+            syncPolicy = {
+                automated = {
+                    selfHeal = True
+                }
+                syncOptions = [
+                    "CreateNamespace=true"
+                ]
             }
         }
-        syncPolicy = {
-            automated = {
-                selfHeal = True
-            }
-            syncOptions = [
-                "CreateNamespace=true"
-            ]
-        }
     }
-  }
 ]
