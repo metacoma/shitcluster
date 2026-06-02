@@ -270,4 +270,14 @@ config = {
       }
     }
   }
+  searxng = {
+    namespace = "searxng"
+    helm = {
+      chart_name = "searxng"
+      repo = "https://charts.searxng.org"
+      release_name = "searxng"
+      chart_version = "0.1.6"
+      app_version = "2026.4.24-a7ac696b4"
+    }
+  }
 }
