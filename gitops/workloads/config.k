@@ -270,4 +270,27 @@ config = {
       }
     }
   }
+  netbird = {
+    namespace = "netbird"
+    management = {
+      loadBalancerIP = "172.25.1.7"
+      grpcLoadBalancerIP = "172.25.1.8"
+    }
+    signal = {
+      loadBalancerIP = "172.25.1.9"
+    }
+    relay = {
+      loadBalancerIP = "172.25.1.10"
+    }
+    dashboard = {
+      loadBalancerIP = "172.25.1.11"
+    }
+    helm = {
+      chart = "netbird"
+      repo = "https://netbirdio.github.io/helms"
+      release_name = "netbird"
+      version = "1.9.0"
+      app_version = "0.46.0"
+    }
+  }
 }

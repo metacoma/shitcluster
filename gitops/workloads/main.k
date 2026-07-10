@@ -12,6 +12,7 @@ import .apps.knative as knative
 import .apps.vector as vector
 import .apps.nats as nats
 import .apps.eventing_jsm as eventing_jsm
+import .apps.netbird as netbird
 
 resources = [
 
@@ -118,6 +119,7 @@ resources = [
     vector.manifests
     nats.manifests
     eventing_jsm.manifests
+    netbird.manifests
 
 ]
 
