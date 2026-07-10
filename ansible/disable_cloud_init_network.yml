@@ -42,7 +42,7 @@
 
     - name: Clear cloud-init network cache to prevent re-rendering
       ansible.builtin.command:
-        cmd: cloud-init clean --network
+        cmd: cloud-init clean --configs network
         creates: /var/lib/cloud/instances/.network-cleaned
       changed_when: true
 
