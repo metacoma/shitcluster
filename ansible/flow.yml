@@ -1,6 +1,9 @@
 - name: Configure netplan
   ansible.builtin.import_playbook: network.yml
 
+- name: Prevent cloud-init from overwriting netplan
+  ansible.builtin.import_playbook: disable_cloud_init_network.yml
+
 - name: Install longhorn requirements
   ansible.builtin.import_playbook: longhorn.yml
 

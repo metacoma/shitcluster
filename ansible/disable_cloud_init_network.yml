@@ -1,0 +1,54 @@
+---
+# Prevent MAAS/cloud-init from overwriting /etc/netplan/50-cloud-init.yaml
+# after Ansible applies the correct network configuration.
+#
+# Problem: MAAS writes its own network config via curtin into
+# /etc/cloud/cloud.cfg.d/50-curtin-networking.cfg. On commissioning,
+# recommissioning, or release+deploy, cloud-init re-renders netplan
+# from this file and overwrites Ansible's bridges/VLANs.
+#
+# Solution: Disable cloud-init network management entirely so that
+# Ansible (network.yml) becomes the single source of truth for netplan.
+- hosts: all
+  become: true
+  gather_facts: false
+  any_errors_fatal: true
+
+  tasks:
+    - name: Disable cloud-init network management
+      ansible.builtin.copy:
+        dest: /etc/cloud/cloud.cfg.d/99-disable-network.cfg
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          # Managed by Ansible — do not edit.
+          # Disables cloud-init network rendering so that Ansible
+          # (network.yml / mrlesmithjr.netplan) remains the single
+          # source of truth for /etc/netplan/50-cloud-init.yaml.
+          network:
+            config: disabled
+
+    - name: Remove curtin network config so cloud-init has no network source
+      ansible.builtin.file:
+        path: /etc/cloud/cloud.cfg.d/50-curtin-networking.cfg
+        state: absent
+
+    - name: Remove cached network config from cloud-init instance data
+      ansible.builtin.file:
+        path: "/var/lib/cloud/instances/{{ ansible_default_ipv4.address | default('gtqndg') }}/network-config.json"
+        state: absent
+      failed_when: false
+
+    - name: Clear cloud-init network cache to prevent re-rendering
+      ansible.builtin.command:
+        cmd: cloud-init clean --network
+        creates: /var/lib/cloud/instances/.network-cleaned
+      changed_when: true
+
+    - name: Create sentinel file so cloud-init clean is idempotent
+      ansible.builtin.copy:
+        dest: /var/lib/cloud/instances/.network-cleaned
+        content: ""
+        force: false
+        mode: '0644'
