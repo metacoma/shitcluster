@@ -29,6 +29,9 @@ ansible_ping: python_requirements
 network:
 	make ansible_run ANSIBLE_ARGS=network.yml
 
+disable_cloud_init_network:
+	make ansible_run ANSIBLE_ARGS="-vv --become --become-user=root disable_cloud_init_network.yml"
+
 kubespray:
 	make ansible_run ANSIBLE_ARGS="-vv --become --become-user=root kubernetes.yml"
 
