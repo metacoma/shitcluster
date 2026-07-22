@@ -7,7 +7,21 @@ API_SECRET="${SPACESHIP_API_SECRET}"
 DOMAIN="${SPACESHIP_DOMAIN}"
 
 get_public_ip() {
-  curl -s --max-time 10 https://ifconfig.me
+  for url in \
+    https://ident.me \
+    https://ifconfig.es \
+    https://ip.tyk.nu \
+    https://api.seeip.org \
+    https://eth0.me \
+    https://api64.ipify.org; do
+    ip=$(curl -sL --max-time 5 --connect-timeout 3 "$url" 2>/dev/null | tr -d '[:space:]')
+    if echo "$ip" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'; then
+      echo "$ip"
+      return 0
+    fi
+  done
+  echo "ERROR: failed to detect public IP" >&2
+  return 1
 }
 
 spaceship_list() {
