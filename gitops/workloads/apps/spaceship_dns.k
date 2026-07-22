@@ -48,6 +48,7 @@ manifests = [
       jobTemplate.spec = {
         template.spec = {
           restartPolicy = "OnFailure"
+          nodeSelector = _config.nodeSelector.worker
           containers = [{
             name = name
             image = image
