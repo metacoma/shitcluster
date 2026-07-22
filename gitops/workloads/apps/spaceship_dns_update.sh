@@ -26,7 +26,7 @@ get_public_ip() {
 
 spaceship_list() {
   curl -s --request GET \
-       --url "${API_URL}/api/v1/dns/records/${DOMAIN}?take=100&skip=0" \
+       --url "${API_URL}/${DOMAIN}?take=100&skip=0" \
        --header "X-API-Key: ${API_KEY}" \
        --header "X-API-Secret: ${API_SECRET}"
 }
@@ -41,7 +41,7 @@ spaceship_delete_record() {
   ]' "$1" "$2" "$3")
 
   curl -s --request DELETE \
-       --url "${API_URL}/api/v1/dns/records/${DOMAIN}" \
+       --url "${API_URL}/${DOMAIN}" \
        --header "X-API-Key: ${API_KEY}" \
        --header "X-API-Secret: ${API_SECRET}" \
        --header "content-type: application/json" \
@@ -62,7 +62,7 @@ spaceship_add_a_record() {
   }' "$1" "$2" "$3")
 
   curl -s --request PUT \
-       --url "${API_URL}/api/v1/dns/records/${DOMAIN}" \
+       --url "${API_URL}/${DOMAIN}" \
        --header "X-API-Key: ${API_KEY}" \
        --header "X-API-Secret: ${API_SECRET}" \
        --header "content-type: application/json" \
@@ -79,7 +79,7 @@ spaceship_delete_ns_record() {
   ]' "$1" "$2" "$3")
 
   curl -s --request DELETE \
-       --url "${API_URL}/api/v1/dns/records/${DOMAIN}" \
+       --url "${API_URL}/${DOMAIN}" \
        --header "X-API-Key: ${API_KEY}" \
        --header "X-API-Secret: ${API_SECRET}" \
        --header "content-type: application/json" \
@@ -100,7 +100,7 @@ spaceship_add_ns_record() {
   }' "$1" "$2" "$3")
 
   curl -s --request PUT \
-       --url "${API_URL}/api/v1/dns/records/${DOMAIN}" \
+       --url "${API_URL}/${DOMAIN}" \
        --header "X-API-Key: ${API_KEY}" \
        --header "X-API-Secret: ${API_SECRET}" \
        --header "content-type: application/json" \
