@@ -224,6 +224,31 @@ manifests = [
       persistence = {
         enabled = True
       }
+      dashboardProviders = {
+        "dashboardproviders.yaml" = {
+          apiVersion = 1
+          providers = [{
+            name = "default"
+            orgId = 1
+            folder = ""
+            type = "file"
+            disableDeletion = False
+            editable = True
+            options = {
+              path = "/var/lib/grafana/dashboards/default"
+            }
+          }]
+        }
+      }
+      dashboards = {
+        default = {
+          "hwmon-node-exporter" = {
+            gnetId = 24629
+            revision = 1
+            datasource = "VictoriaMetrics"
+          }
+        }
+      }
       datasources = {
         "datasources.yaml" = {
           apiVersion = 1
