@@ -60,6 +60,11 @@ manifests = [
 
   monitoring_app(
     monitoring.node_exporter.helm, values = {
+      service = {
+        annotations = {
+          "prometheus.io/port" = "9100"
+        }
+      }
     }, sync = {}
 
   )
