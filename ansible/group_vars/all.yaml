@@ -17,6 +17,7 @@ etcd_data_dir: /opt/etcd
 cluster_name: &cluster_name k8s.mansion.shitcluster.io
 dns_domain: *cluster_name
 resolvconf_mode: none
+enable_nodelocaldns: false
 
 upstream_dns_servers: [ 172.25.0.2 ]
 nameservers: [ 172.24.0.2 ]
