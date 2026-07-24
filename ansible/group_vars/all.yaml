@@ -116,3 +116,24 @@ ntp_servers:
   - "1.pool.ntp.org iburst"
   - "2.pool.ntp.org iburst"
   - "3.pool.ntp.org iburst"
+
+# === Kubespray add-ons ===
+
+# metrics-server: required for HPA, VPA, kubectl top
+metrics_server_enabled: true
+
+# cert-manager: automatic TLS certificate management (Let's Encrypt, Vault, self-signed)
+cert_manager_enabled: true
+
+# kubelet server certificate rotation with automatic CSR approval
+kubelet_rotate_server_certificates: true
+
+# Node Feature Discovery: auto-label nodes by hardware capabilities (NVMe, GPU, CPU features)
+node_feature_discovery_enabled: true
+
+# Gateway API CRDs: modern routing standard (native Istio support)
+gateway_api_enabled: true
+gateway_api_channel: "standard"
+
+# Separate etcd cluster for Kubernetes events — reduces load on main etcd
+etcd_events_cluster_enabled: true
