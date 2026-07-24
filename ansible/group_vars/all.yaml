@@ -13,9 +13,6 @@ crio_insecure_registries:
   - registry.k8s.mansion.shitcluster.io:5000
 
 etcd_data_dir: /opt/etcd
-# etcd_access_addresses: https://etcd.k8s.mansion.shitcluster.io:2379
-# etcd_client_url: https://etcd.k8s.mansion.shitcluster.io:2379
-
 
 cluster_name: &cluster_name k8s.mansion.shitcluster.io
 dns_domain: *cluster_name
@@ -26,26 +23,16 @@ nameservers: [ 172.24.0.2 ]
 searchdomains:
   - *cluster_name
   - mansion.shitcluster.io
-docker_options: --insecure-registry=registry.k8s.mansion.shitcluster.io
 
-kube_network_plugin: calico
 kube_network_plugin_multus: true
 
 kube_proxy_strict_arp: true
 metallb_enabled: true
-metallb_namespace: "metallb-system"
-
-#metallb_speaker_enabled: false
-metallb_config:
-  controller:
-    nodeselector:
-      kubernetes.io/os: linux
-    tolerations:
-    - key: "node-role.kubernetes.io/control-plane"
-      operator: "Equal"
-      value: ""
-      effect: "NoSchedule"
-
+metallb_controller_tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Equal"
+    value: ""
+    effect: "NoSchedule"
 metallb_config:
   layer2:
     - primary-mgmt
@@ -69,24 +56,18 @@ metallb_config:
       ip_range:
         - 172.25.1.128/25
       auto-assign: true
-#calico_advertise_service_loadbalancer_ips: "{{ metallb_config.address_pools.primary.ip_range }}"
 
 apiserver_loadbalancer_domain_name: "api.k8s.mgmt.mansion.shitcluster.io"
 kube_vip_enabled: true
 kube_vip_controlplane_enabled: true
 kube_vip_address: 172.24.0.48
 kube_vip_arp_enabled: true
-kube_apiserver_port: 6443
 loadbalancer_apiserver:
   address: "{{ kube_vip_address }}"
   port: "{{ kube_apiserver_port }}"
 kube_vip_interface: br-management
 loadbalancer_apiserver_localhost: False
 
-# LoadBalancer for services
-kube_vip_services_enabled: false
-
 download_run_once: True
-#download_localhost: True
 download_cache_dir: /var/tmp/kubespray_cache
 download_keep_remote_cache: True
