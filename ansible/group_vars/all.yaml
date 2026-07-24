@@ -26,19 +26,39 @@ searchdomains:
 
 kube_network_plugin_multus: true
 
+# === Calico BGP mode (no overlay) ===
+kube_network_plugin: calico
+calico_network_backend: "bird"
+calico_ipip_mode: "Never"
+calico_vxlan_mode: "Never"
+peer_with_router: true
+nat_outgoing: false
+calico_advertise_cluster_ips: true
+global_as_num: "64512"
+
+# BGP peer с core-роутером на management VLAN
+peers:
+  - peer_ip: 172.24.0.1
+    as: "64513"
+    scope: "global"
+
+# Calico: pod device routes через private VLAN
+calico_node_extra_envs:
+  FELIX_DEVICEROUTESOURCEADDRESS: "{{ felix_device_route_source_address }}"
+
+# === MetalLB controller-only (Calico bird handles all BGP) ===
+# MetalLB speaker disabled — Calico 3.18+ advertises LB IPs via BGP.
+# Single BGP daemon (Calico bird) per node: no session conflicts.
+# See: BGP_SINGLE_DAEMON_RESEARCH.md
 kube_proxy_strict_arp: true
 metallb_enabled: true
+metallb_speaker_enabled: false
 metallb_controller_tolerations:
   - key: "node-role.kubernetes.io/control-plane"
     operator: "Equal"
     value: ""
     effect: "NoSchedule"
 metallb_config:
-  layer2:
-    - primary-mgmt
-    - secondary-mgmt
-    - primary-public
-    - secondary-public
   address_pools:
     primary-mgmt:
       ip_range:
@@ -56,6 +76,13 @@ metallb_config:
       ip_range:
         - 172.25.1.128/25
       auto-assign: true
+
+# Calico bird advertises these LB pools via the same BGP session as pod CIDR
+calico_advertise_service_loadbalancer_ips:
+  - 172.24.1.0/25
+  - 172.24.1.128/25
+  - 172.25.1.0/25
+  - 172.25.1.128/25
 
 apiserver_loadbalancer_domain_name: "api.k8s.mgmt.mansion.shitcluster.io"
 kube_vip_enabled: true
