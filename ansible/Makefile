@@ -2,14 +2,20 @@ VENV_DIR := .venv
 ACTIVATE := . $(VENV_DIR)/bin/activate
 ANSIBLE_PLAY_CMD := ansible-playbook -i inventory.yml $(_ANSIBLE_ARGS)
 
+# ansible==11.13.0 (kubespray v2.31.0) requires Python >= 3.11
+PYTHON := $(shell command -v python3.11 2>/dev/null || command -v python3.12 2>/dev/null || command -v python3.13 2>/dev/null || command -v python3 2>/dev/null)
+
 .ONESHELL: python_requirements ansible_requirements venv ansible_ping
 
 venv2:
-	python3 -m venv $(VENV_DIR)
+	@echo "==> Using Python: $(PYTHON)"
+	@$(PYTHON) --version
+	@$(PYTHON) -m pyvenv $(VENV_DIR)
 
 python_requirements: venv2
 	$(ACTIVATE)
-	pip3 install -r requirements.txt
+	pip install --upgrade pip
+	pip install -r requirements.txt
 
 ansible_requirements: python_requirements
 	$(ACTIVATE)
