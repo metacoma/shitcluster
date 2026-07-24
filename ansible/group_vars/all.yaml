@@ -47,6 +47,11 @@ peers:
 calico_node_extra_envs:
   FELIX_DEVICEROUTESOURCEADDRESS: "{{ felix_device_route_source_address }}"
 
+# Calico: ignore loose RPF — required for BGP routing with asymmetric paths.
+# Without this, Felix drops packets arriving on non-default interface
+# (e.g., LB traffic arriving on br-management but return path differs).
+calico_node_ignorelooserpf: true
+
 # === MetalLB controller-only (Calico bird handles all BGP) ===
 # MetalLB speaker disabled — Calico 3.18+ advertises LB IPs via BGP.
 # Single BGP daemon (Calico bird) per node: no session conflicts.
@@ -96,6 +101,18 @@ loadbalancer_apiserver:
 kube_vip_interface: br-management
 loadbalancer_apiserver_localhost: False
 
+# kube-vip Prometheus metrics — monitor API LB health
+kube_vip_metrics_enabled: true
+
 download_run_once: True
 download_cache_dir: /var/tmp/kubespray_cache
 download_keep_remote_cache: True
+
+# NTP: time sync is critical for etcd consensus and certificate rotation
+ntp_enabled: true
+ntp_manage_config: true
+ntp_servers:
+  - "0.pool.ntp.org iburst"
+  - "1.pool.ntp.org iburst"
+  - "2.pool.ntp.org iburst"
+  - "3.pool.ntp.org iburst"
