@@ -11,6 +11,7 @@ import .apps.istio as istio
 import .apps.knative as knative
 import .apps.vector as vector
 import .apps.nats as nats
+import .apps.searxng as searxng
 import .apps.eventing_jsm as eventing_jsm
 import .apps.spaceship_dns as spaceship_dns
 
@@ -118,6 +119,7 @@ resources = [
     istio.manifests
     vector.manifests
     nats.manifests
+    searxng.manifests
     eventing_jsm.manifests
     spaceship_dns.manifests
 

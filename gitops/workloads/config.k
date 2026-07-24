@@ -270,4 +270,15 @@ config = {
       }
     }
   }
+  searxng = {
+    namespace = "searxng"
+    secret_key = "ref+vault://kv/searxng#secret_key"
+    helm = {
+      chart = "searxng"
+      repo = "https://charts.searxng.org"
+      release_name = "searxng"
+      version = "1.0.1"
+      app_version = "latest"
+    }
+  }
 }
