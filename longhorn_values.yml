@@ -1,3 +1,14 @@
+global:
+  tolerations:
+    - key: "node.longhorn.io/storage"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Equal"
+      value: ""
+      effect: "NoSchedule"
+
 service:
   ui:
     type: LoadBalancer
@@ -5,13 +16,21 @@ service:
 
 defaultSettings:
   createDefaultDiskLabeledNodes: true
-  #systemManagedComponentsNodeSelector: "node.longhorn.io/data-plane:true"
-  #systemManagedComponentsNodeSelector: "storage:True"
+  systemManagedComponentsNodeSelector: "storage:true"
   defaultDataPath: /storage
+  defaultReplicaCount: "2"
+  replicaSoftAntiAffinity: "true"
+  allowVolumeCreationWithDegradedAvailability: "false"
+  replicaAutoBalance: "least-effort"
+  taintToleration: "node.longhorn.io/storage=true:NoSchedule,node-role.kubernetes.io/control-plane=:NoSchedule"
 
 longhornUI:
   replicas: 1
   tolerations:
+    - key: "node.longhorn.io/storage"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
     - key: "node-role.kubernetes.io/control-plane"
       operator: "Equal"
       value: ""
