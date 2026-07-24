@@ -46,6 +46,8 @@ kube_control_plane:
       role: controller
       storage: true
       node.longhorn.io/create-default-disk: true
+    node_taints:
+      - "node.longhorn.io/storage=true:NoSchedule"
 
 etcd:
   hosts:
