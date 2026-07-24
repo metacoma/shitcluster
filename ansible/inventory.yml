@@ -11,7 +11,7 @@ all:
     mcmp4:
       ansible_host: mcmp4.mgmt.mansion.shitcluster.io
       ip: &mcmp4_ip 172.26.0.13
-      access_ip: *mcmp3_ip
+      access_ip: *mcmp4_ip
     mcmp5:
       ansible_host: mcmp5.mgmt.mansion.shitcluster.io
       ip: &mcmp5_ip 172.26.0.14
